@@ -1,7 +1,10 @@
 {
   "name": "Bassma webshop (testomgeving)",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-  "features": { "ghcr.io/devcontainers/features/node:1": { "version": "24" } },
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "24" },
+    "ghcr.io/devcontainers/features/sshd:1": { "version": "latest" }
+  },
   "forwardPorts": [3000],
   "portsAttributes": { "3000": { "label": "Bassma webshop" } },
   "postCreateCommand": "npm install --omit=dev",

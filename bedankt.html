@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Je bestelling · Bassma Lunchroom</title>
+<style>
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f5eee3;color:#2d2523;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;padding:20px}
+.c{max-width:480px;width:100%;background:#fffaf3;border:1px solid #e2d3bf;border-radius:20px;padding:26px 20px;text-align:center}
+h1{font-size:26px;margin:0 0 8px;color:#8d2f2b}
+p{color:#7a6a64;line-height:1.6;margin:8px 0}
+b{color:#2d2523}
+.eta{background:#f6e6e1;border-radius:14px;padding:12px 16px;margin:14px 0}
+.eta small{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#8d2f2b;font-weight:700}
+.eta strong{display:block;font-size:30px;color:#2d2523;margin-top:2px}
+.eta span{color:#7a6a64;font-size:15px}
+.steps{display:flex;gap:6px;margin:16px 0 4px;text-align:center;font-size:12px;color:#7a6a64}
+.steps div{flex:1}
+.steps i{display:block;height:6px;border-radius:3px;background:#e2d3bf;margin-bottom:6px}
+.steps .on i{background:#8d2f2b}
+.steps .on{color:#2d2523;font-weight:600}
+a.b{display:inline-block;margin-top:14px;background:#8d2f2b;color:#fff;text-decoration:none;padding:14px 26px;border-radius:999px;font-weight:600}
+a.b.o{background:transparent;color:#8d2f2b;border:2px solid #8d2f2b;padding:12px 24px}
+.scene{width:100%;max-width:340px;height:auto;margin:6px auto 0;display:block}
+.scene .lbl{font:700 11px system-ui,sans-serif;fill:#6f2320}
+
+/* we zijn bezig: pan met een rondspringend gerecht en dampende wolkjes */
+.food{transform-origin:150px 80px;animation:flip 1.4s ease-in-out infinite}
+@keyframes flip{0%,100%{transform:translateY(0) rotate(0)}45%{transform:translateY(-34px) rotate(180deg)}60%{transform:translateY(-34px) rotate(200deg)}90%{transform:translateY(2px) rotate(360deg)}}
+.pan{animation:shake 1.4s ease-in-out infinite;transform-origin:230px 95px}
+@keyframes shake{0%,100%{transform:rotate(0)}10%{transform:rotate(-3deg)}40%{transform:rotate(2deg)}}
+.steam{fill:none;stroke:#cfc3b3;stroke-width:4;stroke-linecap:round;opacity:0;animation:steam 2.4s ease-in infinite}
+.steam:nth-of-type(2){animation-delay:.8s}.steam:nth-of-type(3){animation-delay:1.6s}
+@keyframes steam{0%{opacity:0;transform:translateY(8px)}30%{opacity:.9}100%{opacity:0;transform:translateY(-22px)}}
+
+/* we zijn onderweg: bezorger rijdt van Bassma naar het huis, weg en wielen bewegen */
+.road{stroke:#8d2f2b;stroke-width:3;stroke-dasharray:10 12;animation:road .8s linear infinite;opacity:.55}
+@keyframes road{to{stroke-dashoffset:-22}}
+#rider{transition:transform 12s linear}
+.bob{animation:bob .5s ease-in-out infinite alternate}
+@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-2.5px)}}
+.wheel{animation:spin .5s linear infinite;transform-box:fill-box;transform-origin:center}
+@keyframes spin{to{transform:rotate(360deg)}}
+.puff{fill:#d8cbbb;animation:puff 1.1s ease-out infinite;opacity:0}
+.puff:nth-of-type(2){animation-delay:.35s}
+@keyframes puff{0%{opacity:.8;transform:translateX(0) scale(.6)}100%{opacity:0;transform:translateX(-26px) scale(1.4)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="c">
+  <h1 id="h">Even geduld…</h1><p id="p">We controleren je betaling.</p>
+  <div id="scene"></div>
+  <div id="x"></div>
+  <div id="map"></div>
+  <a class="b" href="/">Terug naar de webshop</a>
+</div>
+
+<script>
+(function(){
+  var token=new URLSearchParams(location.search).get('o')||'',tries=0,last=null,offset=0,timer=0;
+  var h=document.getElementById('h'),p=document.getElementById('p'),x=document.getElementById('x'),scene=document.getElementById('scene'),mapEl=document.getElementById('map');
+  var sceneKind='';
+  function show(a,b){h.textContent=a;p.innerHTML=b}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function clear(){try{localStorage.setItem('bassma-cart','[]');sessionStorage.removeItem('bidem')}catch(e){}}
+  function hm(ms){return new Intl.DateTimeFormat('nl-NL',{timeZone:'Europe/Amsterdam',hour:'2-digit',minute:'2-digit'}).format(new Date(ms))}
+  var STEPS=[['nieuw','Ontvangen'],['bereiden','In bereiding'],['klaar','Klaar'],['afgerond','Afgerond']];
+  function stepIndex(o){var s=o.stage;if(s==='onderweg')return 2;if(s==='geaccepteerd')return 0;var i=STEPS.map(function(a){return a[0]}).indexOf(s);return i<0?0:i}
+
+  /* ----- animaties (SVG + CSS) ----- */
+  var COOK='<svg class="scene" viewBox="0 0 320 130" role="img" aria-label="We zijn bezig met je bestelling">'+
+    '<path class="steam" d="M120 52 q-8 -10 0 -20 t0 -20"/><path class="steam" d="M150 52 q-8 -10 0 -20 t0 -20"/><path class="steam" d="M180 52 q-8 -10 0 -20 t0 -20"/>'+
+    '<g class="pan"><ellipse cx="150" cy="98" rx="62" ry="13" fill="#3a3330"/><ellipse cx="150" cy="95" rx="55" ry="10" fill="#56494a"/><rect x="205" y="93" width="84" height="9" rx="4.5" fill="#3a3330"/></g>'+
+    '<g class="food"><circle cx="150" cy="82" r="13" fill="#e8a33d"/><circle cx="145" cy="78" r="4" fill="#c4452b"/><circle cx="156" cy="85" r="3.5" fill="#7da34a"/></g>'+
+    '<rect x="80" y="108" width="140" height="8" rx="4" fill="#e2d3bf"/></svg>';
+  var RIDE='<svg class="scene" viewBox="0 0 320 130" role="img" aria-label="We zijn onderweg naar je">'+
+    '<line class="road" x1="16" y1="108" x2="304" y2="108"/>'+
+    '<g><rect x="6" y="56" width="42" height="40" rx="4" fill="#8d2f2b"/><path d="M2 58 L27 36 L52 58 Z" fill="#6f2320"/><rect x="21" y="72" width="12" height="24" fill="#f5eee3"/><text class="lbl" x="27" y="116" text-anchor="middle">Bassma</text></g>'+
+    '<g><rect x="272" y="62" width="40" height="34" rx="4" fill="#c99d7c"/><path d="M268 64 L292 42 L316 64 Z" fill="#8d6b52"/><rect x="287" y="76" width="11" height="20" fill="#f5eee3"/><text class="lbl" x="292" y="116" text-anchor="middle">Jij</text></g>'+
+    '<g id="rider"><g class="bob"><circle class="puff" cx="62" cy="96" r="5"/><circle class="puff" cx="62" cy="96" r="4"/>'+
+    '<path d="M70 96 h34 l-6 -22 h-14 z" fill="#8d2f2b"/><rect x="92" y="62" width="16" height="12" rx="3" fill="#f5eee3" stroke="#8d2f2b" stroke-width="2"/><circle cx="84" cy="62" r="7" fill="#e0b98e"/><path d="M78 60 q6 -9 14 0 z" fill="#2d2523"/>'+
+    '<rect x="96" y="68" width="14" height="10" rx="2" fill="#c4452b"/>'+
+    '<circle class="wheel" cx="78" cy="104" r="8" fill="#2d2523"/><circle class="wheel" cx="78" cy="104" r="3" fill="#f5eee3"/><circle class="wheel" cx="106" cy="104" r="8" fill="#2d2523"/><circle class="wheel" cx="106" cy="104" r="3" fill="#f5eee3"/></g></g></svg>';
+  function setScene(kind){
+    if(sceneKind===kind)return;sceneKind=kind;
+    scene.innerHTML=kind==='cook'?COOK:(kind==='ride'?RIDE:'');
+  }
+  /* de bezorger rijdt tussen Bassma en het huis; met een verwachte tijd klopt de positie met de tijd, anders rijdt hij rustig door */
+  function placeRider(o){
+    var r=document.getElementById('rider');if(!r)return;
+    var track=170,now=Date.now()+offset,prog=0.12;
+    if(o.etaAt&&o.stageAt&&o.etaAt>o.stageAt)prog=Math.min(0.97,Math.max(0.08,(now-o.stageAt)/(o.etaAt-o.stageAt)));
+    r.style.transform='translateX('+Math.round(prog*track)+'px)';
+  }
+  function mapsUrl(o){
+    return 'https://www.google.com/maps/dir/?api=1&travelmode=driving&origin='+encodeURIComponent(o.shopAddress||'Bassma Lunchroom Gorinchem')+
+      '&destination='+encodeURIComponent(o.address.street+', '+o.address.zip+' '+o.address.city);
+  }
+
+  function texts(o){
+    var del=o.type==='delivery',s=o.stage;
+    if(s==='geweigerd')return['Je bestelling kan helaas niet worden bereid','Bel ons voor meer informatie.'];
+    if(s==='afgerond')return['Smakelijk eten!',del?'Je bestelling is bezorgd. Bedankt voor je bestelling.':'Bedankt voor je bestelling.'];
+    if(s==='onderweg')return['We zijn onderweg!','Onze bezorger is met je bestelling onderweg naar jouw adres.'];
+    if(s==='klaar')return[del?'Je bestelling is klaar':'Je bestelling staat klaar',del?'De bezorger vertrekt zo naar je toe.':'Je kunt hem nu ophalen.'];
+    if(s==='bereiden')return['We zijn bezig!','We maken je bestelling nu klaar.'];
+    if(s==='geaccepteerd')return['We hebben je bestelling geaccepteerd','We gaan er zo mee aan de slag.'];
+    return['Bedankt voor je bestelling!','We hebben je bestelling ontvangen.'];
+  }
+
+  function paint(){
+    if(!last)return;var o=last,del=o.type==='delivery',now=Date.now()+offset,html='',si=stepIndex(o),s=o.stage;
+    var tx=texts(o);
+    show(tx[0],'Bestelnummer <b>'+esc(o.number)+'</b>, totaal € '+esc(o.total).replace('.',',')+'.<br>'+tx[1]);
+    /* animatie: bezig = pan, onderweg = bezorger (alleen bij bezorgen) */
+    setScene(s==='bereiden'||s==='geaccepteerd'?'cook':(s==='onderweg'&&del?'ride':(s==='nieuw'?'cook':'')));
+    if(s==='onderweg'&&del)placeRider(o);
+    if(s==='geweigerd'){x.innerHTML='';mapEl.innerHTML='';return}
+    if(o.etaAt&&s!=='afgerond'){
+      var min=Math.round((o.etaAt-now)/60000);
+      html+='<div class="eta"><small>'+(del?'Wordt bezorgd':'Staat klaar')+' rond</small><strong>'+hm(o.etaAt)+'</strong><span>'+(min>0?'over ca. '+min+' '+(min===1?'minuut':'minuten'):'zo meteen')+'</span></div>';
+    }else if(s!=='afgerond'){
+      var sl=o.slot.split(' ');html+='<div class="eta"><small>Gekozen tijdstip</small><strong>'+esc(sl[1])+'</strong><span>'+sl[0].split('-').reverse().join('-')+'</span></div>';
+    }
+    html+='<div class="steps">'+STEPS.map(function(a,i){var lab=a[1];if(i===2&&del)lab=s==='onderweg'?'Onderweg':'Klaar voor bezorging';return '<div class="'+(i<=si?'on':'')+'"><i></i>'+lab+'</div>'}).join('')+'</div>';
+    x.innerHTML=html;
+    /* Google Maps: route van Bassma naar het adres van de klant (alleen bij bezorgen) */
+    mapEl.innerHTML=del&&o.address&&s!=='afgerond'?'<a class="b o" target="_blank" rel="noopener" href="'+esc(mapsUrl(o))+'">Bekijk de route op Google Maps</a>':'';
+  }
+
+  function poll(){
+    clearTimeout(timer);
+    if(!/^[a-f0-9]{24}$/.test(token)){show('Bestelling niet gevonden','Controleer de link of bel ons.');return}
+    var t0=Date.now();
+    fetch('/api/order-status/'+token,{cache:'no-store'}).then(function(r){return r.json()}).then(function(o){
+      if(!o.number){show('Bestelling niet gevonden','Controleer de link of bel ons.');return}
+      offset=(o.now||Date.now())-Math.round((t0+Date.now())/2);last=o;
+      if(['paid','partially_refunded','cash','later','pin'].indexOf(o.status)>-1){
+        clear();paint();
+        if(o.stage!=='afgerond'&&o.stage!=='geweigerd')timer=setTimeout(poll,8000);   /* blijft bijwerken zodat de klant ziet wat er gebeurt */
+      }else if(['failed','canceled','expired'].indexOf(o.status)>-1){
+        try{sessionStorage.removeItem('bidem')}catch(e){}
+        setScene('');x.innerHTML='';
+        show('Betaling niet gelukt','Er is niet afgerekend en er is niets in rekening gebracht. Je winkelmandje staat nog klaar, je kunt het opnieuw proberen.');
+      }else if(++tries<30){timer=setTimeout(poll,2000)}
+      else show('Betaling wordt nog verwerkt','Bestelnummer '+esc(o.number)+'. Zodra de betaling is bevestigd krijg je een e-mail. Heb je niets ontvangen, bel ons dan.');
+    }).catch(function(){show('Er ging iets mis','Probeer de pagina te vernieuwen of bel ons.')});
+  }
+  setInterval(paint,15000);
+  poll();
+})();
+</script>
+</body>
+</html>

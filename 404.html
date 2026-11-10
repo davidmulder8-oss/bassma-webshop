@@ -1,0 +1,686 @@
+﻿<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bassma Lunchroom</title>
+<meta name="theme-color" content="#8d2f2b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+Arabic:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5eee3; --surface:#fffaf3; --sand:#ece0cd; --brown:#8d2f2b; --brown-d:#6f2320; --tan:#c99d7c;
+  --ink:#2d2523; --muted:#7a6a64; --line:#e2d3bf; --ok:#2f7d4f;
+  --pat:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64' fill='none' stroke='%238d2f2b' stroke-width='.7'%3E%3Crect x='14' y='14' width='36' height='36'/%3E%3Crect x='14' y='14' width='36' height='36' transform='rotate(45 32 32)'/%3E%3Ccircle cx='32' cy='32' r='6'/%3E%3C/svg%3E");
+  --hh:68px;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--hh) + 64px)}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px;-webkit-text-size-adjust:100%}
+h1,h2,h3,.brand b{font-family:'Fredoka','Poppins',sans-serif;font-weight:600;line-height:1.15;color:var(--ink)}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+a{color:inherit}
+.wrap{max-width:1120px;margin:auto;padding:0 20px}
+.sr{position:absolute;left:-9999px}
+
+/* header */
+header.top{position:sticky;top:0;z-index:30;background:rgba(245,238,227,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+header.top .wrap{height:var(--hh);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand img{height:40px;width:auto;mix-blend-mode:multiply;display:block}
+.brand span{display:flex;flex-direction:column;line-height:1}
+.brand b{color:var(--brown);font-size:22px;letter-spacing:.06em;font-weight:700}
+.brand small{font-family:'Fredoka',sans-serif;color:var(--brown);font-size:11px;letter-spacing:.34em;font-weight:600;margin-top:3px}
+nav.main{display:flex;gap:26px}
+nav.main a{text-decoration:none;font-weight:600;font-size:14px;letter-spacing:.05em;padding:8px 2px;border-bottom:2px solid transparent}
+nav.main a:hover{color:var(--brown);border-color:var(--tan)}
+.hright{display:flex;align-items:center;gap:14px}
+.langs{display:flex;gap:6px}
+.langs button{width:30px;height:21px;border-radius:4px;overflow:hidden;border:1px solid var(--line);opacity:.7;padding:0}
+.langs button.on,.langs button:hover{opacity:1;outline:2px solid var(--brown);outline-offset:1px}
+.langs svg{display:block;width:100%;height:100%}
+.cartbtn{display:flex;align-items:center;gap:8px;background:var(--brown);color:#fff;padding:10px 18px;border-radius:999px;font-weight:600;font-size:14px;min-height:44px}
+.cartbtn:hover{background:var(--brown-d)}
+.cartbtn .n{background:#fff;color:var(--brown);border-radius:999px;min-width:22px;height:22px;display:grid;place-items:center;font-size:12px;padding:0 6px}
+
+/* hero */
+.hero{position:relative;padding:56px 0 48px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:var(--pat);opacity:.06;pointer-events:none}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.eyebrow{font-size:12px;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:var(--brown)}
+.hero h1{font-size:clamp(38px,5.4vw,64px);margin:12px 0 16px}
+.hero h1 em{font-style:normal;color:var(--brown)}
+.hero p.lead{color:var(--muted);max-width:480px;font-size:17px;margin-bottom:26px}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 28px;border-radius:999px;background:var(--brown);color:#fff;text-decoration:none;font-weight:600;font-size:15px;border:2px solid var(--brown);transition:.2s}
+.btn:hover{background:var(--brown-d);border-color:var(--brown-d)}
+.btn.ghost{background:transparent;color:var(--brown)}
+.btn.ghost:hover{background:var(--brown);color:#fff}
+.status{display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:8px 16px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:14px;font-weight:500}
+.status i{width:10px;height:10px;border-radius:50%;background:var(--ok)}
+.status.closed i{background:var(--brown)}
+.logocard{aspect-ratio:4/4.2;border-radius:28px;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;padding:10%}.logocard img{width:80%;height:auto;mix-blend-mode:multiply}
+.feats{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:20px;font-size:14px;color:var(--muted)}
+.feats span::before{content:"";display:inline-block;width:7px;height:7px;background:var(--tan);transform:rotate(45deg);margin-right:9px}
+
+/* galerij */
+.gal{padding:8px 0 28px}
+.gal .row{display:flex;gap:12px;overflow-x:auto;padding:4px 20px 12px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.gal img{height:150px;width:auto;border-radius:14px;scroll-snap-align:start;flex:none;background:#000}
+
+/* shop */
+.shop{padding:28px 0 60px}
+.shophead{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:14px;margin-bottom:18px}
+.shophead h2{font-size:clamp(28px,4vw,40px)}
+.search{position:relative;flex:1 1 260px;max-width:380px}
+.search input{width:100%;height:48px;border:1px solid var(--line);border-radius:999px;padding:0 18px;background:var(--surface);font:inherit;font-size:16px;color:var(--ink)}
+.search input:focus{outline:2px solid var(--brown);border-color:transparent}
+.chips{position:sticky;top:var(--hh);z-index:20;background:var(--bg);border-bottom:1px solid var(--line);margin:0 -20px 8px}
+.chips div{display:flex;gap:8px;overflow-x:auto;padding:10px 20px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.chips div::-webkit-scrollbar{display:none}
+.chips a{flex:none;padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);text-decoration:none;font-size:14px;font-weight:500;white-space:nowrap}
+.chips a.on,.chips a:hover{background:var(--brown);border-color:var(--brown);color:#fff}
+.cat{padding-top:26px}
+.cat h3{font-size:26px}
+.cat .sub{color:var(--muted);font-size:14px;margin-top:2px}
+.items{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.item h4{font-size:16px;font-weight:600;line-height:1.3}
+.acts{display:flex;gap:8px;flex:none}
+.add{min-height:44px;min-width:44px;padding:0 14px;border-radius:12px;border:1.5px solid var(--brown);color:var(--brown);font-weight:600;font-size:14px;white-space:nowrap;display:flex;align-items:center;gap:6px;flex-direction:column;justify-content:center;line-height:1.15}
+.add small{font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;opacity:.8}
+.add:hover,.add:active{background:var(--brown);color:#fff}
+.add.pop{background:var(--brown);color:#fff}
+.empty{padding:40px 0;color:var(--muted);text-align:center}
+
+/* info + footer */
+.info{background:var(--sand);padding:56px 0;position:relative}
+.info::before{content:"";position:absolute;inset:0;background:var(--pat);opacity:.07}
+.info .wrap{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.info h3{font-size:20px;margin-bottom:6px}
+.info p{color:var(--muted);font-size:15px}
+footer{background:var(--brown);color:#f5e7da;padding:36px 0 calc(36px + env(safe-area-inset-bottom));font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px 28px;justify-content:space-between;align-items:center}
+footer a{color:#fff}
+
+/* cart */
+.ov{position:fixed;inset:0;background:rgba(45,37,35,.45);z-index:40;opacity:0;pointer-events:none;transition:.25s}
+.ov.on{opacity:1;pointer-events:auto}
+#cart{position:fixed;top:0;right:0;bottom:0;width:min(460px,100%);background:var(--surface);z-index:50;transform:translateX(100%);transition:.3s;display:flex;flex-direction:column}
+#cart.on{transform:none}
+.ch{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line)}
+.ch h2{font-size:22px}
+.x{width:44px;height:44px;border-radius:50%;font-size:22px}
+.x:hover{background:var(--sand)}
+.cb{flex:1;overflow-y:auto;padding:8px 20px 20px;-webkit-overflow-scrolling:touch}
+.line{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.line .nm{font-weight:600;font-size:15px}
+.line .vr{color:var(--muted);font-size:13px}
+.line .pr{font-weight:600;text-align:right}
+.qty{display:flex;align-items:center;gap:6px;grid-column:1/-1}
+.qty button{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--line);font-size:20px;line-height:1}
+.qty button:hover{border-color:var(--brown);color:var(--brown)}
+.qty span{min-width:28px;text-align:center;font-weight:600}
+.qty .rm{margin-left:auto;width:auto;border:0;font-size:13px;color:var(--muted);text-decoration:underline;padding:0 6px}
+.cf{border-top:1px solid var(--line);padding:16px 20px calc(16px + env(safe-area-inset-bottom));background:var(--surface)}
+.tot{display:flex;justify-content:space-between;font-weight:700;font-size:18px;margin-bottom:12px}
+.cf .btn{width:100%}
+.warn{color:var(--brown);font-size:13px;margin-bottom:8px}
+form label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
+form input,form select,form textarea{width:100%;min-height:48px;border:1px solid var(--line);border-radius:12px;padding:10px 14px;font:inherit;font-size:16px;background:#fff;color:var(--ink)}
+form textarea{min-height:76px;resize:vertical}
+form input:focus,form select:focus,form textarea:focus{outline:2px solid var(--brown);border-color:transparent}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.seg label,.pay label{margin:0;display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border:1.5px solid var(--line);border-radius:12px;cursor:pointer;font-weight:600;font-size:15px;background:#fff}
+.seg input,.pay input{position:absolute;opacity:0;width:1px;min-height:0}
+.seg label:has(input:checked),.pay label:has(input:checked){border-color:var(--brown);background:#f6e6e1;color:var(--brown)}
+.pay{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.err{color:#b3261e;font-size:13px;margin-top:4px}
+.sum{background:var(--bg);border-radius:12px;padding:12px 14px;margin-top:16px;font-size:14px}
+.sum div{display:flex;justify-content:space-between;gap:12px;padding:2px 0}
+.done{text-align:center;padding:30px 8px}
+.done h2{margin:10px 0}
+.done p{color:var(--muted);font-size:15px;margin-top:8px}
+
+/* mobiele balk */
+.mbar{display:none}
+.toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:60;white-space:nowrap}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+html[lang=ar] body,html[lang=ar] h1,html[lang=ar] h2,html[lang=ar] h3,html[lang=ar] .brand b{font-family:'Noto Sans Arabic',sans-serif}
+html[dir=rtl] #cart{right:auto;left:0;transform:translateX(-100%)}html[dir=rtl] #cart.on{transform:none}
+html[dir=rtl] .qty .rm{margin-left:0;margin-right:auto}
+button:focus-visible,a:focus-visible{outline:3px solid var(--brown);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+@media(max-width:900px){
+  :root{--hh:60px}
+  nav.main{display:none}
+  .hero{padding:28px 0 30px}.hero .wrap{grid-template-columns:1fr;gap:26px}
+  .logocard{aspect-ratio:16/9;border-radius:22px;padding:6%}.logocard img{width:auto;height:100%}
+  .info .wrap{grid-template-columns:1fr;gap:20px}
+}
+@media(max-width:640px){
+  .wrap{padding:0 16px}
+  .chips{margin:0 -16px 8px}.chips div{padding:10px 16px}
+  .gal .row{padding:4px 16px 12px}.gal img{height:120px}
+  .brand img{height:34px}.brand b{font-size:19px}.brand small{font-size:10px;letter-spacing:.3em}
+  .langs{display:none}
+  .cartbtn{display:none}
+  .items{grid-template-columns:1fr}
+  .item{padding:12px 14px}
+  .btns .btn{flex:1 1 100%}
+  .mbar{display:flex;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:35;background:var(--brown);color:#fff;border-radius:16px;padding:0 18px;min-height:56px;align-items:center;justify-content:space-between;font-weight:600;transform:translateY(140%);transition:.3s}
+  .mbar.on{transform:none}
+  .mbar .n{background:#fff;color:var(--brown);border-radius:999px;min-width:24px;height:24px;display:inline-grid;place-items:center;font-size:13px;margin-right:10px}
+  body.hasc footer{padding-bottom:100px}
+  .mlang{display:flex!important}
+  .toast{bottom:84px}
+}
+.mlang{display:none;gap:8px;padding:16px 16px 0;justify-content:center}
+.mlang button{width:36px;height:25px;border-radius:4px;overflow:hidden;border:1px solid var(--line);opacity:.7;padding:0}
+.mlang button.on{opacity:1;outline:2px solid var(--brown);outline-offset:1px}
+.mlang svg{display:block;width:100%;height:100%}
+@media(max-width:640px){.langs{display:flex;gap:5px}.langs button{width:26px;height:18px;border-radius:3px}.cartbtn{display:flex;padding:0 12px;gap:6px;min-width:48px;justify-content:center}.cartbtn>span:first-of-type{display:none}.mlang{display:none!important}header.top .wrap{gap:8px}.hright{gap:10px}.brand{gap:7px;min-width:0}.brand img{height:30px}.brand b{font-size:17px}.brand small{font-size:9px;letter-spacing:.26em}.hero{padding:18px 0 22px}.hero .wrap{gap:0}.hero h1{font-size:clamp(30px,9vw,38px);margin:8px 0 10px}.hero p.lead{font-size:15px;margin-bottom:16px}.logocard{display:none}.btns{flex-wrap:nowrap;gap:10px}.btns .btn{flex:1 1 0;min-width:0;padding:12px 8px;font-size:14px}.status{margin-top:16px;font-size:13px}.feats{margin-top:14px;font-size:13px;gap:6px 16px}.shop{padding-top:12px}.shophead{margin-bottom:10px}.shophead h2{font-size:26px}.search{flex-basis:100%;max-width:none}.cat{padding-top:20px}.cat h3{font-size:22px}.add{min-height:46px}.item h4{font-size:15px}.info{padding:36px 0}}.lp{display:none;position:relative}.lp>button{display:flex;align-items:center;gap:6px;height:44px;padding:0 6px}.lp>button svg{width:26px;height:18px;border-radius:3px;border:1px solid var(--line)}.lp>button::after{content:"";border:4px solid transparent;border-top-color:var(--ink);margin-top:4px}.lpm{display:none;position:absolute;right:0;top:48px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:6px;min-width:170px;z-index:60;flex-direction:column}.lpm.open{display:flex}.lpm button{display:flex;align-items:center;gap:10px;min-height:46px;padding:0 12px;border-radius:10px;font-weight:500;font-size:15px;text-align:left}.lpm button svg{width:26px;height:18px;border-radius:3px;border:1px solid var(--line);flex:none}.lpm button.on{background:var(--sand);font-weight:600}html[dir=rtl] .lpm{right:auto;left:0}@media(max-width:640px){.langs{display:none!important}.lp{display:block}}.show{padding:12px 0 30px;overflow:hidden}
+.showhead{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:6px}
+.showhead h2{font-size:clamp(26px,3.4vw,36px);margin-top:4px}
+.arrows{display:flex;gap:8px}
+.arrows button{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--brown);color:var(--brown);font-size:26px;line-height:1;display:grid;place-items:center}
+.arrows button:hover{background:var(--brown);color:#fff}
+.track{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:26px calc(50% - 170px) 18px;scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab}
+.track::-webkit-scrollbar{display:none}
+.track.drag{cursor:grabbing;scroll-snap-type:none}
+.slide{flex:none;width:340px;scroll-snap-align:center;transform-origin:center 40%;transition:transform .12s linear,opacity .12s linear;user-select:none}
+.slide .ph{aspect-ratio:1/1;border-radius:26px;background:var(--sand);border:2px dashed var(--tan);display:grid;place-items:center;text-align:center;color:var(--muted);font-size:14px;position:relative;overflow:hidden}
+.slide .ph svg{display:block;margin:0 auto 6px;opacity:.6}
+.slide .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;-webkit-user-drag:none}
+.slide .ph.has{border-style:solid;border-color:var(--surface)}
+.slide .cap{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 6px 0}
+.slide h3{font-size:22px}
+.slide .pr{color:var(--brown);font-weight:600}
+.slide .plus{width:46px;height:46px;border-radius:50%;background:var(--brown);color:#fff;font-size:26px;line-height:1;flex:none;display:grid;place-items:center}
+.slide .plus:hover{background:var(--brown-d)}
+.dots{display:flex;justify-content:center;gap:8px;margin-top:6px}
+.dots button{width:9px;height:9px;border-radius:50%;background:var(--line);padding:0}
+.dots button.on{background:var(--brown);width:22px;border-radius:6px}
+@media(max-width:900px){.track{padding-left:calc(50% - 130px);padding-right:calc(50% - 130px)}.slide{width:260px}}
+@media(max-width:640px){.show{padding-top:4px}.track{gap:12px;padding-top:16px}.arrows{display:none}.slide h3{font-size:19px}.slide .ph{border-radius:22px}}.hero .wrap>*{min-width:0}
+.hshow{width:100%}.hshow .track{position:relative}
+.hshow .track{display:flex;gap:6px;overflow-x:auto;scroll-snap-type:x mandatory;padding:30px calc(50% - 115px) 14px;scrollbar-width:none;-webkit-overflow-scrolling:touch;cursor:grab}
+.hshow .slide{width:230px;transform-origin:center center}
+.cut{aspect-ratio:1/1;position:relative;display:grid;place-items:center}
+.cut img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none}
+.plate{width:88%;aspect-ratio:1/1;border-radius:50%;background:var(--sand);border:2px dashed var(--tan);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--muted);font-size:13px}
+.cut.has .plate{display:none}
+.hctl{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:6px}
+.hctl .dots{margin:0}
+.arr{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--brown);color:var(--brown);font-size:24px;line-height:1;display:grid;place-items:center}
+.arr:hover{background:var(--brown);color:#fff}
+@media(max-width:900px){.hshow .track{padding-left:calc(50% - 85px);padding-right:calc(50% - 85px)}.hshow .slide{width:170px}}
+@media(max-width:640px){.hshow .track{padding:16px calc(50% - 72px) 8px}.hshow .slide{width:144px}.hctl{margin-top:0}}.hshow .stage{position:relative;width:100%;margin:10px 0 0}
+.hshow .slide{position:absolute;left:50%;top:0;transition:transform 1.1s cubic-bezier(.45,0,.2,1),opacity 1.1s ease;will-change:transform}
+@media(prefers-reduced-motion:reduce){.hshow .slide{transition:none}}.hint{font-size:13px;color:var(--muted);margin:8px 0 0}.hint.bad{color:#b3261e}.eta{margin-top:8px;color:var(--brown);font-weight:600;font-size:14px}.etab{font-weight:600;color:var(--brown)!important}#pay:disabled{opacity:.5;cursor:not-allowed}.hero .wrap{grid-template-columns:1fr!important;justify-items:center;text-align:center;gap:10px}.hero p.lead{margin:20px auto 26px}.hero .btns{justify-content:center}.hero .feats{justify-content:center}.hero .status{margin-left:auto;margin-right:auto}.hshow{max-width:760px;margin:6px auto 0}.hero{padding-bottom:30px}</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <a class="brand" href="#top" aria-label="Bassma Lunchroom"><img src="images/logo-face.png" alt=""><span><b>BASSMA</b><small>LUNCHROOM</small></span></a>
+  <nav class="main"><a href="#shop" data-t="n_menu">Menu</a><a href="#info" data-t="n_info">Openingstijden</a><a href="#contact" data-t="n_contact">Contact</a></nav>
+  <div class="hright">
+    <div class="langs" role="group" aria-label="Taal" id="langs1"></div><div class="lp" id="lp"><button id="lpb" aria-haspopup="true" aria-expanded="false" aria-label="Taal"></button><div class="lpm" id="lpm"></div></div>
+    <button class="cartbtn" id="openCart" aria-label="Winkelmandje"><svg class="bag" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l1 13H5z"/><path d="M9 7a3 3 0 016 0"/></svg><span data-t="cart_btn">Bestelling</span><span class="n" id="cnt">0</span></button>
+  </div>
+</div></header>
+
+<main id="top">
+<section class="hero"><div class="wrap">
+  <div>
+    <span class="eyebrow" data-t="eyebrow">Lunchroom · Gorinchem</span>
+    <h1><span data-t="h1a">Vers belegd,</span> <em data-t="h1b">snel bij je thuis of om af te halen.</em></h1>
+    <p class="lead" data-t="lead">Broodjes, wraps, schotels, kapsalons en meer. Bereid met verse ingrediënten en de warmte van de Oosterse keuken.</p>
+    <div class="btns"><a class="btn" href="#shop" data-t="order_now">Bestel nu</a><a class="btn ghost" href="#info" data-t="hours">Openingstijden</a></div>
+    <div class="status" id="st" aria-live="polite"><i></i><span></span></div>
+    <div class="feats"><span data-t="f1">Dagvers bereid</span><span data-t="f2">Afhalen of bezorgen</span><span data-t="f3">Veilig online betalen</span></div>
+  </div>
+  <div class="hshow"><div class="stage" id="track" aria-hidden="true"></div></div>
+</div></section>
+
+<section class="shop" id="shop"><div class="wrap">
+  <div class="shophead"><h2 data-t="shop_h">Bestel online</h2>
+    <div class="search"><label class="sr" for="q" data-t="search_l">Zoek in het menu</label><input id="q" type="search" data-ip="search_ph" placeholder="Zoek een gerecht" autocomplete="off"></div></div>
+  <div class="mlang" id="langs2"></div>
+  <div class="chips"><div id="chips"></div></div>
+  <div id="menu"></div>
+</div></section>
+
+<section class="info" id="info"><div class="wrap">
+  <div><h3 data-t="i_h1">Openingstijden</h3><p id="hoursTxt"></p></div>
+  <div id="contact"><h3 data-t="i_h2">Adres</h3><p>Koningin Wilhelminalaan 34<br>4205 EX Gorinchem<br><a href="tel:0183785769">0183 785 769</a></p><p style="margin-top:8px"><a href="https://www.google.com/maps/place/Broodjezaak+Bassma/@51.8404095,4.9680431,14z" target="_blank" rel="noopener" data-t="route">Route in Google Maps</a></p></div>
+  <div><h3 data-t="i_h3">Bestellen</h3><p data-t="i_p3">Bestel hier direct online, of kies bezorging via Thuisbezorgd.</p><p id="infoDel" style="margin-top:8px"></p><p style="margin-top:8px"><a href="https://www.thuisbezorgd.nl/menu/broodjeszaak-bassma" target="_blank" rel="noopener">Thuisbezorgd</a></p></div>
+</div></section>
+</main>
+
+<footer><div class="wrap"><span>© 2026 Bassma Lunchroom · Gorinchem · <a href="/privacy" data-t="privacy_l">Privacy</a></span><span data-t="f_pay">Betalen met iDEAL, Bancontact of creditcard</span></div></footer>
+
+<button class="mbar" id="mbar" aria-label="Bekijk bestelling"><span><span class="n" id="mcnt">0</span><span data-t="view_order">Bekijk bestelling</span></span><span id="mtot"></span></button>
+<div class="ov" id="ov"></div>
+<aside id="cart" aria-hidden="true" role="dialog" aria-label="Winkelmandje">
+  <div class="ch"><h2 id="ctitle">Jouw bestelling</h2><button class="x" id="closeCart" aria-label="Sluiten">×</button></div>
+  <div id="cview" style="display:flex;flex-direction:column;flex:1;min-height:0"></div>
+</aside>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ===== instellingen: pas hier aan ===== */
+var CFG={
+  HOURS:{0:[12,0,20,0],1:[10,0,22,0],2:[10,0,22,0],3:[10,0,22,0],4:[10,0,22,0],5:[10,0,22,0],6:[10,0,22,0]}, /* 0=zondag ... 6=zaterdag, uit Google Maps. Met de server komt dit uit het beheerpaneel. */
+  EXC:{},
+  SHOP:{lat:51.8404394,lon:4.9680569,name:'Bassma Lunchroom',address:'Koningin Wilhelminalaan 34, 4205 EX Gorinchem',phone:'0183 785 769'},
+  DELIVERY:{enabled:true,city:'Gorinchem',freeFrom:60,zones:[{name:'Tot 17,5 km',maxKm:17.5,fee:2}]},
+  ETA:{prepMin:5,prepMax:10,minPerKm:1}, /* gerecht 5-10 minuten, plus 1 minuut per km bezorgen */
+  MIN_ORDER:0,
+  CASH:true,
+  DAYS:6,
+  PAY:null
+};
+
+/* ===== menu (prijzen van de bestaande website; sucuk-omelet losse prijs controleren) ===== */
+var MENU=[
+{id:'ontbijt',n:'Ontbijt',i:[['Luxe ontbijt',14.45],['Marokkaans ontbijt',12.95]]},
+{id:'omelet',n:'Omelet',m:1,i:[['Omelet met chatarsalami',7.95,13.90],['Omelet met kip',8.95,14.95],['Omelet met sucuk',7.95,13.90],['Omelet met grillworst',7.95,13.90],['Omelet naturel',7.85,13.80]]},
+{id:'broodjes',n:'Broodjes',m:1,i:[['Kip speciaal',9.45,15.40],['Sucuk kaas',6.65,12.60],['Salami',6.65,12.60],['Americain crispy chicken',9.00,14.95],['BBQ gehakt',9.45,15.40],['Garnalen',9.95,15.90],['BBQ kip',9.45,15.40],['Kipfilet',9.00,14.95],['Kip kerrie',8.45,13.40],['Gezond',7.45,13.40],['Kip grillworst',7.95,13.90],['Kip grillworst pikant',7.95,13.90]]},
+{id:'wraps',n:'Wraps',m:1,i:[['Shoarma',8.95,14.90],['Crispy chicken',8.95,14.90],['Falafel',8.45,14.40],['Tonijn',7.95,13.90],['BBQ gehakt',9.45,15.40],['Kipfilet',8.95,14.95],['BBQ kip',9.45,15.40]]},
+{id:'schotels',n:'Schotels',s:'Met friet of rijst, salade en pitabroodje',i:[['Lamsshoarma',16.45],['Crispy chicken wings',16.45],['Garnalen',17.95],['Mix',17.45],['Falafel',14.95],['Crispy chicken tenders',16.45],['BBQ kipfilet',15.95],['Kipfilet pikant',15.95],['Kip',15.95],['Bassma schotel speciaal',16.85],['BBQ gehakt',15.95]]},
+{id:'kapsalon',n:'Kapsalon',i:[['Garnalen',13.95],['Lamsshoarma',12.75],['Crispy chicken',12.75],['Bassma',13.45],['BBQ kip',12.95],['Kipdöner',12.75],['Kipfilet',12.75]]},
+{id:'pizza',n:'Turkse pizza’s',m:1,i:[['Met kaas',5.45,11.40],['Basis',4.45,10.40],['Met kip',8.95,14.95],['Met lamsshoarma',8.95,14.90]]},
+{id:'taco',n:'Taco’s',m:1,i:[['Quesadilla taco',10.50,15.45],['Taco shoarma',9.50,14.45],['Taco kip',9.50,14.45],['Franse taco gehakt',9.50,14.45],['Franse taco kip',9.50,14.45],['Tiktaco',9.50,14.45]]},
+{id:'burgers',n:'Burgers',m:1,i:[['BBQ kipfilet burger',7.95,12.90],['Bassma burger',8.95,13.90],['Fish burger',6.95,11.90],['Beefburger',7.45,12.40],['Beefburger double',9.25,14.20],['Crisp burger',7.45,12.40]]},
+{id:'box',n:'Box',s:'Met friet of rijst, salade en saus',i:[['Kipdöner',7.95],['Hete kip',8.95],['Garnalen',9.95],['Crispy chicken',7.95],['Lamsshoarma',7.95],['Kipfilet',8.45]]},
+{id:'panini',n:'Panini’s',m:1,i:[['Tonijn met kaas',5.95,10.90],['Pesto grillworst',5.95,10.90],['Kipfilet',7.95,12.90],['Grillworst pikant',5.95,10.90],['Sucuk met kaas',5.95,10.90],['Grillworst',5.95,10.90]]},
+{id:'kids',n:'Kindermenu',s:'Met friet en saus',i:[['Chicken strips',9.95],['Crispy burger',9.95],['Kipnuggets (6 stuks)',8.95],['Chicken wings',9.95],['Cheeseburger',9.95]]},
+{id:'salades',n:'Salades',i:[['Kipsalade',7.50],['Falafel salade',6.95],['Crispy chicken salade',7.50],['Tonijnsalade',6.50]]},
+{id:'snacks',n:'Snacks',i:[['Frikandel',3.45],['Mexicano',3.95],['Friet',4.70],['Chicken bucket',15.50],['Chicken tenders (5 stuks)',6.45],['Kipcorn',3.45],['Kipnuggets',3.95],['Hotwings',12.45]]},
+{id:'extras',n:'Extra’s',i:[['Extra worst',1.50],['Extra kipfilet',2.75],['Extra gehakt',2.95],['Vers brood',0.75],['Klein bakje rijst',4.95],['Groot bakje rijst',7.95],['Klein bakje kip',9.95],['Groot bakje kip',13.95],['Saus: Andalousesaus',0.65],['Saus: Mayonaise',0.65],['Saus: BBQ saus',0.65],['Saus: Kaas',0.65],['Saus: Samuraisaus',0.65],['Saus: Knoflooksaus',0.65],['Saus: Sambal',0.65]]},
+{id:'dranken',n:'Dranken',i:[['Capri-Sun orange 200ml',1.75],['SiSi Sinas 330ml',2.50],['HAWAI 250ml',2.50],['AA Drink 330ml',2.50],['Golden Power 330ml',2.50],['Oasis Tropical 330ml',2.50],['Ayran 200ml',2.50],['Ayran cherry 250ml',2.50],['Chocomel 250ml',2.50],['7UP Regular 330ml',2.50],['Spa blauw 330ml',2.50],['Spa rood 330ml',2.00],['Lipton Ice Tea Green 330ml',2.50],['Lipton Ice Tea Peach 330ml',2.50],['Lipton Ice Tea Sparkling 330ml',2.50],['Coca-Cola 330ml',2.50],['Coca-Cola Zero Sugar 330ml',2.50],['Fanta Orange 330ml',2.50],['Fanta Exotic Zero Sugar 330ml',2.50],['Fanta Cassis 330ml',2.95],['Coca-Cola 1.5L',4.95],['Coca-Cola Zero Sugar 1.5L',4.95],['Fanta Orange 1.5L',4.95],['Verso aardbei 250ml',2.95],['Verso mango-sinaasappel 250ml',2.95],['Verso pomegranate 250ml',2.95],['Verse appel 250ml',2.95],['Fristi 250ml',2.95],['Red Bull Energy Drink 250ml',2.95],['Red Bull Energy Drink Watermeloen 250ml',2.95],['Fernandes Cherry Bouquet 330ml',2.50],['Fernandes Green Punch 330ml',2.50],['Fernandes Red Grape 330ml',2.50],['Fernandes Super Pineapple 330ml',2.50]]},
+{id:'toetjes',n:'Toetjes',i:[['Cheesecake',5.75],['Baklava',3.25],['Chocolate cake',5.75],['Red velvet',5.75]]}
+];
+
+/* ===== vertalingen van de interface (productnamen blijven Nederlands) ===== */
+var T={
+nl:{n_menu:'Menu',n_info:'Openingstijden',n_contact:'Contact',cart_btn:'Bestelling',eyebrow:'Lunchroom · Gorinchem',h1a:'Vers belegd,',h1b:'snel bij je thuis of om af te halen.',lead:'Broodjes, wraps, schotels, kapsalons en meer. Bereid met verse ingrediënten en de warmte van de Oosterse keuken.',order_now:'Bestel nu',hours:'Openingstijden',f1:'Dagvers bereid',f2:'Afhalen of bezorgen',f3:'Veilig online betalen',shop_h:'Bestel online',search_l:'Zoek in het menu',search_ph:'Zoek een gerecht',i_h1:'Openingstijden',i_h2:'Adres',i_h3:'Bestellen',i_p3:'Bestel hier direct online, of kies bezorging via Thuisbezorgd.',route:'Route in Google Maps',f_pay:'Betalen met iDEAL, Bancontact of creditcard',view_order:'Bekijk bestelling',open:'Nu geopend · tot {t}',closed1:'Gesloten · vandaag open vanaf {t}',closed2:'Gesloten · morgen weer open vanaf {t}',hours_txt:'Elke dag van {a} tot {b}',menu_hint:'Menu = met friet en een drankje',loose:'Los',menu:'Menu',add:'Toevoegen',added:'Toegevoegd',none:'Geen resultaten',your:'Jouw bestelling',empty:'Je bestelling is nog leeg.',sub:'Subtotaal',total:'Totaal',checkout:'Afrekenen',back:'Terug',pickup:'Afhalen',delivery:'Bezorgen',name:'Naam',phone:'Telefoon',email:'E-mailadres',street:'Straat en huisnummer',postcode:'Postcode',city:'Plaats',time:'Tijdstip',asap:'Zo snel mogelijk',note:'Opmerking (optioneel)',paywith:'Betaal met',pay:'Betalen',cash:'Contant bij afhalen',remove:'Verwijderen',req:'Vul dit veld in',min:'Minimaal bestelbedrag is {m}',thanks:'Bedankt voor je bestelling!',order:'Bestelnummer',show_e:'Uitgelicht',show_h:'Onze favorieten',soon:'Foto volgt',eta_pick:'Klaar om af te halen over ca. {a}–{b} minuten',eta_del:'Verwachte bezorging over ca. {a}–{b} minuten',fee_city:'Bezorgkosten',fee_out:'Bezorgkosten ({km} km)',fee_free:'Gratis bezorging',calc:'Bezorgkosten berekenen…',fill_addr:'Vul je adres in om de bezorgkosten te zien.',q_noaddr:'Adres niet gevonden. Controleer straat, postcode en plaats.',q_far:'Dit adres ligt buiten ons bezorggebied (maximaal {m} km).',q_net:'Bezorgkosten konden niet worden berekend. Probeer het opnieuw.',freehint:'Nog {x} tot gratis bezorging',mail_sent:'We sturen een bevestiging naar {e}.',info_del:'Bezorgen: € 2 (tot 17,5 km), gratis vanaf € 60.',track:'Volg je bestelling en zie wanneer het komt',privacy_l:'Privacy',date:'Datum',today:'Vandaag',tomorrow:'Morgen',closed_day:'gesloten',full:'vol',slot_none:'Geen tijden beschikbaar op deze dag. Kies een andere dag.',slot_chosen:'Gekozen tijdstip: {s}',privacy:'We gebruiken je gegevens alleen voor deze bestelling.',pay_off:'Online betalen is nog niet beschikbaar.',delivery_off:'Bezorgen is op dit moment niet mogelijk.',info_del2:'Bezorgen: € {fee} (tot {km} km), gratis vanaf € {free}.',hw:'Maandag t/m zaterdag',hs:'Zondag',noslot:'Nu gesloten. Bestel weer binnen de openingstijden.',demo:'Dit is een voorbeeldwebsite: er is nog geen echte betaling gedaan en de bestelling is nog niet doorgestuurd.',close:'Sluiten',fee:'Bezorgkosten',redir:'Je gaat naar de betaalpagina…',fail:'Betaling starten mislukt. Probeer het opnieuw.',dnote:'Bezorging: je betaalt online.'},
+en:{n_menu:'Menu',n_info:'Opening hours',n_contact:'Contact',cart_btn:'Order',eyebrow:'Lunchroom · Gorinchem',h1a:'Freshly made,',h1b:'delivered home or ready to collect.',lead:'Sandwiches, wraps, platters, kapsalons and more. Made with fresh ingredients and the warmth of Eastern cuisine.',order_now:'Order now',hours:'Opening hours',f1:'Prepared fresh daily',f2:'Pick-up or delivery',f3:'Secure online payment',shop_h:'Order online',search_l:'Search the menu',search_ph:'Search a dish',i_h1:'Opening hours',i_h2:'Address',i_h3:'Ordering',i_p3:'Order directly online here, or choose delivery via Thuisbezorgd.',route:'Route in Google Maps',f_pay:'Pay with iDEAL, Bancontact or credit card',view_order:'View order',open:'Open now · until {t}',closed1:'Closed · opens today at {t}',closed2:'Closed · opens tomorrow at {t}',hours_txt:'Every day from {a} to {b}',menu_hint:'Menu = with fries and a drink',loose:'Single',menu:'Menu',add:'Add',added:'Added',none:'No results',your:'Your order',empty:'Your order is empty.',sub:'Subtotal',total:'Total',checkout:'Checkout',back:'Back',pickup:'Pick-up',delivery:'Delivery',name:'Name',phone:'Phone',email:'Email',street:'Street and number',postcode:'Postcode',city:'City',time:'Time',asap:'As soon as possible',note:'Note (optional)',paywith:'Pay with',pay:'Pay',cash:'Cash on pick-up',remove:'Remove',req:'Please fill in this field',min:'Minimum order is {m}',thanks:'Thank you for your order!',order:'Order number',show_e:'Featured',show_h:'Our favourites',soon:'Photo coming soon',eta_pick:'Ready for pick-up in about {a}–{b} minutes',eta_del:'Expected delivery in about {a}–{b} minutes',fee_city:'Delivery fee',fee_out:'Delivery fee ({km} km)',fee_free:'Free delivery',calc:'Calculating delivery fee…',fill_addr:'Enter your address to see the delivery fee.',q_noaddr:'Address not found. Check street, postcode and city.',q_far:'This address is outside our delivery area (max. {m} km).',q_net:'Could not calculate the delivery fee. Please try again.',freehint:'{x} more for free delivery',mail_sent:'We will send a confirmation to {e}.',info_del:'Delivery: € 2 (up to 17.5 km), free from € 60.',track:'Follow your order and see when it arrives',privacy_l:'Privacy',date:'Date',today:'Today',tomorrow:'Tomorrow',closed_day:'closed',full:'full',slot_none:'No times available on this day. Choose another day.',slot_chosen:'Chosen time: {s}',privacy:'We only use your details for this order.',pay_off:'Online payment is not available yet.',delivery_off:'Delivery is currently unavailable.',info_del2:'Delivery: € {fee} (up to {km} km), free from € {free}.',hw:'Monday to Saturday',hs:'Sunday',noslot:'Closed now. Please order again during opening hours.',demo:'This is a sample website: no real payment was made and the order was not sent yet.',close:'Close',fee:'Delivery fee',redir:'Taking you to the payment page…',fail:'Could not start the payment. Please try again.',dnote:'Delivery: you pay online.'},
+tr:{n_menu:'Menü',n_info:'Çalışma saatleri',n_contact:'İletişim',cart_btn:'Sipariş',eyebrow:'Lunchroom · Gorinchem',h1a:'Taze hazırlanır,',h1b:'eve gelir veya gelip alırsınız.',lead:'Sandviç, dürüm, tabak, kapsalon ve daha fazlası. Taze malzemeler ve Doğu mutfağının sıcaklığıyla hazırlanır.',order_now:'Sipariş ver',hours:'Çalışma saatleri',f1:'Her gün taze',f2:'Gel-al veya eve teslim',f3:'Güvenli online ödeme',shop_h:'Online sipariş',search_l:'Menüde ara',search_ph:'Yemek ara',i_h1:'Çalışma saatleri',i_h2:'Adres',i_h3:'Sipariş',i_p3:'Buradan doğrudan sipariş verin veya Thuisbezorgd ile teslimat seçin.',route:'Google Maps\'te yol tarifi',f_pay:'iDEAL, Bancontact veya kredi kartı ile ödeme',view_order:'Siparişi gör',open:'Şu an açık · {t}\'e kadar',closed1:'Kapalı · bugün {t}\'da açılır',closed2:'Kapalı · yarın {t}\'da açılır',hours_txt:'Her gün {a} – {b}',menu_hint:'Menü = patates ve içecek ile',loose:'Tek',menu:'Menü',add:'Ekle',added:'Eklendi',none:'Sonuç yok',your:'Siparişin',empty:'Siparişin boş.',sub:'Ara toplam',total:'Toplam',checkout:'Ödemeye geç',back:'Geri',pickup:'Gel-al',delivery:'Eve teslim',name:'Ad',phone:'Telefon',email:'E-posta',street:'Sokak ve numara',postcode:'Posta kodu',city:'Şehir',time:'Saat',asap:'En kısa sürede',note:'Not (isteğe bağlı)',paywith:'Ödeme yöntemi',pay:'Öde',cash:'Gel-alda nakit',remove:'Kaldır',req:'Bu alanı doldurun',min:'Minimum sipariş {m}',thanks:'Siparişin için teşekkürler!',order:'Sipariş no',show_e:'Öne çıkanlar',show_h:'Favorilerimiz',soon:'Fotoğraf yakında',eta_pick:'Gel-al için yaklaşık {a}–{b} dakika içinde hazır',eta_del:'Tahmini teslimat yaklaşık {a}–{b} dakika',fee_city:'Teslimat ücreti',fee_out:'Teslimat ücreti ({km} km)',fee_free:'Ücretsiz teslimat',calc:'Teslimat ücreti hesaplanıyor…',fill_addr:'Teslimat ücretini görmek için adresini gir.',q_noaddr:'Adres bulunamadı. Sokak, posta kodu ve şehri kontrol et.',q_far:'Bu adres teslimat bölgemizin dışında (en fazla {m} km).',q_net:'Teslimat ücreti hesaplanamadı. Tekrar dene.',freehint:'Ücretsiz teslimata {x} kaldı',mail_sent:'{e} adresine onay göndereceğiz.',info_del:'Teslimat: 2 € (17,5 km\'ye kadar), 60 €\'dan itibaren ücretsiz.',track:'Siparişini takip et ve ne zaman geleceğini gör',privacy_l:'Gizlilik',date:'Tarih',today:'Bugün',tomorrow:'Yarın',closed_day:'kapalı',full:'dolu',slot_none:'Bu gün için uygun saat yok. Başka bir gün seçin.',slot_chosen:'Seçilen saat: {s}',privacy:'Bilgilerinizi yalnızca bu sipariş için kullanırız.',pay_off:'Online ödeme henüz kullanılamıyor.',delivery_off:'Teslimat şu anda mümkün değil.',info_del2:'Teslimat: {fee} € ({km} km\'ye kadar), {free} €\'dan itibaren ücretsiz.',hw:'Pazartesi – Cumartesi',hs:'Pazar',noslot:'Şu an kapalı. Lütfen çalışma saatlerinde sipariş verin.',demo:'Bu bir örnek sitedir: gerçek ödeme yapılmadı ve sipariş henüz iletilmedi.',close:'Kapat',fee:'Teslimat ücreti',redir:'Ödeme sayfasına yönlendiriliyorsun…',fail:'Ödeme başlatılamadı. Tekrar dene.',dnote:'Eve teslim: online ödersiniz.'},
+ar:{n_menu:'القائمة',n_info:'ساعات العمل',n_contact:'اتصل بنا',cart_btn:'الطلب',eyebrow:'لانشروم · خورينخم',h1a:'طازج دائماً،',h1b:'يصلك إلى البيت أو تستلمه بنفسك.',lead:'ساندويتشات ولفائف وأطباق وكابسالون والمزيد. يُحضَّر من مكونات طازجة وبدفء المطبخ الشرقي.',order_now:'اطلب الآن',hours:'ساعات العمل',f1:'طازج كل يوم',f2:'استلام أو توصيل',f3:'دفع آمن عبر الإنترنت',shop_h:'اطلب عبر الإنترنت',search_l:'ابحث في القائمة',search_ph:'ابحث عن طبق',i_h1:'ساعات العمل',i_h2:'العنوان',i_h3:'الطلب',i_p3:'اطلب مباشرة من هنا أو اختر التوصيل عبر Thuisbezorgd.',route:'المسار في خرائط Google',f_pay:'الدفع عبر iDEAL أو Bancontact أو بطاقة ائتمان',view_order:'عرض الطلب',open:'مفتوح الآن · حتى {t}',closed1:'مغلق · يفتح اليوم الساعة {t}',closed2:'مغلق · يفتح غداً الساعة {t}',hours_txt:'كل يوم من {a} إلى {b}',menu_hint:'الوجبة = مع بطاطس ومشروب',loose:'منفرد',menu:'وجبة',add:'أضف',added:'تمت الإضافة',none:'لا نتائج',your:'طلبك',empty:'طلبك فارغ.',sub:'المجموع الفرعي',total:'الإجمالي',checkout:'إتمام الطلب',back:'رجوع',pickup:'استلام',delivery:'توصيل',name:'الاسم',phone:'الهاتف',email:'البريد الإلكتروني',street:'الشارع والرقم',postcode:'الرمز البريدي',city:'المدينة',time:'الوقت',asap:'في أقرب وقت',note:'ملاحظة (اختياري)',paywith:'الدفع عبر',pay:'ادفع',cash:'نقداً عند الاستلام',remove:'إزالة',req:'يرجى ملء هذا الحقل',min:'الحد الأدنى للطلب {m}',thanks:'شكراً لطلبك!',order:'رقم الطلب',show_e:'مميز',show_h:'أطباقنا المفضلة',soon:'الصورة قريباً',eta_pick:'جاهز للاستلام خلال حوالي {a}–{b} دقيقة',eta_del:'التوصيل المتوقع خلال حوالي {a}–{b} دقيقة',fee_city:'رسوم التوصيل',fee_out:'رسوم التوصيل ({km} كم)',fee_free:'توصيل مجاني',calc:'جارٍ حساب رسوم التوصيل…',fill_addr:'أدخل عنوانك لرؤية رسوم التوصيل.',q_noaddr:'لم يتم العثور على العنوان. تحقق من الشارع والرمز البريدي والمدينة.',q_far:'هذا العنوان خارج منطقة التوصيل (بحد أقصى {m} كم).',q_net:'تعذر حساب رسوم التوصيل. حاول مرة أخرى.',freehint:'تبقى {x} للحصول على توصيل مجاني',mail_sent:'سنرسل تأكيداً إلى {e}.',info_del:'التوصيل: 2 يورو (حتى 17,5 كم)، مجاني من 60 يورو.',track:'تابع طلبك واعرف متى يصل',privacy_l:'الخصوصية',date:'التاريخ',today:'اليوم',tomorrow:'غداً',closed_day:'مغلق',full:'ممتلئ',slot_none:'لا توجد أوقات متاحة في هذا اليوم. اختر يوماً آخر.',slot_chosen:'الوقت المختار: {s}',privacy:'نستخدم بياناتك لهذا الطلب فقط.',pay_off:'الدفع عبر الإنترنت غير متاح بعد.',delivery_off:'التوصيل غير متاح حالياً.',info_del2:'التوصيل: {fee} يورو (حتى {km} كم)، مجاني من {free} يورو.',hw:'من الاثنين إلى السبت',hs:'الأحد',noslot:'مغلق الآن. يرجى الطلب خلال ساعات العمل.',demo:'هذا موقع تجريبي: لم يتم أي دفع حقيقي ولم يُرسل الطلب بعد.',close:'إغلاق',fee:'رسوم التوصيل',redir:'جارٍ تحويلك إلى صفحة الدفع…',fail:'تعذر بدء الدفع. حاول مرة أخرى.',dnote:'التوصيل: الدفع عبر الإنترنت.'}
+};
+var lang='nl';
+function t(k,v){var s=(T[lang]&&T[lang][k])||T.nl[k]||k;if(v)for(var x in v)s=s.replace('{'+x+'}',v[x]);return s}
+function eur(n){return new Intl.NumberFormat('nl-NL',{style:'currency',currency:'EUR'}).format(n)}
+function fmtT(a){return String(a[0]).padStart(2,'0')+':'+String(a[1]).padStart(2,'0')}
+
+/* ===== namen van gerechten in andere talen (sleutel = Nederlandse naam; ontbrekend = merknaam, blijft gelijk) ===== */
+var N={
+'Ontbijt':['Breakfast','Kahvaltı','فطور'],'Omelet':['Omelettes','Omletler','عجّة'],'Broodjes':['Sandwiches','Sandviçler','ساندويتشات'],'Wraps':['Wraps','Dürümler','لفائف'],'Schotels':['Platters','Tabaklar','أطباق'],'Kapsalon':['Kapsalon','Kapsalon','كابسالون'],'Turkse pizza’s':['Turkish pizzas','Türk pizzaları','بيتزا تركية'],'Taco’s':['Tacos','Takolar','تاكو'],'Burgers':['Burgers','Burgerler','برغر'],'Box':['Box','Kutu','علبة'],'Panini’s':['Paninis','Paniniler','بانيني'],'Kindermenu':['Kids menu','Çocuk menüsü','قائمة الأطفال'],'Salades':['Salads','Salatalar','سلطات'],'Snacks':['Snacks','Atıştırmalıklar','سناكس'],'Extra’s':['Extras','Ekstralar','إضافات'],'Dranken':['Drinks','İçecekler','مشروبات'],'Toetjes':['Desserts','Tatlılar','حلويات'],
+'Met friet of rijst, salade en pitabroodje':['With fries or rice, salad and pita bread','Patates veya pilav, salata ve pide ile','مع بطاطس أو أرز وسلطة وخبز بيتا'],'Met friet of rijst, salade en saus':['With fries or rice, salad and sauce','Patates veya pilav, salata ve sos ile','مع بطاطس أو أرز وسلطة وصلصة'],'Met friet en saus':['With fries and sauce','Patates ve sos ile','مع بطاطس وصلصة'],
+'Luxe ontbijt':['Luxury breakfast','Lüks kahvaltı','فطور فاخر'],'Marokkaans ontbijt':['Moroccan breakfast','Fas kahvaltısı','فطور مغربي'],
+'Omelet met chatarsalami':['Salami omelette','Salamlı omlet','عجة بالسلامي'],'Omelet met kip':['Chicken omelette','Tavuklu omlet','عجة بالدجاج'],'Omelet met sucuk':['Sucuk omelette','Sucuklu omlet','عجة بالسجق'],'Omelet met grillworst':['Grilled sausage omelette','Izgara sosisli omlet','عجة بالنقانق المشوية'],'Omelet naturel':['Plain omelette','Sade omlet','عجة سادة'],
+'Kip speciaal':['Special chicken','Özel tavuk','دجاج سبيشال'],'Sucuk kaas':['Sucuk and cheese','Sucuk kaşar','سجق وجبن'],'Salami':['Salami','Salam','سلامي'],'Americain crispy chicken':['Americain with crispy chicken','Americain ve çıtır tavuk','أمريكان مع دجاج مقرمش'],'BBQ gehakt':['BBQ minced meat','BBQ kıyma','لحم مفروم باربيكيو'],'Garnalen':['Prawns','Karides','جمبري'],'BBQ kip':['BBQ chicken','BBQ tavuk','دجاج باربيكيو'],'Kipfilet':['Chicken fillet','Tavuk fileto','فيليه دجاج'],'Kip kerrie':['Curry chicken','Körili tavuk','دجاج بالكاري'],'Gezond':['Healthy','Sağlıklı','صحي'],'Kip grillworst':['Chicken and grilled sausage','Tavuk ve izgara sosis','دجاج ونقانق مشوية'],'Kip grillworst pikant':['Chicken and spicy grilled sausage','Tavuk ve acılı izgara sosis','دجاج ونقانق مشوية حارة'],
+'Shoarma':['Shawarma','Şawarma','شاورما'],'Crispy chicken':['Crispy chicken','Çıtır tavuk','دجاج مقرمش'],'Falafel':['Falafel','Falafel','فلافل'],'Tonijn':['Tuna','Ton balığı','تونة'],
+'Lamsshoarma':['Lamb shawarma','Kuzu şawarma','شاورما لحم الضأن'],'Crispy chicken wings':['Crispy chicken wings','Çıtır tavuk kanat','أجنحة دجاج مقرمشة'],'Mix':['Mix','Karışık','مشكل'],'Crispy chicken tenders':['Crispy chicken tenders','Çıtır tavuk tenders','تندرز دجاج مقرمش'],'BBQ kipfilet':['BBQ chicken fillet','BBQ tavuk fileto','فيليه دجاج باربيكيو'],'Kipfilet pikant':['Spicy chicken fillet','Acılı tavuk fileto','فيليه دجاج حار'],'Kip':['Chicken','Tavuk','دجاج'],'Bassma schotel speciaal':['Bassma special platter','Bassma özel tabak','طبق بسمة الخاص'],
+'Bassma':['Bassma','Bassma','بسمة'],'Kipdöner':['Chicken doner','Tavuk döner','دونر دجاج'],
+'Met kaas':['With cheese','Peynirli','بالجبن'],'Basis':['Plain','Sade','سادة'],'Met kip':['With chicken','Tavuklu','بالدجاج'],'Met lamsshoarma':['With lamb shawarma','Kuzu şawarmalı','بشاورما لحم الضأن'],
+'Quesadilla taco':['Quesadilla taco','Kesadilya tako','تاكو كيساديا'],'Taco shoarma':['Shawarma taco','Şawarma tako','تاكو شاورما'],'Taco kip':['Chicken taco','Tavuk tako','تاكو دجاج'],'Franse taco gehakt':['French taco with minced meat','Kıymalı Fransız tako','تاكو فرنسي باللحم المفروم'],'Franse taco kip':['French taco with chicken','Tavuklu Fransız tako','تاكو فرنسي بالدجاج'],'Tiktaco':['TikTaco','TikTaco','تيك تاكو'],
+'BBQ kipfilet burger':['BBQ chicken fillet burger','BBQ tavuk fileto burger','برغر فيليه دجاج باربيكيو'],'Bassma burger':['Bassma burger','Bassma burger','برغر بسمة'],'Fish burger':['Fish burger','Balık burger','برغر سمك'],'Beefburger':['Beef burger','Dana burger','برغر لحم بقري'],'Beefburger double':['Double beef burger','Çift dana burger','برغر لحم بقري مزدوج'],'Crisp burger':['Crispy burger','Çıtır burger','برغر مقرمش'],
+'Hete kip':['Hot chicken','Acılı tavuk','دجاج حار'],
+'Tonijn met kaas':['Tuna and cheese','Ton balıklı kaşarlı','تونة وجبن'],'Pesto grillworst':['Pesto grilled sausage','Pesto izgara sosis','نقانق مشوية بالبيستو'],'Grillworst pikant':['Spicy grilled sausage','Acılı izgara sosis','نقانق مشوية حارة'],'Sucuk met kaas':['Sucuk with cheese','Sucuklu kaşarlı','سجق بالجبن'],'Grillworst':['Grilled sausage','Izgara sosis','نقانق مشوية'],
+'Chicken strips':['Chicken strips','Tavuk şeritleri','شرائح دجاج'],'Crispy burger':['Crispy burger','Çıtır burger','برغر مقرمش'],'Kipnuggets (6 stuks)':['Chicken nuggets (6 pcs)','Tavuk nugget (6 adet)','ناجتس دجاج (6 قطع)'],'Chicken wings':['Chicken wings','Tavuk kanat','أجنحة دجاج'],'Cheeseburger':['Cheeseburger','Cheeseburger','تشيز برغر'],
+'Kipsalade':['Chicken salad','Tavuk salata','سلطة دجاج'],'Falafel salade':['Falafel salad','Falafel salata','سلطة فلافل'],'Crispy chicken salade':['Crispy chicken salad','Çıtır tavuk salata','سلطة دجاج مقرمش'],'Tonijnsalade':['Tuna salad','Ton balıklı salata','سلطة تونة'],
+'Friet':['Fries','Patates kızartması','بطاطس مقلية'],'Chicken bucket':['Chicken bucket','Tavuk kovası','دلو دجاج'],'Chicken tenders (5 stuks)':['Chicken tenders (5 pcs)','Tavuk tenders (5 adet)','تندرز دجاج (5 قطع)'],'Kipnuggets':['Chicken nuggets','Tavuk nugget','ناجتس دجاج'],'Hotwings':['Hot wings','Acılı kanat','أجنحة حارة'],'Frikandel':['Frikandel','Frikandel','فريكاندل'],'Mexicano':['Mexicano','Mexicano','مكسيكانو'],'Kipcorn':['Kipcorn','Kipcorn','كيبكورن'],
+'Extra worst':['Extra sausage','Ekstra sosis','نقانق إضافية'],'Extra kipfilet':['Extra chicken fillet','Ekstra tavuk fileto','فيليه دجاج إضافي'],'Extra gehakt':['Extra minced meat','Ekstra kıyma','لحم مفروم إضافي'],'Vers brood':['Fresh bread','Taze ekmek','خبز طازج'],'Klein bakje rijst':['Small tub of rice','Küçük kutu pilav','علبة أرز صغيرة'],'Groot bakje rijst':['Large tub of rice','Büyük kutu pilav','علبة أرز كبيرة'],'Klein bakje kip':['Small tub of chicken','Küçük kutu tavuk','علبة دجاج صغيرة'],'Groot bakje kip':['Large tub of chicken','Büyük kutu tavuk','علبة دجاج كبيرة'],
+'Saus: Andalousesaus':['Sauce: Andalouse','Sos: Andaluz','صلصة: أندلوز'],'Saus: Mayonaise':['Sauce: Mayonnaise','Sos: Mayonez','صلصة: مايونيز'],'Saus: BBQ saus':['Sauce: BBQ','Sos: BBQ','صلصة: باربيكيو'],'Saus: Kaas':['Sauce: Cheese','Sos: Peynir','صلصة: جبن'],'Saus: Samuraisaus':['Sauce: Samurai','Sos: Samuray','صلصة: ساموراي'],'Saus: Knoflooksaus':['Sauce: Garlic','Sos: Sarımsak','صلصة: ثوم'],'Saus: Sambal':['Sauce: Sambal','Sos: Sambal','صلصة: سامبال'],
+'Ayran cherry 250ml':['Cherry ayran 250ml','Vişneli ayran 250ml','عيران بالكرز 250مل'],'Spa blauw 330ml':['Spa Blue still water 330ml','Spa mavi su 330ml','سبا أزرق ماء 330مل'],'Spa rood 330ml':['Spa Red sparkling water 330ml','Spa kırmızı soda 330ml','سبا أحمر ماء غازي 330مل'],'Verso aardbei 250ml':['Verso strawberry 250ml','Verso çilek 250ml','فيرسو فراولة 250مل'],'Verso mango-sinaasappel 250ml':['Verso mango-orange 250ml','Verso mango-portakal 250ml','فيرسو مانجو وبرتقال 250مل'],'Verso pomegranate 250ml':['Verso pomegranate 250ml','Verso nar 250ml','فيرسو رمان 250مل'],'Verse appel 250ml':['Fresh apple 250ml','Taze elma 250ml','تفاح طازج 250مل'],'Red Bull Energy Drink Watermeloen 250ml':['Red Bull Energy Drink Watermelon 250ml','Red Bull Enerji İçeceği Karpuz 250ml','ريد بول مشروب الطاقة بطيخ 250مل'],
+'Cheesecake':['Cheesecake','Cheesecake','تشيز كيك'],'Baklava':['Baklava','Baklava','بقلاوة'],'Chocolate cake':['Chocolate cake','Çikolatalı kek','كعكة الشوكولاتة'],'Red velvet':['Red velvet','Red velvet','ريد فيلفيت']
+};
+function nm(s){var v=N[s];return(v&&lang!=='nl')?v[{en:0,tr:1,ar:2}[lang]]:s}
+
+/* ===== vlaggen ===== */
+var FL={
+nl:'<svg viewBox="0 0 30 20"><rect width="30" height="7" fill="#AE1C28"/><rect y="7" width="30" height="6" fill="#fff"/><rect y="13" width="30" height="7" fill="#21468B"/></svg>',
+en:'<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#012169"/><path d="M0 0L30 20M30 0L0 20" stroke="#fff" stroke-width="4"/><path d="M0 0L30 20M30 0L0 20" stroke="#C8102E" stroke-width="1.6"/><path d="M15 0V20M0 10H30" stroke="#fff" stroke-width="6"/><path d="M15 0V20M0 10H30" stroke="#C8102E" stroke-width="3.4"/></svg>',
+tr:'<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#E30A17"/><circle cx="11" cy="10" r="5" fill="#fff"/><circle cx="12.4" cy="10" r="4" fill="#E30A17"/><path d="M17.5 7.2l.9 2.2 2.3.1-1.8 1.4.6 2.3-2-1.3-2 1.3.6-2.3-1.8-1.4 2.3-.1z" fill="#fff"/></svg>',
+ar:'<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#006C35"/><path d="M6 7.2q1.2-2 2.4 0t2.4 0 2.4 0 2.4 0 2.4 0 2.4 0" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><path d="M7 14.2H23" stroke="#fff" stroke-width="1"/><path d="M21.5 13.2v2M7 13.7h1.6" stroke="#fff" stroke-width="1"/></svg>'
+};
+var NAMES={nl:'Nederlands',en:'English',tr:'Türkçe',ar:'العربية'};
+['langs1','langs2'].forEach(function(id){var e=document.getElementById(id);Object.keys(FL).forEach(function(l){var b=document.createElement('button');b.dataset.l=l;b.title=NAMES[l];b.setAttribute('aria-label',NAMES[l]);b.innerHTML=FL[l];b.onclick=function(){setLang(l)};e.appendChild(b)})});
+
+var lpm=document.getElementById('lpm'),lpb=document.getElementById('lpb');
+Object.keys(FL).forEach(function(l){var b=document.createElement('button');b.dataset.l=l;b.innerHTML=FL[l]+'<span>'+NAMES[l]+'</span>';b.onclick=function(){setLang(l);lpm.classList.remove('open');lpb.setAttribute('aria-expanded','false')};lpm.appendChild(b)});
+lpb.onclick=function(e){e.stopPropagation();var o=lpm.classList.toggle('open');lpb.setAttribute('aria-expanded',o)};
+document.addEventListener('click',function(e){if(!e.target.closest('#lp')){lpm.classList.remove('open');lpb.setAttribute('aria-expanded','false')}});
+/* ===== menu tekenen ===== */
+var $=function(s){return document.querySelector(s)};
+var q='';
+function slug(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-')}
+function renderMenu(){
+  var h='',c='';
+  MENU.forEach(function(cat){
+    var items=cat.i.filter(function(x){return !q||(x[0]+' '+nm(x[0])+' '+cat.n+' '+nm(cat.n)).toLowerCase().indexOf(q)>-1});
+    if(!items.length)return;
+    c+='<a href="#c-'+cat.id+'" data-c="'+cat.id+'">'+nm(cat.n)+'</a>';
+    h+='<section class="cat" id="c-'+cat.id+'"><h3>'+nm(cat.n)+'</h3>'+((cat.s||cat.m)?'<p class="sub">'+(cat.s?nm(cat.s)+(cat.m?' · ':''):'')+(cat.m?t('menu_hint'):'')+'</p>':'')+'<div class="items">';
+    items.forEach(function(x){
+      var id=cat.id+'|'+x[0];
+      h+='<div class="item"><h4>'+nm(x[0])+'</h4><div class="acts">';
+      if(x[2]){
+        h+='<button class="add" data-id="'+id+'" data-v="0"><small>'+t('loose')+'</small>'+eur(x[1])+'</button><button class="add pop" data-id="'+id+'" data-v="1"><small>'+t('menu')+'</small>'+eur(x[2])+'</button>';
+      }else{
+        h+='<button class="add" data-id="'+id+'" data-v="0" aria-label="'+t('add')+'">'+eur(x[1])+' +</button>';
+      }
+      h+='</div></div>';
+    });
+    h+='</div></section>';
+  });
+  $('#menu').innerHTML=h||'<p class="empty">'+t('none')+'</p>';
+  $('#chips').innerHTML=c;
+  observe();
+}
+function find(id){var p=id.split('|');var cat=MENU.filter(function(c){return c.id===p[0]})[0];var it=cat.i.filter(function(x){return x[0]===p[1]})[0];return{cat:cat,it:it}}
+var io;
+function observe(){
+  if(io)io.disconnect();
+  if(!('IntersectionObserver'in window))return;
+  io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){document.querySelectorAll('#chips a').forEach(function(a){a.classList.toggle('on','#c-'+a.dataset.c===('#'+e.target.id))});var on=document.querySelector('#chips a.on');if(on){var box=$('#chips');var l=on.offsetLeft-box.clientWidth/2+on.clientWidth/2;box.scrollTo({left:l,behavior:'smooth'})}}})},{rootMargin:'-140px 0px -70% 0px'});
+  document.querySelectorAll('.cat').forEach(function(s){io.observe(s)});
+}
+$('#q').addEventListener('input',function(e){q=e.target.value.trim().toLowerCase();renderMenu()});
+$('#menu').addEventListener('click',function(e){var b=e.target.closest('.add');if(!b)return;addItem(b.dataset.id,+b.dataset.v)});
+
+/* ===== winkelmand ===== */
+var cart=[];
+try{cart=JSON.parse(localStorage.getItem('bassma-cart')||'[]')}catch(e){cart=[]}
+cart=cart.filter(function(l){try{find(l.id);return true}catch(e){return false}});
+function save(){try{localStorage.setItem('bassma-cart',JSON.stringify(cart))}catch(e){}}
+function priceOf(l){var f=find(l.id);return l.v&&f.it[2]?f.it[2]:f.it[1]}
+function count(){return cart.reduce(function(a,l){return a+l.q},0)}
+function sum(){return cart.reduce(function(a,l){return a+priceOf(l)*l.q},0)}
+function addItem(id,v){
+  var l=cart.filter(function(x){return x.id===id&&x.v===v})[0];
+  if(l)l.q++;else cart.push({id:id,v:v,q:1});
+  save();upd();toast(t('added')+': '+nm(find(id).it[0]));
+}
+function toast(m){var e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(function(){e.classList.remove('on')},1400)}
+function upd(){
+  var n=count();
+  $('#cnt').textContent=n;$('#mcnt').textContent=n;$('#mtot').textContent=eur(sum());
+  $('#mbar').classList.toggle('on',n>0);document.body.classList.toggle('hasc',n>0);
+  if($('#cart').classList.contains('on')&&view==='list')showList();
+}
+var view='list';
+function open(){$('#cart').classList.add('on');$('#ov').classList.add('on');$('#cart').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';showList()}
+function closeC(){$('#cart').classList.remove('on');$('#ov').classList.remove('on');$('#cart').setAttribute('aria-hidden','true');document.body.style.overflow=''}
+$('#openCart').onclick=open;$('#mbar').onclick=open;$('#closeCart').onclick=closeC;$('#ov').onclick=closeC;
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeC()});
+
+function showList(){
+  view='list';$('#ctitle').textContent=t('your');
+  var h='<div class="cb">';
+  if(!cart.length)h+='<p class="empty">'+t('empty')+'</p>';
+  cart.forEach(function(l,i){
+    var f=find(l.id),p=priceOf(l);
+    h+='<div class="line"><div><div class="nm">'+nm(f.it[0])+'</div><div class="vr">'+nm(f.cat.n)+(l.v?' · '+t('menu'):'')+'</div></div><div class="pr">'+eur(p*l.q)+'</div><div class="qty"><button data-a="m" data-i="'+i+'" aria-label="-">−</button><span>'+l.q+'</span><button data-a="p" data-i="'+i+'" aria-label="+">+</button><button class="rm" data-a="r" data-i="'+i+'">'+t('remove')+'</button></div></div>';
+  });
+  h+='</div><div class="cf"><div class="tot"><span>'+t('sub')+'</span><span>'+eur(sum())+'</span></div>';
+  if(cart.length&&sum()<CFG.DELIVERY.freeFrom)h+='<p class="hint">'+t('freehint',{x:eur(CFG.DELIVERY.freeFrom-sum())})+'</p>';
+  if(CFG.MIN_ORDER&&sum()<CFG.MIN_ORDER)h+='<p class="warn">'+t('min',{m:eur(CFG.MIN_ORDER)})+'</p>';
+  h+='<button class="btn" id="go"'+(!cart.length||(CFG.MIN_ORDER&&sum()<CFG.MIN_ORDER)?' disabled style="opacity:.5"':'')+'>'+t('checkout')+'</button></div>';
+  $('#cview').innerHTML=h;
+}
+$('#cview').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;
+  if(b.id==='go'){showForm();return}
+  if(b.id==='back'){showList();return}
+  if(b.id==='cl'){closeC();return}
+  var a=b.dataset.a,i=+b.dataset.i;if(!a)return;
+  if(a==='p')cart[i].q++;else if(a==='m'){cart[i].q--;if(cart[i].q<1)cart.splice(i,1)}else cart.splice(i,1);
+  save();upd();showList();
+});
+
+/* ===== verbinding met de server (menu, tijden en instellingen komen dan uit het beheerpaneel) ===== */
+var SERVER=false;
+function applyServer(c){
+  SERVER=true;CFG.SHOP=c.shop;CFG.HOURS=c.hours;CFG.EXC=c.exceptions||{};CFG.ETA=c.eta;CFG.MIN_ORDER=c.minOrder;CFG.CASH=c.cashPickup;CFG.DELIVERY=c.delivery;CFG.DAYS=c.daysAhead;CFG.PAY=c.payment;CFG.TODAY=c.today;MENU=c.menu;
+}
+function loadServer(){
+  if(!/^https?:/.test(location.protocol))return Promise.resolve();
+  return fetch('/api/config',{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(applyServer).catch(function(){});
+}
+function maxKm(){var z=CFG.DELIVERY.zones;return z[z.length-1].maxKm}
+function zoneFor(km){var z=CFG.DELIVERY.zones;for(var i=0;i<z.length;i++)if(km<=z[i].maxKm)return z[i];return null}
+function pad2(n){return String(n).padStart(2,'0')}
+function amsDate(){var p=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Amsterdam',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());return p}
+function addD(ds,n){var d=new Date(ds+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10)}
+function dowOf(ds){return new Date(ds+'T12:00:00Z').getUTCDay()}
+function hoursFor(ds){var h=(ds in CFG.EXC)?CFG.EXC[ds]:CFG.HOURS[dowOf(ds)];return h?{o:h[0]*60+h[1],c:h[2]*60+h[3],os:fmtT([h[0],h[1]]),cs:fmtT([h[2],h[3]])}:null}
+
+/* ===== bezorgkosten en verwachte tijd ===== */
+function kmBetween(a,b,c,d){var R=6371,r=Math.PI/180,x=(c-a)*r,y=(d-b)*r,s=Math.sin(x/2)*Math.sin(x/2)+Math.cos(a*r)*Math.cos(c*r)*Math.sin(y/2)*Math.sin(y/2);return 2*R*Math.asin(Math.sqrt(s))}
+function quoteFor(dist,subtotal){
+  var z=zoneFor(dist);if(!z)return{ok:false,err:'far'};
+  var E=CFG.ETA,kr=Math.ceil(dist)*E.minPerKm;
+  return{ok:true,km:dist,fee:subtotal>=CFG.DELIVERY.freeFrom?0:z.fee,min:E.prepMin+kr,max:E.prepMax+kr};
+}
+function quoteAddress(ad,subtotal){
+  var q=encodeURIComponent(ad.street+' '+ad.zip+' '+ad.city);
+  return fetch('https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?rows=1&fq=type:adres&fl=woonplaatsnaam,centroide_ll,weergavenaam&q='+q).then(function(r){return r.json()}).then(function(j){
+    var d=j.response&&j.response.docs&&j.response.docs[0],m=d&&/POINT\(([-\d.]+) ([-\d.]+)\)/.exec(d.centroide_ll||'');
+    if(!m)return{ok:false,err:'noaddr'};
+    return quoteFor(kmBetween(CFG.SHOP.lat,CFG.SHOP.lon,+m[2],+m[1]),subtotal);
+  }).catch(function(){return{ok:false,err:'net'}});
+}
+/* Alleen voor de voorbeeldpagina (zonder server): schatting als het adres niet kan worden opgezocht */
+function estimateQuote(ad,subtotal){return quoteFor(ad.city.trim().toLowerCase()===CFG.DELIVERY.city.toLowerCase()?3:10,subtotal)}
+function etaText(type,q){
+  if(type==='delivery'&&q&&q.ok)return t('eta_del',{a:q.min,b:q.max});
+  return t('eta_pick',{a:CFG.ETA.prepMin,b:CFG.ETA.prepMax});
+}
+function infoDelText(){var z=CFG.DELIVERY.zones,f=z[0].fee,k=maxKm();
+  return CFG.DELIVERY.enabled?t('info_del2',{fee:String(f).replace('.',','),km:String(k).replace('.',','),free:CFG.DELIVERY.freeFrom}):t('delivery_off')}
+
+/* ===== afrekenen ===== */
+var NOSLOT=false,Q={ok:false,loading:false,err:''},qSeq=0,qTimer=0,lastInfo=null;
+
+function dateLabel(ds){
+  var today=SERVER&&CFG.TODAY?CFG.TODAY:amsDate();
+  if(ds===today)return t('today');if(ds===addD(today,1))return t('tomorrow');
+  var loc={nl:'nl-NL',en:'en-GB',tr:'tr-TR',ar:'ar'}[lang]||'nl-NL';
+  return new Intl.DateTimeFormat(loc,{weekday:'long',day:'numeric',month:'long',timeZone:'UTC'}).format(new Date(ds+'T12:00:00Z'));
+}
+function dateOptions(){
+  var today=SERVER&&CFG.TODAY?CFG.TODAY:amsDate(),o=[];
+  for(var i=0;i<=CFG.DAYS;i++){var ds=addD(today,i),open=!!hoursFor(ds);o.push('<option value="'+ds+'"'+(open?'':' disabled')+'>'+dateLabel(ds)+(open?'':' ('+t('closed_day')+')')+'</option>')}
+  return o.join('');
+}
+/* Tijden voor de gekozen dag: met de server komen ze (met beschikbaarheid) van /api/slots, zonder server worden ze hier berekend */
+function loadSlots(f){
+  var date=f.date.value,type=f.ot.value,sel=f.time,msg=$('#slotmsg');
+  function fill(list){
+    var first=-1;sel.innerHTML=list.map(function(s,i){if(s.available&&first<0)first=i;return '<option value="'+s.time+'"'+(s.available?'':' disabled')+'>'+s.time+(s.available?'':' ('+(s.reason==='vol'?t('full'):t('closed_day'))+')')+'</option>'}).join('');
+    NOSLOT=first<0;if(first>=0)sel.selectedIndex=first;msg.textContent=NOSLOT?t('slot_none'):'';msg.className='hint'+(NOSLOT?' bad':'');
+  }
+  if(SERVER){
+    sel.innerHTML='<option>…</option>';
+    fetch('/api/slots?date='+date+'&type='+type,{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){if(f.date.value===date)fill(j.slots||[])}).catch(function(){fill([])});
+    return;
+  }
+  var H=hoursFor(date),n=nowAms(),today=amsDate(),step=15,lead=type==='delivery'?30:15,list=[];
+  if(H){var m=Math.ceil(Math.max(H.o,date===today?n.h*60+n.m+lead:0)/step)*step;for(;m<=H.c-step;m+=step)list.push({time:pad2(Math.floor(m/60))+':'+pad2(m%60),available:true})}
+  fill(list);
+}
+function payOptions(d){
+  var h='',online=SERVER?(CFG.PAY&&CFG.PAY.available?CFG.PAY.methods:[]):[{id:'ideal',label:'iDEAL'},{id:'bancontact',label:'Bancontact'},{id:'creditcard',label:'Creditcard'}];
+  online.forEach(function(m,i){h+='<label><input type="radio" name="pm" value="'+m.id+'"'+(i===0?' checked':'')+'>'+m.label+'</label>'});
+  if(CFG.CASH&&!d)h+='<label id="cashl"><input type="radio" name="pm" value="cash"'+(online.length?'':' checked')+'>'+t('cash')+'</label>';
+  return h||'<p class="hint bad">'+t('pay_off')+'</p>';
+}
+function hash(s){var h=5381;for(var i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return (h>>>0).toString(36)}
+function idemKey(fp){
+  var k='';try{k=sessionStorage.getItem('bidem')||''}catch(e){}
+  if(!k){k=(window.crypto&&crypto.randomUUID?crypto.randomUUID():String(Math.random()).slice(2)+Date.now());try{sessionStorage.setItem('bidem',k)}catch(e){}}
+  return k+'-'+hash(fp);
+}
+function showForm(){
+  view='form';$('#ctitle').textContent=t('checkout');Q={ok:false,loading:false,err:''};
+  var rows=cart.map(function(l){var f=find(l.id);return '<div><span>'+l.q+'× '+nm(f.it[0])+(l.v?' ('+t('menu')+')':'')+'</span><span>'+eur(priceOf(l)*l.q)+'</span></div>'}).join('');
+  $('#cview').innerHTML='<form id="f" class="cb" novalidate>'+
+  '<div class="seg" role="radiogroup"><label><input type="radio" name="ot" value="pickup" checked>'+t('pickup')+'</label>'+(CFG.DELIVERY.enabled?'<label><input type="radio" name="ot" value="delivery">'+t('delivery')+'</label>':'<label style="opacity:.45"><input type="radio" name="ot" value="delivery" disabled>'+t('delivery')+'</label>')+'</div>'+
+  (CFG.DELIVERY.enabled?'':'<p class="hint bad">'+t('delivery_off')+'</p>')+
+  '<label for="fn">'+t('name')+'</label><input id="fn" name="name" autocomplete="name" required>'+
+  '<label for="fp">'+t('phone')+'</label><input id="fp" name="phone" type="tel" inputmode="tel" autocomplete="tel" required>'+
+  '<label for="fe">'+t('email')+'</label><input id="fe" name="email" type="email" inputmode="email" autocomplete="email" required>'+
+  '<div id="addr" hidden><label for="fs">'+t('street')+'</label><input id="fs" name="street" autocomplete="street-address"><label for="fz">'+t('postcode')+'</label><input id="fz" name="zip" autocomplete="postal-code"><label for="fc">'+t('city')+'</label><input id="fc" name="city" value="Gorinchem" autocomplete="address-level2"><div id="qmsg" class="hint"></div></div>'+
+  '<label for="fd">'+t('date')+'</label><select id="fd" name="date">'+dateOptions()+'</select>'+
+  '<label for="ft">'+t('time')+'</label><select id="ft" name="time"></select><div id="slotmsg" class="hint"></div>'+
+  '<label for="fo">'+t('note')+'</label><textarea id="fo" name="note"></textarea>'+
+  '<label>'+t('paywith')+'</label><div class="pay" id="pays">'+payOptions(false)+'</div>'+
+  '<div class="sum">'+rows+'<div id="feeRow" hidden><span id="feeL"></span><span id="feeV"></span></div><div style="font-weight:700;margin-top:6px"><span>'+t('total')+'</span><span id="gt">'+eur(sum())+'</span></div><div id="etaRow" class="eta"></div></div>'+
+  '<p class="hint">'+t('privacy')+' <a href="/privacy" target="_blank" rel="noopener" style="color:var(--brown)">'+t('privacy_l')+'</a></p>'+
+  '</form><div class="cf"><button class="btn" id="pay" type="submit" form="f">'+t('pay')+' · <span id="pt">'+eur(sum())+'</span></button><button class="btn ghost" id="back" type="button" style="margin-top:8px">'+t('back')+'</button></div>';
+  var f=$('#f');
+  var fd=f.date;for(var i=0;i<fd.options.length;i++)if(!fd.options[i].disabled){fd.selectedIndex=i;break}
+  var lastType='pickup';
+  function sync(){
+    var d=f.ot.value==='delivery',fee=d&&Q.ok?Q.fee:0,tot=sum()+fee;
+    $('#addr').hidden=!d;
+    if(lastType!==f.ot.value){lastType=f.ot.value;var keep=f.pm&&f.pm.value;$('#pays').innerHTML=payOptions(d);if(keep&&f.pm){try{f.pm.value=keep}catch(e){}}}
+    var fr=$('#feeRow');fr.hidden=!(d&&Q.ok);
+    if(d&&Q.ok){$('#feeL').textContent=Q.fee===0?t('fee_free'):t('fee_out',{km:Q.km.toFixed(1)});$('#feeV').textContent=Q.fee===0?eur(0):eur(Q.fee)}
+    var qm=$('#qmsg');qm.className='hint'+(Q.err?' bad':'');
+    qm.textContent=!d?'':(Q.loading?t('calc'):(Q.err?t('q_'+Q.err,{m:maxKm()}):(Q.ok?'':t('fill_addr'))));
+    $('#etaRow').textContent=etaText(f.ot.value,Q);
+    $('#gt').textContent=eur(tot);$('#pt').textContent=eur(tot);
+    $('#pay').disabled=(d&&!Q.ok)||!f.pm||NOSLOT;
+  }
+  function requote(){
+    clearTimeout(qTimer);var ad={street:f.street.value.trim(),zip:f.zip.value.trim(),city:f.city.value.trim()};
+    Q={ok:false,loading:false,err:''};
+    if(f.ot.value!=='delivery'||ad.street.length<3||ad.zip.length<6||!ad.city){sync();return}
+    Q.loading=true;sync();var my=++qSeq;
+    qTimer=setTimeout(function(){quoteAddress(ad,sum()).then(function(r){if(my!==qSeq)return;if(r.err==='net'&&!SERVER)r=estimateQuote(ad,sum());Q=r;sync()})},500);
+  }
+  f.addEventListener('change',function(e){
+    if(e.target.name==='ot'){loadSlots(f);requote()}
+    else if(e.target.name==='date'){loadSlots(f);sync()}
+    else sync();
+  });
+  ['street','zip','city'].forEach(function(n){f.elements[n].addEventListener('input',requote)});
+  loadSlots(f);setTimeout(sync,0);sync();
+  var slotWatch=setInterval(function(){if(!document.getElementById('f')){clearInterval(slotWatch);return}sync()},700);
+  f.addEventListener('submit',function(e){e.preventDefault();submit(f)});
+}
+function submit(f){
+  f.querySelectorAll('.err').forEach(function(x){x.remove()});
+  if(NOSLOT){toast(t('slot_none'));return}
+  var d=f.ot.value==='delivery',need=['name','phone','email'].concat(d?['street','zip','city']:[]),bad=null;
+  need.forEach(function(n){var el=f.elements[n],v=el.value.trim(),ok=!!v;if(n==='email')ok=/^\S+@\S+\.\S+$/.test(v);if(!ok){var m=document.createElement('div');m.className='err';m.textContent=t('req');el.after(m);bad=bad||el}});
+  if(bad){bad.focus();return}
+  if(d&&!Q.ok){toast(t('q_'+(Q.err||'noaddr'),{m:maxKm()}));return}
+  var pm=f.pm.value;
+  var order={type:f.ot.value,customer:{name:f.name.value.trim(),phone:f.phone.value.trim(),email:f.email.value.trim()},address:d?{street:f.street.value.trim(),zip:f.zip.value.trim(),city:f.city.value.trim()}:null,
+    slot:{date:f.date.value,time:f.time.value},note:f.note.value.trim(),payment:pm==='cash'?'cash':'online',method:pm,
+    items:cart.map(function(l){return{id:l.id,qty:l.q,menu:!!l.v}})};
+  lastInfo={type:order.type,email:order.customer.email,eta:etaText(order.type,Q),slot:order.slot.time};
+  var btn=$('#pay');btn.disabled=true;
+  if(SERVER){
+    btn.textContent=t('redir');
+    fetch('/api/orders',{method:'POST',headers:{'Content-Type':'application/json','Idempotency-Key':idemKey(JSON.stringify(order))},body:JSON.stringify(order)})
+      .then(function(r){return r.json().then(function(j){if(!r.ok)throw{status:r.status,msg:j.error};return j})})
+      .then(function(j){
+        if(j.checkoutUrl){location.href=j.checkoutUrl;return}   /* winkelmandje blijft bewaard tot de betaling is gelukt */
+        try{sessionStorage.removeItem('bidem')}catch(e){}
+        done(j.orderNumber||'',true,j.token);
+      })
+      .catch(function(e){btn.disabled=false;btn.textContent=t('pay');if(e&&e.status===409)loadSlots(f);toast(e&&e.msg?e.msg:t('fail'))});
+  }else{done('',false)}
+}
+function done(num,real,token){
+  var n=num||('BAS-'+Math.floor(1000+Math.random()*9000)),i=lastInfo||{};
+  cart=[];save();upd();view='done';$('#ctitle').textContent=t('thanks');
+  $('#cview').innerHTML='<div class="cb"><div class="done"><h2>'+t('thanks')+'</h2><p>'+t('order')+': <b>'+n+'</b></p>'+(i.slot?'<p class="etab">'+t('slot_chosen',{s:i.slot})+'</p>':'')+'<p>'+(real?t('mail_sent',{e:i.email||''}):t('demo'))+'</p>'+(token?'<p><a href="/bedankt.html?o='+token+'" style="color:var(--brown);font-weight:700">'+t('track')+'</a></p>':'')+'</div></div><div class="cf"><button class="btn" id="cl">'+t('close')+'</button></div>';
+}
+/* ===== open / gesloten ===== */
+function nowAms(){var p=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Amsterdam',weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date()),o={};p.forEach(function(x){o[x.type]=x.value});return{d:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(o.weekday),h:+o.hour%24,m:+o.minute}}
+function hrs(d){var h=CFG.HOURS[d];return h?{o:h[0]*60+h[1],c:h[2]*60+h[3],os:fmtT([h[0],h[1]]),cs:fmtT([h[2],h[3]])}:{o:0,c:0,os:'–',cs:'–'}}
+function status(){
+  var n=nowAms(),m=n.h*60+n.m,today=amsDate(),H=hoursFor(today),e=$('#st'),i,tm;
+  if(H&&m>=H.o&&m<H.c){i=0;tm=H.cs}else if(H&&m<H.o){i=1;tm=H.os}
+  else{i=2;tm='';for(var k=1;k<=7&&!tm;k++){var N=hoursFor(addD(today,k));if(N)tm=N.os}}
+  e.className='status'+(i?' closed':'');
+  e.querySelector('span').textContent=t(['open','closed1','closed2'][i],{t:tm});
+}setInterval(status,60000);
+/* ===== gerechten in de hero: schuiven vanzelf, midden het grootst ===== */
+/* Foto's: zet transparante PNG's als images/gerechten/gerecht-1.png ... gerecht-3.png (transparante achtergrond) */
+var SHOW=[1,2,3],stage=document.getElementById('track'),cur=1,showTimer=0;
+function renderShow(){
+  var h='';
+  SHOW.forEach(function(n){
+    h+='<div class="slide"><div class="cut"><div class="plate"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-2h6l2 2h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><span>'+t('soon')+'</span></div><img src="images/gerechten/gerecht-'+n+'.png" alt="" draggable="false" onload="this.parentNode.classList.add(\'has\')" onerror="this.remove()"></div></div>';
+  });
+  stage.innerHTML=h;layoutShow();
+}
+function layoutShow(){var W=stage.clientWidth;stage.style.height=Math.round(W*0.42)+'px';placeShow()}
+function placeShow(){
+  var n=SHOW.length,W=stage.clientWidth,w=Math.round(W*0.42),step=w*0.72,half=Math.floor(n/2);
+  stage.querySelectorAll('.slide').forEach(function(s,i){
+    var off=((i-cur+n+half)%n)-half,a=Math.abs(off),sc=a===0?1:(a===1?0.66:0.4);
+    s.style.width=w+'px';
+    s.style.transform='translateX(calc(-50% + '+Math.round(off*step)+'px)) scale('+sc+')';
+    s.style.opacity=a>1?0:(a===1?0.92:1);
+    s.style.zIndex=10-a;
+  });
+}
+function startShow(){
+  clearInterval(showTimer);
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  showTimer=setInterval(function(){if(document.hidden)return;cur=(cur+1)%SHOW.length;placeShow()},3200);
+}
+window.addEventListener('resize',layoutShow);
+startShow();
+/* ===== taal ===== */
+function setLang(l){
+  lang=l;document.documentElement.lang=l;document.documentElement.dir=l==='ar'?'rtl':'ltr';
+  document.querySelectorAll('[data-t]').forEach(function(e){e.textContent=t(e.dataset.t)});
+  document.querySelectorAll('[data-ip]').forEach(function(e){e.placeholder=t(e.dataset.ip)});
+  document.querySelectorAll('.langs button,.mlang button,.lpm button').forEach(function(b){b.classList.toggle('on',b.dataset.l===l)});lpb.innerHTML=FL[l];
+  var hw=hrs(1),hs=hrs(0);$('#infoDel').textContent=infoDelText();$('#hoursTxt').innerHTML=t('hw')+': '+hw.os+' – '+hw.cs+'<br>'+t('hs')+': '+hs.os+' – '+hs.cs;
+  status();renderMenu();renderShow();upd();
+  if($('#cart').classList.contains('on')){if(view==='list')showList();else if(view==='form')showForm()}
+}
+setLang((/[?&]lang=(en|tr|ar)/.exec(location.search)||[0,'nl'])[1]);
+loadServer().then(function(){cart=cart.filter(function(l){try{find(l.id);return true}catch(e){return false}});save();setLang(lang)});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

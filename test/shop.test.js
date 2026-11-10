@@ -278,8 +278,12 @@ test('telefonische bestelling via beheer, statussen en onderweg-mail', async () 
   assert.equal(r.status, 200);
   const id = r.json.order.id;
   assert.equal(r.json.order.channel, 'phone');
-  await c.until(() => c.printed.length === 1);
-  assert.match(c.printed[0], /telefoon/);
+  /* bezorging: een kassabon en een bezorgbon (met adres, tijd en wat de klant nog moet betalen) */
+  await c.until(() => c.printed.length === 2);
+  const kassa = c.printed.find((t) => /KASSABON/.test(t)), bezorg = c.printed.find((t) => /BEZORGBON/.test(t));
+  assert.match(kassa, /telefoon/);
+  assert.ok(/Telefoonweg 2/.test(bezorg) && /13:00/.test(bezorg) && /TE BETALEN/.test(bezorg));
+  assert.equal(c.q("SELECT * FROM print_jobs WHERE kind = 'courier'").length, 1);
   assert.equal((await staff.call('POST', `/api/admin/orders/${id}/stage`, { stage: 'geaccepteerd' })).json.order.stage, 'geaccepteerd');
   assert.equal((await staff.call('POST', `/api/admin/orders/${id}/stage`, { stage: 'bereiden' })).json.order.stage, 'bereiden');
   assert.equal((await staff.call('POST', `/api/admin/orders/${id}/stage`, { stage: 'onderweg' })).json.order.stage, 'onderweg');

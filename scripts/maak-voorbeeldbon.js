@@ -30,10 +30,13 @@ const html = `<!doctype html><html lang="nl"><head><meta charset="utf-8"><title>
   .intro b { display: block; font-size: 13px; }
   .bon { width: 76mm; margin: 0 auto; padding: 2mm 0 8mm; font: 10.5px/1.35 "Consolas", "Courier New", monospace; overflow: hidden; }
   .bon div { white-space: pre !important; }
+  .cut { text-align: center; font: 11px Arial, sans-serif; color: #888; padding: 2mm 0; }
   .foot { font: 11px/1.4 Arial, sans-serif; text-align: center; color: #333; padding: 0 4mm 6mm; }
 </style></head><body>
-<div class="intro"><b>Voorbeeld van een bon</b>Met nepgegevens.<br>Zo komt een online bestelling<br>uit de bonprinter.</div>
-<div class="bon">${ticketHtml(order, 'original')}</div>
+<div class="intro"><b>Voorbeeld van een bon</b>Met nepgegevens.<br>Bij bezorging komen er twee bonnen:<br>de kassabon en de bezorgbon.</div>
+<div class="bon">${ticketHtml(order, 'order')}</div>
+<div class="cut">&#9986; - - - - - - - - - - - - - - - - - - - - - -</div>
+<div class="bon">${ticketHtml(order, 'courier')}</div>
 <div class="foot">Bedankt en eet smakelijk!<br>(Deze regel staat niet op de echte bon.)</div>
 </body></html>`;
 

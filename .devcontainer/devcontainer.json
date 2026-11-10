@@ -1,8 +1,7 @@
 {
   "name": "Bassma webshop (testomgeving)",
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "image": "node:24-bookworm",
   "features": {
-    "ghcr.io/devcontainers/features/node:1": { "version": "24" },
     "ghcr.io/devcontainers/features/sshd:1": { "version": "latest" }
   },
   "forwardPorts": [3000],

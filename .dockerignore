@@ -1,0 +1,17 @@
+.env
+.env.*
+data
+node_modules
+dist
+test
+voorbeeld-emails
+cutouts
+*.md
+*.zip
+*.log
+*.err
+start.bat
+proef-setup.js
+START-HIER.txt
+netlify-site/
+

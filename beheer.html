@@ -1,0 +1,340 @@
+﻿<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Beheer · Bassma Lunchroom</title>
+<style>
+:root{--bg:#f5eee3;--sf:#fffaf3;--br:#8d2f2b;--brd:#6f2320;--ink:#2d2523;--mu:#7a6a64;--ln:#e2d3bf;--ok:#2f7d4f;--warn:#b3261e;--sand:#ece0cd}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,'Segoe UI',sans-serif;font-size:16px;line-height:1.5}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;min-height:44px;border:0;border-radius:10px;padding:0 16px;font-weight:600;background:var(--br);color:#fff}
+button:hover{background:var(--brd)}
+button.o{background:var(--sf);color:var(--br);border:1.5px solid var(--br)}
+button.g{background:var(--sand);color:var(--ink)}
+button.d{background:var(--warn)}
+button:disabled{opacity:.4;cursor:default}
+input,select,textarea{min-height:44px;border:1px solid var(--ln);border-radius:10px;padding:8px 12px;background:#fff;width:100%}
+textarea{min-height:70px}
+label{display:block;font-size:13px;font-weight:600;margin:10px 0 4px}
+.wrap{max-width:1100px;margin:auto;padding:12px}
+header{background:var(--br);color:#fff;position:sticky;top:0;z-index:10}
+header .wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 12px}
+header b{font-size:18px;margin-right:auto}
+header button{background:rgba(255,255,255,.15);min-height:38px}
+nav{display:flex;gap:6px;overflow-x:auto;padding:10px 12px;max-width:1100px;margin:auto}
+nav button{flex:none;background:var(--sf);color:var(--ink);border:1px solid var(--ln)}
+nav button.on{background:var(--br);color:#fff;border-color:var(--br)}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:14px 16px;margin-bottom:12px}
+.card.act{border:2px solid var(--br)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.grow{flex:1 1 200px}
+.tag{display:inline-block;padding:1px 10px;border-radius:999px;background:var(--sand);font-size:13px;font-weight:600}
+.tag.r{background:#f6e6e1;color:var(--br)}.tag.g{background:#dff0e6;color:var(--ok)}.tag.w{background:#fde7e4;color:var(--warn)}
+.mu{color:var(--mu);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+table{width:100%;border-collapse:collapse}
+td,th{padding:6px 8px;border-bottom:1px solid var(--ln);text-align:left;vertical-align:middle}
+td input{min-height:38px}
+.msg{padding:10px 14px;border-radius:10px;margin:8px 0;background:#fde7e4;color:var(--warn)}
+.msg.ok{background:#dff0e6;color:var(--ok)}
+#login{max-width:380px;margin:60px auto}
+.hide{display:none!important}
+ul{margin:6px 0;padding-left:20px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<iframe id="pf" style="position:absolute;left:-9999px;width:0;height:0;border:0" title="bonnen"></iframe>
+<script>
+'use strict';
+var S={user:null,csrf:'',tab:'orders',date:'',orders:[],cfg:null,settings:null,catalog:null,menu:null,slots:null,events:null,msg:null,info:{},cart:[],busy:false};
+var $=function(s,r){return(r||document).querySelector(s)};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function eur(c){return '€ '+(c/100).toFixed(2).replace('.',',')}
+function dmy(d){return d.split('-').reverse().join('-')}
+var DAYS=['Zondag','Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag'];
+function api(m,p,b){
+  return fetch(p,{method:m,headers:{'Content-Type':'application/json','X-CSRF-Token':S.csrf},body:b?JSON.stringify(b):undefined,credentials:'same-origin'}).then(function(r){
+    return r.json().catch(function(){return{}}).then(function(j){if(r.status===401&&p!=='/api/admin/login'){S.user=null;render();throw new Error('Niet ingelogd')}if(!r.ok)throw new Error(j.error||'Fout');return j})});
+}
+function say(t,ok){S.msg={t:t,ok:!!ok};render();clearTimeout(say.t);say.t=setTimeout(function(){S.msg=null;render()},5000)}
+
+/* ===== inloggen ===== */
+function boot(){
+  fetch('/api/admin/me',{credentials:'same-origin'}).then(function(r){return r.ok?r.json():null}).then(function(j){if(j){S.user=j.user;S.csrf=j.csrf;S.info=j;S.date=today();load()}render()});
+}
+function today(){return new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Amsterdam',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date())}
+function loginView(){
+  return '<div id="login" class="card"><h2>Beheer Bassma Lunchroom</h2><form id="lf"><label for="u">Gebruikersnaam</label><input id="u" autocomplete="username" required><label for="p">Wachtwoord</label><input id="p" type="password" autocomplete="current-password" required><div style="margin-top:14px"><button style="width:100%">Inloggen</button></div></form>'+(S.msg?'<div class="msg">'+esc(S.msg.t)+'</div>':'')+'</div>';
+}
+
+/* ===== laden ===== */
+function load(){
+  Promise.all([api('GET','/api/admin/orders?date='+S.date+'&all=1'),api('GET','/api/config'),api('GET','/api/admin/settings')]).then(function(r){
+    S.orders=r[0].orders;S.menu=r[1].menu;S.cfg=r[1];S.settings=r[2].settings;S.now=r[0].now;
+    var act=S.orders.filter(function(o){return o.stage==='nieuw'&&['paid','cash','pin','later'].indexOf(o.pay_status)>-1}).length;
+    render();if(S.knownAct==null)checkNew();
+  }).catch(function(){});
+}
+setInterval(function(){if(!S.user)return;checkNew();if(S.tab==='orders'&&!S.editing)load()},8000);
+
+/* ===== belletje bij nieuwe bestelling ===== */
+var AC=null;
+function audio(){try{if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();return AC}catch(e){return null}}
+['click','keydown','touchstart'].forEach(function(ev){document.addEventListener(ev,audio,{passive:true})});   /* browsers staan geluid pas toe na een klik */
+function ding(t0){
+  var a=AC;
+  [[1568,1],[2349,.55],[3136,.4],[4186,.25]].forEach(function(p){
+    var o=a.createOscillator(),g=a.createGain();o.type='sine';o.frequency.value=p[0];
+    g.gain.setValueAtTime(0.0001,t0);g.gain.exponentialRampToValueAtTime(0.9*p[1]/2.2,t0+0.005);g.gain.exponentialRampToValueAtTime(0.0001,t0+1.4);
+    o.connect(g);g.connect(a.destination);o.start(t0);o.stop(t0+1.5);
+  });
+}
+function bell(n){
+  if(localStorage.getItem('sound')==='0')return;
+  var a=audio();if(!a)return;var t=a.currentTime+0.02;
+  for(var i=0;i<n;i++)ding(t+i*0.7);
+}
+/* Nieuwe webbestellingen die nog actie nodig hebben (betaald of contant, status "nieuw") */
+function waiting(list){return list.filter(function(o){return o.channel==='web'&&o.stage==='nieuw'&&['paid','cash','pin','later'].indexOf(o.pay_status)>-1}).length}
+function checkNew(){
+  api('GET','/api/admin/orders').then(function(r){
+    var n=waiting(r.orders);
+    if(S.knownAct!=null&&n>S.knownAct)bell(3);
+    S.knownAct=n;S.waiting=n;
+    document.title=(n?'('+n+') NIEUWE BESTELLING · ':'')+'Beheer · Bassma Lunchroom';
+  }).catch(function(){});
+}
+/* zolang er een bestelling wacht, rinkelt het elke 20 seconden opnieuw tot hij is geaccepteerd */
+setInterval(function(){if(S.user&&S.waiting>0)bell(1)},20000);
+
+/* ===== bestellingen ===== */
+var PAY={paid:['Betaald online','g'],pending:['Wacht op betaling','w'],cash:['Contant bij afhalen','r'],later:['Nog te betalen','r'],pin:['Betaald (pin)','g'],failed:['Mislukt','w'],canceled:['Geannuleerd','w'],expired:['Verlopen','w'],refunded:['Terugbetaald','w'],partially_refunded:['Deels terugbetaald','w']};
+function orderCard(o){
+  var pay=PAY[o.pay_status]||[o.pay_status,''],needs=o.stage==='nieuw'&&['paid','cash','pin','later'].indexOf(o.pay_status)>-1;
+  var items=o.items.map(function(i){return '<li>'+i.qty+'× '+esc(i.name)+(i.menu?' <b>(menu)</b>':'')+'</li>'}).join('');
+  var del=o.type==='delivery',okPay=['paid','cash','pin','later','partially_refunded'].indexOf(o.pay_status)>-1;
+  var pj=o.print.map(function(j){return '<span class="tag '+(j.status==='printed'?'g':(j.status==='failed'?'w':''))+'" title="'+esc(j.last_error||'')+'">bon '+(j.kind==='copy'?'kopie ':'')+j.status+(j.attempts?' ('+j.attempts+'×)':'')+'</span>'}).join(' ');
+  var btn=function(st,l,cls){return '<button class="'+(cls||'o')+'" data-a="stage" data-id="'+o.id+'" data-s="'+st+'"'+(!okPay||o.stage===st?' disabled':'')+'>'+l+'</button>'};
+  return '<div class="card'+(needs?' act':'')+'"><div class="row"><b>'+esc(o.number)+'</b><span class="tag '+(del?'r':'')+'">'+(del?'Bezorgen · '+o.km+' km':'Afhalen')+'</span><span class="tag">'+({web:'website',phone:'telefoon',counter:'kassa'}[o.channel]||o.channel)+'</span><span class="tag '+pay[1]+'">'+pay[0]+'</span><span class="tag">'+esc(o.stage)+'</span>'+(needs?'<span class="tag w">actie nodig</span>':'')+'<span class="grow"></span><b>'+dmy(o.slot_date)+' '+o.slot_time+'</b></div>'+
+  '<div class="mu">'+esc(o.name||'(gewist)')+' · '+esc(o.phone||'')+(o.email?' · '+esc(o.email):'')+'</div>'+(o.address?'<div class="mu">'+esc(o.address.street)+', '+esc(o.address.zip)+' '+esc(o.address.city)+'</div>':'')+
+  '<ul>'+items+'</ul>'+(o.note?'<div><b>Opmerking:</b> '+esc(o.note)+'</div>':'')+
+  '<div class="row"><b>'+eur(o.total_cents)+'</b>'+(o.fee_cents?'<span class="mu">(incl. bezorging '+eur(o.fee_cents)+')</span>':'')+(o.refunded_cents?'<span class="tag w">terugbetaald '+eur(o.refunded_cents)+'</span>':'')+pj+'</div>'+
+  '<div class="row" style="margin-top:8px">'+btn('geaccepteerd','Accepteren','')+btn('bereiden','In bereiding')+btn('klaar',del?'Klaar voor bezorging':'Klaar')+(del?btn('onderweg','Onderweg (mail klant)'):'')+btn('afgerond','Afgerond')+btn('geweigerd','Weigeren','d')+'</div>'+etaRow(o,okPay,del)+
+  '<div class="row" style="margin-top:8px"><button class="g" data-a="reprint" data-id="'+o.id+'"'+(okPay?'':' disabled')+'>Bon opnieuw</button>'+(o.checkout_id?'<button class="g" data-a="sync" data-id="'+o.id+'">Betaalstatus vernieuwen</button>':'')+(S.user.role==='owner'&&o.pay_method==='online'&&(o.pay_status==='paid'||o.pay_status==='partially_refunded')?'<button class="d" data-a="refund" data-id="'+o.id+'" data-t="'+o.total_cents+'" data-r="'+o.refunded_cents+'">Terugbetalen</button>':'')+'<button class="g" data-a="events" data-id="'+o.id+'">Logboek</button></div></div>';
+}
+/* Verwachte tijd die de klant ziet: per 2,5 minuut, maximaal 30 minuten vanaf het moment van doorgeven */
+function hmAms(ms){return new Intl.DateTimeFormat('nl-NL',{timeZone:'Europe/Amsterdam',hour:'2-digit',minute:'2-digit'}).format(new Date(ms))}
+function etaRow(o,okPay,del){
+  var opts='<option value="">Kies tijd…</option>';
+  for(var i=1;i<=12;i++){var m=i*2.5;opts+='<option value="'+m+'"'+(o.eta_minutes===m?' selected':'')+'>over '+String(m).replace('.',',')+' minuten</option>'}
+  var cur=o.eta_at?'<span class="tag g">Klant ziet: '+(del?'bezorgd':'klaar')+' rond '+hmAms(o.eta_at)+(o.eta_at>Date.now()?' (nog '+Math.max(1,Math.round((o.eta_at-Date.now())/60000))+' min)':' (verlopen)')+'</span>':'<span class="mu">Nog geen tijd doorgegeven</span>';
+  return '<div class="row" style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--ln)"><b>'+(del?'Wanneer wordt het bezorgd?':'Wanneer staat het klaar?')+'</b><select data-eta="'+o.id+'" style="width:auto;min-width:190px"'+(okPay?'':' disabled')+'>'+opts+'</select><button data-a="eta" data-id="'+o.id+'"'+(okPay?'':' disabled')+'>Doorgeven aan klant</button>'+(o.eta_at?'<button class="g" data-a="etaclear" data-id="'+o.id+'">Wissen</button>':'')+cur+'</div>';
+}
+function ordersView(){
+  var h='<div class="row"><label style="margin:0">Datum</label><input type="date" id="od" value="'+S.date+'" style="width:auto"><button class="g" data-a="today">Vandaag</button><button class="g" data-a="reload">Vernieuwen</button><span class="grow"></span><label style="margin:0;display:flex;gap:8px;align-items:center"><input type="checkbox" id="pm" style="width:auto;min-height:0"'+(localStorage.getItem('printmode')==='1'?' checked':'')+'> Bonnenmodus op dit apparaat'+(S.info.printer?' (server print zelf)':'')+'</label></div>';
+  h+='<div class="row" style="margin:8px 0"><label style="margin:0;display:flex;gap:8px;align-items:center"><input type="checkbox" id="snd" style="width:auto;min-height:0"'+(localStorage.getItem('sound')==='0'?'':' checked')+'> Belletje bij nieuwe bestelling</label><button class="g" data-a="testbell">Test het belletje</button><span class="mu">Het belletje gaat tot de bestelling is geaccepteerd. Zet het geluid van je apparaat aan.</span></div>';
+  h+='<p class="mu">'+(S.info.printer?'Bonnen gaan automatisch naar de netwerkprinter.':'Laat deze pagina openstaan op de kassa/tablet met "Bonnenmodus" aan: nieuwe bonnen worden dan automatisch afgedrukt (80 mm). Voor stil printen: open Chrome met <code>--kiosk-printing</code>.')+'</p>';
+  var list=S.orders.filter(function(o){return ['failed','canceled','expired'].indexOf(o.pay_status)<0});
+  var pend=S.orders.filter(function(o){return o.pay_status==='pending'});
+  if(!list.length)h+='<p class="mu">Geen bestellingen voor deze dag.</p>';
+  h+=list.map(orderCard).join('');
+  var bad=S.orders.filter(function(o){return ['failed','canceled','expired'].indexOf(o.pay_status)>-1});
+  if(bad.length)h+='<details><summary class="mu">'+bad.length+' mislukte/verlopen betalingen (geen bon, niet betaald)</summary>'+bad.map(function(o){return '<div class="card"><b>'+esc(o.number)+'</b> '+esc(o.name||'')+' · '+eur(o.total_cents)+' · '+esc(o.pay_status)+'</div>'}).join('')+'</details>';
+  return h;
+}
+
+/* ===== telefonische bestelling ===== */
+function phoneView(){
+  var menu=S.menu||[],sel=S.pcat||(menu[0]&&menu[0].id),cat=menu.filter(function(c){return c.id===sel})[0];
+  var total=S.cart.reduce(function(a,l){return a+l.price*l.qty},0);
+  var h='<div class="grid"><div class="card"><h3>Producten</h3><label>Categorie</label><select id="pc">'+menu.map(function(c){return '<option value="'+esc(c.id)+'"'+(c.id===sel?' selected':'')+'>'+esc(c.n)+'</option>'}).join('')+'</select><div style="margin-top:8px">'+
+  (cat?cat.i.map(function(p,i){return '<div class="row" style="padding:4px 0"><span class="grow">'+esc(p[0])+' <span class="mu">'+eur(p[1]*100)+'</span></span><button class="o" data-a="padd" data-c="'+esc(cat.id)+'" data-i="'+i+'" data-m="0">+ los</button>'+(p[2]!=null?'<button class="o" data-a="padd" data-c="'+esc(cat.id)+'" data-i="'+i+'" data-m="1">+ menu '+eur(p[2]*100)+'</button>':'')+'</div>'}).join(''):'')+'</div></div>'+
+  '<div class="card"><h3>Bestelling</h3>'+(S.cart.length?S.cart.map(function(l,i){return '<div class="row"><span class="grow">'+l.qty+'× '+esc(l.name)+(l.menu?' (menu)':'')+'</span><b>'+eur(l.price*l.qty)+'</b><button class="g" data-a="pminus" data-i="'+i+'">−</button><button class="g" data-a="pplus" data-i="'+i+'">+</button></div>'}).join('')+'<div class="row" style="margin-top:6px"><b class="grow">Subtotaal</b><b>'+eur(total)+'</b></div>':'<p class="mu">Nog niets gekozen.</p>')+'</div></div>';
+  h+='<form id="pf2" class="card"><div class="grid"><div><label>Naam</label><input name="name" required><label>Telefoon</label><input name="phone" required><label>E-mail (optioneel, voor bevestiging)</label><input name="email" type="email"></div>'+
+  '<div><label>Afhalen of bezorgen</label><select name="type"><option value="pickup">Afhalen</option><option value="delivery">Bezorgen</option></select><div id="pa" class="hide"><label>Straat en huisnummer</label><input name="street"><label>Postcode</label><input name="zip"><label>Plaats</label><input name="city" value="Gorinchem"></div></div>'+
+  '<div><label>Datum</label><input type="date" name="date" value="'+today()+'"><label>Tijd</label><input type="time" name="time" step="900"><label>Betaling</label><select name="payment"><option value="later">Nog te betalen (bij ophalen/bezorgen)</option><option value="cash">Contant</option><option value="pin">Gepind aan de kassa</option></select></div></div>'+
+  '<label>Opmerking</label><textarea name="note"></textarea><div class="row" style="margin-top:12px"><button>Bestelling opslaan en bon printen</button><span class="mu">Bezorgkosten worden automatisch berekend. Een volle tijdslot mag bij telefonische bestellingen.</span></div></form>';
+  return h;
+}
+
+/* ===== tijden en instellingen ===== */
+function timesView(){
+  var s=S.settings,own=S.user.role==='owner',dis=own?'':' disabled';
+  var h=(own?'':'<div class="msg">Alleen de eigenaar kan instellingen wijzigen.</div>');
+  h+='<div class="card"><h3>Openingstijden per dag</h3><table>'+[1,2,3,4,5,6,0].map(function(d){var v=s.hours[d];return '<tr><td>'+DAYS[d]+'</td><td><label style="margin:0"><input type="checkbox" data-h="c'+d+'" style="width:auto;min-height:0"'+(v?'':' checked')+dis+'> gesloten</label></td><td><input type="time" data-h="o'+d+'" value="'+(v?pad(v[0])+':'+pad(v[1]):'10:00')+'"'+dis+'></td><td><input type="time" data-h="e'+d+'" value="'+(v?pad(v[2])+':'+pad(v[3]):'22:00')+'"'+dis+'></td></tr>'}).join('')+'</table></div>';
+  var ex=Object.keys(s.exceptions).sort();
+  h+='<div class="card"><h3>Uitzonderingen (feestdagen, vrij)</h3>'+(ex.length?'<table>'+ex.map(function(d){var v=s.exceptions[d];return '<tr><td>'+dmy(d)+'</td><td>'+(v?pad(v[0])+':'+pad(v[1])+' – '+pad(v[2])+':'+pad(v[3]):'gesloten')+'</td><td><button class="g" data-a="exdel" data-d="'+d+'"'+dis+'>Verwijderen</button></td></tr>'}).join('')+'</table>':'<p class="mu">Geen uitzonderingen.</p>')+
+  '<div class="row" style="margin-top:8px"><input type="date" id="exd" style="width:auto"><label style="margin:0"><input type="checkbox" id="exc" style="width:auto;min-height:0" checked> gesloten</label><input type="time" id="exo" value="12:00" style="width:auto"><input type="time" id="exe" value="18:00" style="width:auto"><button data-a="exadd"'+dis+'>Toevoegen</button></div></div>';
+  h+='<div class="card"><h3>Tijdsloten en drukte</h3><div class="grid"><div><label>Lengte tijdslot (minuten)</label><select id="sm"'+dis+'>'+[10,15,20,30,60].map(function(n){return '<option'+(n===s.slotMinutes?' selected':'')+'>'+n+'</option>'}).join('')+'</select></div><div><label>Maximaal aantal bestellingen per tijdslot</label><input type="number" id="mp" min="0" value="'+s.maxPerSlot+'"'+dis+'></div><div><label>Vroegste tijd afhalen (min. vanaf nu)</label><input type="number" id="lp" min="0" value="'+s.leadMinutes.pickup+'"'+dis+'></div><div><label>Vroegste tijd bezorgen (min. vanaf nu)</label><input type="number" id="ld" min="0" value="'+s.leadMinutes.delivery+'"'+dis+'></div><div><label>Aantal dagen vooruit bestellen</label><input type="number" id="da" min="0" max="30" value="'+s.daysAhead+'"'+dis+'></div></div></div>';
+  h+='<div class="card"><h3>Bezorgen</h3><label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="de" style="width:auto;min-height:0"'+(s.delivery.enabled?' checked':'')+dis+'> Bezorgen aan (uitzetten als het te druk is)</label><div class="grid"><div><label>Gratis bezorging vanaf (€)</label><input type="number" id="ff" min="0" step="0.5" value="'+s.delivery.freeFrom+'"'+dis+'></div><div><label>Minimaal bestelbedrag (€)</label><input type="number" id="mo" min="0" step="0.5" value="'+s.minOrder+'"'+dis+'></div></div><h4>Bezorggebieden (hemelsbreed vanaf de zaak)</h4><table><tr><th>Naam</th><th>Tot (km)</th><th>Kosten (€)</th></tr>'+s.delivery.zones.map(function(z,i){return '<tr><td><input data-z="n'+i+'" value="'+esc(z.name)+'"'+dis+'></td><td><input type="number" step="0.5" data-z="k'+i+'" value="'+z.maxKm+'"'+dis+'></td><td><input type="number" step="0.5" data-z="f'+i+'" value="'+z.fee+'"'+dis+'></td></tr>'}).join('')+'</table><label style="display:flex;gap:8px;align-items:center;margin-top:10px"><input type="checkbox" id="cp" style="width:auto;min-height:0"'+(s.cashPickup?' checked':'')+dis+'> Contant betalen bij afhalen toestaan</label></div>';
+  h+='<div class="row"><button data-a="savesettings"'+dis+'>Instellingen opslaan</button></div>';
+  h+='<div class="card" style="margin-top:12px"><h3>Tijdsloten van één dag beheren</h3><div class="row"><input type="date" id="sd" value="'+(S.slotDate||today())+'" style="width:auto"><button class="g" data-a="slotload">Tonen</button></div>'+(S.slots?slotTable():'')+'</div>';
+  return h;
+}
+function pad(n){return String(n).padStart(2,'0')}
+function slotTable(){
+  var own=S.user.role==='owner';
+  if(!S.slots.open)return '<p class="mu">Deze dag is gesloten.</p>';
+  return '<table><tr><th>Tijd</th><th>Bezet</th><th>Maximum</th><th></th></tr>'+S.slots.slots.map(function(x){return '<tr><td>'+x.time+'</td><td>'+x.used+'</td><td><input type="number" min="0" style="width:80px" data-l="'+x.time+'" value="'+x.limit+'"'+(own?'':' disabled')+'></td><td>'+(x.closed?'<span class="tag w">gesloten</span> ':'')+'<button class="g" data-a="slotclose" data-t="'+x.time+'" data-c="'+(x.closed?0:1)+'"'+(own?'':' disabled')+'>'+(x.closed?'Openen':'Sluiten')+'</button></td></tr>'}).join('')+'</table><div class="row" style="margin-top:8px"><button class="g" data-a="slotlimits"'+(own?'':' disabled')+'>Maximum per tijdslot opslaan</button><button class="g" data-a="slotcloseall"'+(own?'':' disabled')+'>Hele dag sluiten</button></div>';
+}
+
+/* ===== menu ===== */
+function menuView(){
+  var own=S.user.role==='owner',dis=own?'':' disabled';
+  if(!S.catalog)return '<p class="mu">Laden…</p>';
+  return (own?'':'<div class="msg">Alleen de eigenaar kan het menu wijzigen.</div>')+S.catalog.map(function(c){
+    return '<div class="card"><div class="row"><h3 class="grow" style="margin:0">'+esc(c.n)+'</h3><label style="margin:0;display:flex;gap:6px;align-items:center"><input type="checkbox" data-a="catactive" data-c="'+esc(c.id)+'" style="width:auto;min-height:0"'+(c.active?' checked':'')+dis+'> zichtbaar</label></div><table><tr><th>Naam</th><th>Prijs €</th><th>Menu €</th><th>Beschikbaar</th><th></th></tr>'+c.i.map(function(p){return '<tr data-p="'+p.pid+'"><td><input data-f="name" value="'+esc(p.name)+'"'+dis+'></td><td><input data-f="price" type="number" step="0.05" min="0" value="'+p.price.toFixed(2)+'" style="width:90px"'+dis+'></td><td><input data-f="menu" type="number" step="0.05" min="0" value="'+(p.menu!=null?p.menu.toFixed(2):'')+'" style="width:90px"'+dis+'></td><td><input data-f="active" type="checkbox" style="width:auto;min-height:0"'+(p.active?' checked':'')+dis+'></td><td class="row"><button class="g" data-a="psave" data-id="'+p.pid+'"'+dis+'>Opslaan</button><button class="d" data-a="pdel" data-id="'+p.pid+'"'+dis+'>×</button></td></tr>'}).join('')+'</table>'+(own?'<div class="row" style="margin-top:8px"><input placeholder="Nieuw product" data-n="name" style="flex:2 1 160px"><input placeholder="Prijs" type="number" step="0.05" data-n="price" style="flex:1 1 80px"><input placeholder="Menu (optioneel)" type="number" step="0.05" data-n="menu" style="flex:1 1 80px"><button data-a="padd2" data-c="'+esc(c.id)+'">Toevoegen</button></div>':'')+'</div>'}).join('');
+}
+
+/* ===== logboek ===== */
+function logView(){
+  if(!S.events)return '<p class="mu">Laden…</p>';
+  var bad=/fail|error|mismatch|expired/;
+  return '<p class="mu">Laatste 200 gebeurtenissen. Rood = aandacht nodig (betaling, bon of mail mislukt).</p><div class="card"><table>'+S.events.map(function(e){return '<tr><td class="mu" style="white-space:nowrap">'+esc(e.ts.replace('T',' ').slice(0,19))+'</td><td><span class="tag '+(bad.test(e.type)?'w':'')+'">'+esc(e.type)+'</span></td><td class="mu">'+esc(e.order_id?'#'+e.order_id:'')+' '+esc((e.detail||'').slice(0,160))+'</td></tr>'}).join('')+'</table></div>';
+}
+
+/* ===== veiligheid, back-ups en gebruikers ===== */
+function loadSec(){
+  api('GET','/api/admin/system').then(function(j){S.sys=j;render()}).catch(function(){});
+  if(S.user.role==='owner')api('GET','/api/admin/users').then(function(j){S.users=j.users;render()}).catch(function(){});
+}
+function kb(n){return n>1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB'}
+function secView(){
+  var s=S.sys,own=S.user.role==='owner',h='';
+  if(!s)return '<p class="mu">Laden…</p>';
+  h+='<div class="card"><h3>Systeemstatus</h3>'+(s.warnings.length?'<ul>'+s.warnings.map(function(w){return '<li class="msg" style="list-style:none;margin:6px 0">'+esc(w)+'</li>'}).join('')+'</ul>':'<div class="msg ok">Alles in orde.</div>')+
+    '<table><tr><td>Bestellingen in de database</td><td>'+s.orders+'</td></tr><tr><td>Betaalprovider</td><td>'+esc(s.provider)+(s.providerConfigured?'':' (niet ingesteld)')+'</td></tr><tr><td>E-mail</td><td>'+(s.mail.configured?'ingesteld':'niet ingesteld')+' · wachtend '+s.mail.pending+' · mislukt '+s.mail.failed+'</td></tr><tr><td>Bonnen</td><td>wachtend '+s.print.pending+' · mislukt '+s.print.failed+'</td></tr><tr><td>Klantgegevens wissen na</td><td>'+s.retentionDays+' dagen</td></tr><tr><td>Server</td><td>'+esc(s.node)+' · '+esc(s.time.replace('T',' ').slice(0,19))+' UTC</td></tr></table></div>';
+  h+='<div class="card"><h3>Back-ups</h3><p class="mu">Er wordt elke nacht automatisch een back-up gemaakt'+(s.backupEncrypted?' (versleuteld)':' (niet versleuteld)')+(s.backupOffsite?' en naar externe opslag gekopieerd.':'. Externe opslag is niet ingesteld.')+'</p>'+
+    (s.backups.length?'<table><tr><th>Bestand</th><th>Grootte</th><th>Gemaakt</th></tr>'+s.backups.map(function(b){return '<tr><td>'+esc(b.name)+'</td><td>'+kb(b.bytes)+'</td><td>'+esc(b.modified.replace('T',' ').slice(0,16))+' UTC</td></tr>'}).join('')+'</table>':'<p class="mu">Nog geen back-ups.</p>')+
+    (own?'<div class="row" style="margin-top:8px"><button data-a="backupnow">Nu een back-up maken</button><span class="mu">Terugzetten: zie HERSTEL-EN-BACKUPS.md</span></div>':'')+'</div>';
+  h+='<div class="card"><h3>Mijn wachtwoord wijzigen</h3><form id="pwf" autocomplete="off"><div class="grid"><div><label>Huidig wachtwoord</label><input type="password" name="old" autocomplete="current-password" required></div><div><label>Nieuw wachtwoord (minstens 12 tekens)</label><input type="password" name="n1" autocomplete="new-password" required></div><div><label>Nieuw wachtwoord nog eens</label><input type="password" name="n2" autocomplete="new-password" required></div></div><div style="margin-top:10px"><button>Wachtwoord wijzigen</button></div><p class="mu">Gebruik bij voorkeur een zin van meerdere woorden. Na het wijzigen worden andere apparaten uitgelogd.</p></form></div>';
+  if(own){
+    h+='<div class="card"><h3>Gebruikers</h3>'+(S.users?'<table><tr><th>Naam</th><th>Rol</th><th>Status</th><th></th></tr>'+S.users.map(function(u){return '<tr><td>'+esc(u.username)+(u.demo?' <span class="tag w">proef</span>':'')+'</td><td>'+(u.role==='owner'?'eigenaar':'medewerker')+'</td><td>'+(u.disabled?'<span class="tag w">uitgeschakeld</span>':'<span class="tag g">actief</span>')+'</td><td class="row"><button class="g" data-a="usertoggle" data-id="'+u.id+'" data-d="'+(u.disabled?0:1)+'">'+(u.disabled?'Inschakelen':'Uitschakelen')+'</button><button class="g" data-a="userreset" data-id="'+u.id+'">Nieuw wachtwoord</button></td></tr>'}).join('')+'</table>':'<p class="mu">Laden…</p>')+
+      '<form id="uf" style="margin-top:12px" autocomplete="off"><div class="grid"><div><label>Gebruikersnaam</label><input name="username" required></div><div><label>Rol</label><select name="role"><option value="staff">Medewerker</option><option value="owner">Eigenaar</option></select></div><div><label>Wachtwoord (minstens 12 tekens)</label><input type="password" name="password" autocomplete="new-password" required></div></div><div style="margin-top:10px"><button>Gebruiker toevoegen</button></div></form></div>';
+  }
+  return h;
+}
+/* ===== opbouw ===== */
+function render(){
+  var app=$('#app');
+  if(S.editing)return;
+  /* niet opnieuw tekenen terwijl iemand een keuze maakt in een bestelling (anders springt de keuze terug) */
+  var ae=document.activeElement;
+  if(S.user&&S.tab==='orders'&&ae&&/^(SELECT|INPUT|TEXTAREA)$/.test(ae.tagName)&&ae.closest('.card')&&!ae.closest('#login'))return;
+  if(!S.user){app.innerHTML=loginView();return}
+  var tabs=[['orders','Bestellingen'],['phone','Telefonisch'],['times','Tijden & drukte'],['menu','Menu & prijzen'],['log','Logboek'],['sec','Veiligheid'+(S.sys&&S.sys.warnings.length?' ('+S.sys.warnings.length+')':'')]];
+  var body={orders:ordersView,phone:phoneView,times:timesView,menu:menuView,log:logView,sec:secView}[S.tab]();
+  var warn=(!S.info.providerConfigured?'<div class="msg">Online betalen is nog niet ingesteld (sleutel ontbreekt in .env). Contant/telefonische bestellingen werken wel.</div>':'');
+  app.innerHTML='<header><div class="wrap"><b>Bassma Lunchroom · beheer</b><span>'+esc(S.user.username)+' ('+(S.user.role==='owner'?'eigenaar':'medewerker')+')</span><button data-a="logout">Uitloggen</button></div></header><nav>'+tabs.map(function(t){return '<button class="'+(S.tab===t[0]?'on':'')+'" data-a="tab" data-t="'+t[0]+'">'+t[1]+'</button>'}).join('')+'</nav><div class="wrap">'+warn+(S.msg?'<div class="msg'+(S.msg.ok?' ok':'')+'">'+esc(S.msg.t)+'</div>':'')+body+'</div>';
+}
+document.addEventListener('focusin',function(e){if(e.target.closest&&e.target.closest('form,table,#od'))S.editing=false});
+
+/* ===== acties ===== */
+document.addEventListener('submit',function(e){
+  e.preventDefault();
+  if(e.target.id==='lf'){
+    api('POST','/api/admin/login',{username:$('#u').value,password:$('#p').value}).then(function(j){S.user=j.user;S.csrf=j.csrf;return api('GET','/api/admin/me')}).then(function(j){S.info=j;S.date=today();load();loadSec();render()}).catch(function(err){S.msg={t:err.message};render()});
+  }
+  if(e.target.id==='pwf'){
+    var pf=e.target,fd2=new FormData(pf);
+    if(fd2.get('n1')!==fd2.get('n2'))return say('De twee nieuwe wachtwoorden zijn niet gelijk.');
+    api('POST','/api/admin/password',{old:fd2.get('old'),new:fd2.get('n1')}).then(function(j){S.csrf=j.csrf;pf.reset();say('Wachtwoord gewijzigd.',true);loadSec()}).catch(function(err){say(err.message)});
+  }
+  if(e.target.id==='uf'){
+    var uf=e.target,fd3=new FormData(uf);
+    api('POST','/api/admin/users',{username:fd3.get('username'),role:fd3.get('role'),password:fd3.get('password')}).then(function(){uf.reset();say('Gebruiker toegevoegd.',true);loadSec()}).catch(function(err){say(err.message)});
+  }  if(e.target.id==='pf2'){
+    var f=e.target,fd=new FormData(f),o={type:fd.get('type'),customer:{name:fd.get('name'),phone:fd.get('phone'),email:fd.get('email')},slot:{date:fd.get('date'),time:fd.get('time')},payment:fd.get('payment'),note:fd.get('note'),
+      items:S.cart.map(function(l){return{id:l.id,qty:l.qty,menu:l.menu}}),channel:'phone'};
+    if(o.type==='delivery')o.address={street:fd.get('street'),zip:fd.get('zip'),city:fd.get('city')};
+    if(!S.cart.length)return say('Kies eerst producten.');
+    if(!o.slot.time)return say('Kies een tijd.');
+    api('POST','/api/admin/orders',o).then(function(j){S.cart=[];say('Bestelling '+j.order.number+' opgeslagen. De bon wordt geprint.',true);S.tab='orders';S.date=o.slot.date;load()}).catch(function(err){say(err.message)});
+  }
+});
+document.addEventListener('change',function(e){
+  var t=e.target;
+  if(t.id==='od'){S.date=t.value;load()}
+  if(t.id==='pc'){S.pcat=t.value;render()}
+  if(t.id==='snd'){localStorage.setItem('sound',t.checked?'1':'0');if(t.checked)bell(1)}
+  if(t.id==='pm'){localStorage.setItem('printmode',t.checked?'1':'0');if(t.checked)pollPrint()}
+  if(t.name==='type'&&t.form&&t.form.id==='pf2'){$('#pa').classList.toggle('hide',t.value!=='delivery')}
+  if(t.dataset&&t.dataset.a==='catactive'){api('PATCH','/api/admin/categories/'+t.dataset.c,{active:t.checked}).then(function(){say('Opgeslagen',true)}).catch(function(err){say(err.message)})}
+});
+document.addEventListener('click',function(e){
+  var b=e.target.closest('button[data-a]');if(!b)return;
+  var a=b.dataset.a,id=b.dataset.id;
+  var act=function(p,body,ok){api('POST',p,body||{}).then(function(){if(ok)say(ok,true);load()}).catch(function(err){say(err.message)})};
+  if(a==='logout')api('POST','/api/admin/logout').then(function(){S.user=null;render()});
+  if(a==='tab'){S.tab=b.dataset.t;S.msg=null;if(S.tab==='menu')api('GET','/api/admin/catalog').then(function(j){S.catalog=j.catalog;render()});if(S.tab==='log')api('GET','/api/admin/events').then(function(j){S.events=j.events;render()});if(S.tab==='phone')load();if(S.tab==='sec')loadSec();render()}
+  if(a==='testbell'){var was=localStorage.getItem('sound');localStorage.setItem('sound','1');bell(2);if(was!==null)localStorage.setItem('sound',was)}
+  if(a==='backupnow'){b.disabled=true;api('POST','/api/admin/backup',{}).then(function(j){say('Back-up gemaakt ('+j.orders+' bestellingen'+(j.encrypted?', versleuteld':'')+(j.uploaded?', naar externe opslag gekopieerd':'')+').',true);loadSec()}).catch(function(err){say(err.message);loadSec()})}
+  if(a==='usertoggle')api('PATCH','/api/admin/users/'+id,{disabled:b.dataset.d==='1'}).then(function(){loadSec()}).catch(function(err){say(err.message)});
+  if(a==='userreset'){var np=prompt('Nieuw wachtwoord voor deze gebruiker (minstens 12 tekens):','');if(np)api('PATCH','/api/admin/users/'+id,{password:np}).then(function(){say('Wachtwoord gewijzigd. De gebruiker is overal uitgelogd.',true)}).catch(function(err){say(err.message)})}  if(a==='today'){S.date=today();load()}
+  if(a==='reload')load();
+  if(a==='stage')act('/api/admin/orders/'+id+'/stage',{stage:b.dataset.s});
+  if(a==='eta'){var sel=b.parentElement.querySelector('select[data-eta]');if(!sel.value)return say('Kies eerst een tijd.');act('/api/admin/orders/'+id+'/eta',{minutes:Number(sel.value)},'Tijd doorgegeven: de klant ziet nu wanneer het komt');}
+  if(a==='etaclear')act('/api/admin/orders/'+id+'/eta',{minutes:0},'Tijd gewist');
+  if(a==='reprint')act('/api/admin/orders/'+id+'/reprint',{},'Bon staat in de wachtrij');
+  if(a==='sync')act('/api/admin/orders/'+id+'/sync',{},'Betaalstatus bijgewerkt');
+  if(a==='events')api('GET','/api/admin/events?order='+id).then(function(j){alert(j.events.map(function(x){return x.ts.slice(11,19)+'  '+x.type+'  '+(x.detail||'')}).join('\n')||'Geen gebeurtenissen')});
+  if(a==='refund'){
+    var left=Number(b.dataset.t)-Number(b.dataset.r),v=prompt('Bedrag terugbetalen in euro (leeg = alles: € '+(left/100).toFixed(2)+')','');
+    if(v===null)return;var cents=v.trim()===''?0:Math.round(parseFloat(v.replace(',','.'))*100);
+    if(v.trim()!==''&&!(cents>0))return say('Ongeldig bedrag');
+    if(confirm('Weet je zeker dat je '+(cents?'€ '+(cents/100).toFixed(2):'€ '+(left/100).toFixed(2))+' wilt terugbetalen? Dit kan niet ongedaan worden gemaakt.'))act('/api/admin/orders/'+id+'/refund',{amountCents:cents},'Terugbetaling gestart');
+  }
+  /* telefonisch */
+  if(a==='padd'){var c=S.menu.filter(function(x){return x.id===b.dataset.c})[0],p=c.i[Number(b.dataset.i)],m=b.dataset.m==='1',pid=c.id+'|'+p[0],ex=S.cart.filter(function(l){return l.id===pid&&l.menu===m})[0];if(ex)ex.qty++;else S.cart.push({id:pid,name:p[0],menu:m,qty:1,price:Math.round((m?p[2]:p[1])*100)});render()}
+  if(a==='pplus'){S.cart[Number(b.dataset.i)].qty++;render()}
+  if(a==='pminus'){var l=S.cart[Number(b.dataset.i)];l.qty--;if(l.qty<1)S.cart.splice(Number(b.dataset.i),1);render()}
+  /* instellingen */
+  if(a==='exadd'){var d=$('#exd').value;if(!d)return say('Kies een datum');var ex2=JSON.parse(JSON.stringify(S.settings.exceptions));ex2[d]=$('#exc').checked?null:hm4($('#exo').value,$('#exe').value);putSettings({exceptions:ex2})}
+  if(a==='exdel'){var ex3=JSON.parse(JSON.stringify(S.settings.exceptions));delete ex3[b.dataset.d];putSettings({exceptions:ex3})}
+  if(a==='savesettings'){
+    var hours={};for(var d2=0;d2<7;d2++)hours[d2]=$('[data-h=c'+d2+']').checked?null:hm4($('[data-h=o'+d2+']').value,$('[data-h=e'+d2+']').value);
+    var zones=S.settings.delivery.zones.map(function(z,i){return{name:$('[data-z=n'+i+']').value,maxKm:Number($('[data-z=k'+i+']').value),fee:Number($('[data-z=f'+i+']').value)}});
+    putSettings({hours:hours,slotMinutes:Number($('#sm').value),maxPerSlot:Number($('#mp').value),leadMinutes:{pickup:Number($('#lp').value),delivery:Number($('#ld').value)},daysAhead:Number($('#da').value),minOrder:Number($('#mo').value),cashPickup:$('#cp').checked,delivery:{enabled:$('#de').checked,freeFrom:Number($('#ff').value),zones:zones}});
+  }
+  if(a==='slotload'){S.slotDate=$('#sd').value;loadSlots()}
+  if(a==='slotclose'){var key=S.slotDate+' '+b.dataset.t,cs=S.settings.closedSlots.filter(function(x){return x!==key});if(b.dataset.c==='1')cs.push(key);putSettings({closedSlots:cs},loadSlots)}
+  if(a==='slotcloseall'){var cs2=S.settings.closedSlots.slice();S.slots.slots.forEach(function(x){var k=S.slotDate+' '+x.time;if(cs2.indexOf(k)<0)cs2.push(k)});putSettings({closedSlots:cs2},loadSlots)}
+  if(a==='slotlimits'){var sl=JSON.parse(JSON.stringify(S.settings.slotLimits));document.querySelectorAll('[data-l]').forEach(function(i){sl[S.slotDate+' '+i.dataset.l]=Number(i.value)});putSettings({slotLimits:sl},loadSlots)}
+  /* menu */
+  if(a==='psave'){var tr=b.closest('tr'),g=function(f){return tr.querySelector('[data-f='+f+']')};api('PATCH','/api/admin/products/'+id,{name:g('name').value,price:Number(g('price').value),menu:g('menu').value===''?null:Number(g('menu').value),active:g('active').checked}).then(function(){say('Opgeslagen',true);api('GET','/api/admin/catalog').then(function(j){S.catalog=j.catalog;render()})}).catch(function(err){say(err.message)})}
+  if(a==='pdel'&&confirm('Dit product verwijderen? Verberg het liever door "Beschikbaar" uit te zetten.'))api('DELETE','/api/admin/products/'+id).then(function(){api('GET','/api/admin/catalog').then(function(j){S.catalog=j.catalog;render()})}).catch(function(err){say(err.message)});
+  if(a==='padd2'){var row=b.closest('.row'),v=function(n){return row.querySelector('[data-n='+n+']').value};api('POST','/api/admin/products',{category:b.dataset.c,name:v('name'),price:Number(v('price')),menu:v('menu')===''?null:Number(v('menu'))}).then(function(){say('Product toegevoegd',true);api('GET','/api/admin/catalog').then(function(j){S.catalog=j.catalog;render()})}).catch(function(err){say(err.message)})}
+});
+function hm4(o,c){var a=o.split(':'),b=c.split(':');return[Number(a[0]),Number(a[1]),Number(b[0]),Number(b[1])]}
+function putSettings(p,cb){api('PUT','/api/admin/settings',p).then(function(j){S.settings=j.settings;say('Opgeslagen',true);if(cb)cb();render()}).catch(function(err){say(err.message)})}
+function loadSlots(){api('GET','/api/admin/slots?date='+S.slotDate).then(function(j){S.slots=j;render()}).catch(function(err){say(err.message)})}
+
+/* ===== bonnen printen op dit apparaat (alleen als er geen netwerkprinter op de server is ingesteld) ===== */
+var printing=false;
+function pollPrint(){
+  if(localStorage.getItem('printmode')!=='1'||!S.user||S.info.printer||printing)return;
+  printing=true;
+  api('GET','/api/admin/print-queue').then(function(q){
+    var chain=Promise.resolve();
+    q.jobs.forEach(function(j){chain=chain.then(function(){return api('POST','/api/admin/print-jobs/'+j.id+'/claim').then(function(c){if(!c.claimed)return;return printHtml(j.html).then(function(){return api('POST','/api/admin/print-jobs/'+j.id+'/done')}).catch(function(err){return api('POST','/api/admin/print-jobs/'+j.id+'/fail',{error:String(err&&err.message||err)})})})})});
+    return chain;
+  }).catch(function(){}).then(function(){printing=false});
+}
+function printHtml(html){
+  return new Promise(function(res,rej){
+    var f=$('#pf'),d=f.contentWindow.document;
+    d.open();d.write('<!doctype html><html><head><meta charset="utf-8"><style>@page{size:80mm auto;margin:3mm}body{width:74mm;font-family:monospace;font-size:12px;margin:0}</style></head><body>'+html+'</body></html>');d.close();
+    setTimeout(function(){try{f.contentWindow.focus();f.contentWindow.print();res()}catch(e){rej(e)}},200);
+  });
+}
+setInterval(pollPrint,5000);
+boot();
+</script>
+</body>
+</html>
+
+

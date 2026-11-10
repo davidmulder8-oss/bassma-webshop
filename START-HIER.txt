@@ -1,0 +1,36 @@
+﻿BASSMA LUNCHROOM - WEBSHOP STARTEN (PROEFVERSIE)
+================================================
+
+Er wordt niets echt betaald en je hoeft geen betaalgegevens in te vullen.
+Alles draait alleen op jouw eigen computer.
+
+STARTEN
+1. Dubbelklik op het bestand "start.bat" in deze map.
+   (Krijg je een blauw scherm "Windows heeft uw pc beschermd"? Klik op "Meer informatie" en dan op "Toch uitvoeren".)
+2. Er openen twee zwarte vensters. Laat die open staan.
+   De eerste keer duurt het een minuutje omdat er onderdelen worden geinstalleerd.
+3. Je browser opent de webshop: http://localhost:3000
+
+BESTELLEN UITPROBEREN
+- Kies gerechten, klik op "Bestelling" en daarna op "Afrekenen".
+- Kies afhalen of bezorgen, een datum en tijd, en vul een fantasienaam in.
+- Kies "Contant bij afhalen" voor de snelste proef, of "Kaart, Apple Pay of Google Pay":
+  dan kom je op een SIMULATOR-pagina. Klik op "Betaling laten slagen" of "Betaling laten mislukken".
+  Er wordt niets afgeschreven.
+
+BEHEER (VOOR HET RESTAURANT)
+- Ga naar http://localhost:3000/beheer
+- Gebruikersnaam: eigenaar     Wachtwoord: proefversie2026
+  (Dit is een proefwachtwoord. Voor de echte webshop maak je een eigen wachtwoord aan.)
+- Hier zie je de bestellingen, kun je ze accepteren en markeren, telefonische bestellingen invoeren,
+  openingstijden en tijdsloten aanpassen en prijzen wijzigen.
+
+STOPPEN
+- Sluit de twee zwarte vensters ("Bassma webshop" en "Betaal-simulator"). Daarmee stopt alles.
+- Opnieuw starten: dubbelklik weer op start.bat. Je proefbestellingen blijven bewaard.
+- Helemaal opnieuw beginnen: stop alles en verwijder de map "data" in deze map.
+
+LET OP
+- De webshop werkt alleen zolang start.bat draait en je computer aan staat.
+- Wil je de proefbestellingen niet houden? Verwijder de map "data" (hierboven).
+- Om echt online te bestellen en te betalen is later hosting en een betaalaccount nodig. Zie README.md.

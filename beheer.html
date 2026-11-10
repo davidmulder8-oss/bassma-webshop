@@ -320,14 +320,14 @@ function pollPrint(){
   printing=true;
   api('GET','/api/admin/print-queue').then(function(q){
     var chain=Promise.resolve();
-    q.jobs.forEach(function(j){chain=chain.then(function(){return api('POST','/api/admin/print-jobs/'+j.id+'/claim').then(function(c){if(!c.claimed)return;return printHtml(j.html).then(function(){return api('POST','/api/admin/print-jobs/'+j.id+'/done')}).catch(function(err){return api('POST','/api/admin/print-jobs/'+j.id+'/fail',{error:String(err&&err.message||err)})})})})});
+    q.jobs.forEach(function(j){chain=chain.then(function(){return api('POST','/api/admin/print-jobs/'+j.id+'/claim').then(function(c){if(!c.claimed)return;return printHtml(j.html).then(function(){return new Promise(function(ok){setTimeout(ok,3500)})}).then(function(){return api('POST','/api/admin/print-jobs/'+j.id+'/done')}).catch(function(err){return api('POST','/api/admin/print-jobs/'+j.id+'/fail',{error:String(err&&err.message||err)})})})})});
     return chain;
   }).catch(function(){}).then(function(){printing=false});
 }
 function printHtml(html){
   return new Promise(function(res,rej){
     var f=$('#pf'),d=f.contentWindow.document;
-    d.open();d.write('<!doctype html><html><head><meta charset="utf-8"><style>@page{size:80mm auto;margin:3mm}body{width:74mm;font-family:monospace;font-size:12px;margin:0}</style></head><body>'+html+'</body></html>');d.close();
+    d.open();d.write('<!doctype html><html><head><meta charset="utf-8"><style>@page{size:80mm auto;margin:3mm}body{width:74mm;font-family:monospace;font-size:12px;margin:0}</style></head><body>'+html+'<div style="height:14mm">&nbsp;</div></body></html>');d.close();
     setTimeout(function(){try{f.contentWindow.focus();f.contentWindow.print();res()}catch(e){rej(e)}},200);
   });
 }

@@ -19,7 +19,8 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const SITE = path.join(ROOT, 'netlify-site');
 const OUT = path.join(SITE, 'dist');
-const PAGES = ['index.html', 'bedankt.html', 'beheer.html', 'privacy.html'];
+const PAGES = ['index.html', 'menu.html', 'contact.html', 'bedankt.html', 'beheer.html', 'privacy.html'];
+const ASSETS = ['site.css', 'site.js', 'menu-data.js'];
 
 const backend = (process.env.BACKEND_URL || '').replace(/\/$/, '');
 if (!/^https:\/\/[^/\s]+$/.test(backend)) {
@@ -34,7 +35,7 @@ const images = new Set();
 for (const p of PAGES) {
   const html = fs.readFileSync(path.join(ROOT, p), 'utf8');
   fs.writeFileSync(path.join(OUT, p), html);
-  for (const m of html.matchAll(/images\/[A-Za-z0-9_\-./]+\.(?:png|jpe?g|webp|svg)/g)) images.add(m[0]);
+  for (const m of (html + ASSETS.map((a) => fs.readFileSync(path.join(ROOT, a), 'utf8')).join('')).matchAll(/images\/[A-Za-z0-9_\-./]+\.(?:png|jpe?g|webp|svg)/g)) images.add(m[0]);
 }
 for (let n = 1; n <= 3; n++) images.add(`images/gerechten/gerecht-${n}.png`);   /* de bewegende gerechten worden dynamisch geladen */
 
@@ -46,6 +47,7 @@ for (const img of images) {
   fs.copyFileSync(src, path.join(OUT, img));
   copied++;
 }
+for (const a of ASSETS) fs.copyFileSync(path.join(ROOT, a), path.join(OUT, a));
 fs.writeFileSync(path.join(OUT, 'robots.txt'), 'User-agent: *\nDisallow: /beheer\nDisallow: /bedankt.html\n');
 
 /* veiligheidskoppen overnemen uit de netlify.toml van het project (alles vanaf het eerste [[headers]]-blok) */
@@ -74,6 +76,16 @@ fs.writeFileSync(path.join(SITE, 'netlify.toml'), `# Gegenereerd door scripts/bu
 [[redirects]]
   from = "/privacy"
   to = "/privacy.html"
+  status = 200
+
+[[redirects]]
+  from = "/menu"
+  to = "/menu.html"
+  status = 200
+
+[[redirects]]
+  from = "/contact"
+  to = "/contact.html"
   status = 200
 
 ${headers}`);

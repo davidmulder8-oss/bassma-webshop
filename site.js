@@ -49,10 +49,10 @@ ar:{n_menu:'القائمة',n_info:'ساعات العمل',n_contact:'اتصل �
 };
 var lang='nl';
 var T2={
-nl:{skip:'Naar de inhoud',route_h:'Je route naar Bassma',route_a:'Koningin Wilhelminalaan 34, Gorinchem',n_home:'Home',story_e:'Ons verhaal',story_h:'Welkom bij Bassma',story_p:'In onze lunchroom in Gorinchem maken we elke dag broodjes, wraps, schotels en kapsalons met verse ingrediënten. Van een uitgebreid ontbijt tot een stevige maaltijd: kom gezellig langs of laat het bij je thuis bezorgen.',cta_h:'Honger gekregen?',cta_p:'Kies je favorieten en bestel direct online. Afhalen of bezorgen, jij bepaalt.',menu_lead:'Kies je gerechten en bestel direct. Afhalen of bezorgen.',contact_h:'Openingstijden en contact',contact_p:'Kom langs, bel ons of bestel online.',h_trek:'Waar heb je trek in?',h_pop:'Uit de keuken',all_menu:'Bekijk de volledige kaart',h_steps:'Zo werkt bestellen',s1:'Kies je gerechten',s2:'Kies afhalen of bezorgen',s3:'Betaal en volg je bestelling',tile_count:'{n} gerechten',call:'Bel Bassma',route2:'Route bekijken',foot_nav:'Snel naar',visit_h:'Kom langs of bestel online'},
-en:{skip:'Skip to content',route_h:'Your way to Bassma',route_a:'Koningin Wilhelminalaan 34, Gorinchem',n_home:'Home',story_e:'Our story',story_h:'Welcome to Bassma',story_p:'In our lunchroom in Gorinchem we make sandwiches, wraps, platters and kapsalons with fresh ingredients every day. From a full breakfast to a hearty meal: drop by, or have it delivered to your door.',cta_h:'Feeling hungry?',cta_p:'Pick your favourites and order online. Pick-up or delivery, you decide.',menu_lead:'Choose your dishes and order straight away. Pick-up or delivery.',contact_h:'Opening hours and contact',contact_p:'Drop by, call us or order online.',h_trek:'What are you in the mood for?',h_pop:'From the kitchen',all_menu:'See the full menu',h_steps:'How ordering works',s1:'Choose your dishes',s2:'Choose pick-up or delivery',s3:'Pay and follow your order',tile_count:'{n} dishes',call:'Call Bassma',route2:'Get directions',foot_nav:'Quick links',visit_h:'Visit us or order online'},
-tr:{skip:'İçeriğe geç',route_h:'Bassma’ya giden yol',route_a:'Koningin Wilhelminalaan 34, Gorinchem',n_home:'Ana sayfa',story_e:'Hikayemiz',story_h:'Bassma’ya hoş geldiniz',story_p:'Gorinchem’deki lunchroom’umuzda her gün taze malzemelerle sandviç, dürüm, tabak ve kapsalon hazırlıyoruz. Kapsamlı bir kahvaltıdan doyurucu bir yemeğe: uğrayın ya da evinize getirelim.',cta_h:'Acıktın mı?',cta_p:'Favorilerini seç ve online sipariş ver. Gel-al veya eve teslim, sen karar ver.',menu_lead:'Yemeklerini seç ve hemen sipariş ver. Gel-al veya eve teslim.',contact_h:'Çalışma saatleri ve iletişim',contact_p:'Uğrayın, arayın ya da online sipariş verin.',h_trek:'Canın ne çekiyor?',h_pop:'Mutfağımızdan',all_menu:'Tüm menüyü gör',h_steps:'Sipariş nasıl verilir',s1:'Yemeklerini seç',s2:'Gel-al veya eve teslim seç',s3:'Öde ve siparişini takip et',tile_count:'{n} yemek',call:'Bassma’yı ara',route2:'Yol tarifi',foot_nav:'Hızlı bağlantılar',visit_h:'Uğra veya online sipariş ver'},
-ar:{skip:'انتقل إلى المحتوى',route_h:'طريقك إلى Bassma',route_a:'Koningin Wilhelminalaan 34, Gorinchem',n_home:'الرئيسية',story_e:'قصتنا',story_h:'أهلاً بكم في Bassma',story_p:'في مطعمنا في خورينخم نحضّر كل يوم ساندويتشات ولفائف وأطباقاً وكابسالون من مكونات طازجة. من فطور كامل إلى وجبة مشبعة: تفضلوا بزيارتنا أو نوصّل إلى باب بيتكم.',cta_h:'هل أنت جائع؟',cta_p:'اختر أطباقك المفضلة واطلب عبر الإنترنت. استلام أو توصيل، أنت تقرر.',menu_lead:'اختر أطباقك واطلب مباشرة. استلام أو توصيل.',contact_h:'ساعات العمل والاتصال',contact_p:'زورونا أو اتصلوا بنا أو اطلبوا عبر الإنترنت.',h_trek:'ماذا تشتهي؟',h_pop:'من مطبخنا',all_menu:'عرض القائمة كاملة',h_steps:'كيف تطلب',s1:'اختر أطباقك',s2:'اختر استلام أو توصيل',s3:'ادفع وتابع طلبك',tile_count:'{n} أطباق',call:'اتصل بـ Bassma',route2:'احصل على الاتجاهات',foot_nav:'روابط سريعة',visit_h:'زرنا أو اطلب عبر الإنترنت'}
+nl:{sort_l:'Sorteren',sort_std:'Standaard',sort_lo:'Prijs: laag naar hoog',sort_hi:'Prijs: hoog naar laag',sort_az:'Naam: A tot Z',count_n:'{n} gerechten',skip:'Naar de inhoud',route_h:'Je route naar Bassma',route_a:'Koningin Wilhelminalaan 34, Gorinchem',n_home:'Home',story_e:'Ons verhaal',story_h:'Welkom bij Bassma',story_p:'In onze lunchroom in Gorinchem maken we elke dag broodjes, wraps, schotels en kapsalons met verse ingrediënten. Van een uitgebreid ontbijt tot een stevige maaltijd: kom gezellig langs of laat het bij je thuis bezorgen.',cta_h:'Honger gekregen?',cta_p:'Kies je favorieten en bestel direct online. Afhalen of bezorgen, jij bepaalt.',menu_lead:'Kies je gerechten en bestel direct. Afhalen of bezorgen.',contact_h:'Openingstijden en contact',contact_p:'Kom langs, bel ons of bestel online.',h_trek:'Waar heb je trek in?',h_pop:'Uit de keuken',all_menu:'Bekijk de volledige kaart',h_steps:'Zo werkt bestellen',s1:'Kies je gerechten',s2:'Kies afhalen of bezorgen',s3:'Betaal en volg je bestelling',tile_count:'{n} gerechten',call:'Bel Bassma',route2:'Route bekijken',foot_nav:'Snel naar',visit_h:'Kom langs of bestel online'},
+en:{sort_l:'Sort by',sort_std:'Featured',sort_lo:'Price: low to high',sort_hi:'Price: high to low',sort_az:'Name: A to Z',count_n:'{n} dishes',skip:'Skip to content',route_h:'Your way to Bassma',route_a:'Koningin Wilhelminalaan 34, Gorinchem',n_home:'Home',story_e:'Our story',story_h:'Welcome to Bassma',story_p:'In our lunchroom in Gorinchem we make sandwiches, wraps, platters and kapsalons with fresh ingredients every day. From a full breakfast to a hearty meal: drop by, or have it delivered to your door.',cta_h:'Feeling hungry?',cta_p:'Pick your favourites and order online. Pick-up or delivery, you decide.',menu_lead:'Choose your dishes and order straight away. Pick-up or delivery.',contact_h:'Opening hours and contact',contact_p:'Drop by, call us or order online.',h_trek:'What are you in the mood for?',h_pop:'From the kitchen',all_menu:'See the full menu',h_steps:'How ordering works',s1:'Choose your dishes',s2:'Choose pick-up or delivery',s3:'Pay and follow your order',tile_count:'{n} dishes',call:'Call Bassma',route2:'Get directions',foot_nav:'Quick links',visit_h:'Visit us or order online'},
+tr:{sort_l:'Sırala',sort_std:'Öne çıkanlar',sort_lo:'Fiyat: düşükten yükseğe',sort_hi:'Fiyat: yüksekten düşüğe',sort_az:'Ad: A’dan Z’ye',count_n:'{n} yemek',skip:'İçeriğe geç',route_h:'Bassma’ya giden yol',route_a:'Koningin Wilhelminalaan 34, Gorinchem',n_home:'Ana sayfa',story_e:'Hikayemiz',story_h:'Bassma’ya hoş geldiniz',story_p:'Gorinchem’deki lunchroom’umuzda her gün taze malzemelerle sandviç, dürüm, tabak ve kapsalon hazırlıyoruz. Kapsamlı bir kahvaltıdan doyurucu bir yemeğe: uğrayın ya da evinize getirelim.',cta_h:'Acıktın mı?',cta_p:'Favorilerini seç ve online sipariş ver. Gel-al veya eve teslim, sen karar ver.',menu_lead:'Yemeklerini seç ve hemen sipariş ver. Gel-al veya eve teslim.',contact_h:'Çalışma saatleri ve iletişim',contact_p:'Uğrayın, arayın ya da online sipariş verin.',h_trek:'Canın ne çekiyor?',h_pop:'Mutfağımızdan',all_menu:'Tüm menüyü gör',h_steps:'Sipariş nasıl verilir',s1:'Yemeklerini seç',s2:'Gel-al veya eve teslim seç',s3:'Öde ve siparişini takip et',tile_count:'{n} yemek',call:'Bassma’yı ara',route2:'Yol tarifi',foot_nav:'Hızlı bağlantılar',visit_h:'Uğra veya online sipariş ver'},
+ar:{sort_l:'ترتيب',sort_std:'مميز',sort_lo:'السعر: من الأقل إلى الأعلى',sort_hi:'السعر: من الأعلى إلى الأقل',sort_az:'الاسم: أ إلى ي',count_n:'{n} أطباق',skip:'انتقل إلى المحتوى',route_h:'طريقك إلى Bassma',route_a:'Koningin Wilhelminalaan 34, Gorinchem',n_home:'الرئيسية',story_e:'قصتنا',story_h:'أهلاً بكم في Bassma',story_p:'في مطعمنا في خورينخم نحضّر كل يوم ساندويتشات ولفائف وأطباقاً وكابسالون من مكونات طازجة. من فطور كامل إلى وجبة مشبعة: تفضلوا بزيارتنا أو نوصّل إلى باب بيتكم.',cta_h:'هل أنت جائع؟',cta_p:'اختر أطباقك المفضلة واطلب عبر الإنترنت. استلام أو توصيل، أنت تقرر.',menu_lead:'اختر أطباقك واطلب مباشرة. استلام أو توصيل.',contact_h:'ساعات العمل والاتصال',contact_p:'زورونا أو اتصلوا بنا أو اطلبوا عبر الإنترنت.',h_trek:'ماذا تشتهي؟',h_pop:'من مطبخنا',all_menu:'عرض القائمة كاملة',h_steps:'كيف تطلب',s1:'اختر أطباقك',s2:'اختر استلام أو توصيل',s3:'ادفع وتابع طلبك',tile_count:'{n} أطباق',call:'اتصل بـ Bassma',route2:'احصل على الاتجاهات',foot_nav:'روابط سريعة',visit_h:'زرنا أو اطلب عبر الإنترنت'}
 };
 Object.keys(T2).forEach(function(l){Object.assign(T[l],T2[l])});
 var TILES=['broodjes','wraps','schotels','kapsalon','pizza','burgers'];
@@ -117,36 +117,40 @@ document.addEventListener('click',function(e){if(!e.target.closest('#lp')){lpm.c
 var $=function(s){return document.querySelector(s)};
 var q='';
 function slug(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-')}
-var CICON={ontbijt:'<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6L7 7M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/>',omelet:'<ellipse cx="12" cy="13" rx="9" ry="6"/><circle cx="12" cy="13" r="2.5"/>',taco:'<path d="M3 17a9 9 0 0118 0z"/><path d="M7 14l1-2M11 13l1-3M15 14l1-2"/>',box:'<path d="M4 8l8-4 8 4v9l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v9"/>',panini:'<path d="M4 15a8 5 0 0116 0v2H4z"/><path d="M6 12h12"/>',kids:'<circle cx="12" cy="8" r="3"/><path d="M6 20c0-3.5 2.5-6 6-6s6 2.5 6 6z"/>',salades:'<path d="M4 12h16a8 8 0 01-16 0z"/><path d="M8 12c0-3 2-5 4-5s4 2 4 5"/>',snacks:'<path d="M7 20L5 8h14l-2 12z"/><path d="M9 8V4M12 8V3M15 8V4"/>',extras:'<path d="M12 5v14M5 12h14"/>',dranken:'<path d="M7 4h10l-1 16H8z"/><path d="M7 9h10"/>',toetjes:'<path d="M6 12h12l-1.5 8h-9z"/><circle cx="12" cy="8" r="4"/>'};
+var CICON={ontbijt:'<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6L7 7M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/>',omelet:'<circle cx="10" cy="12" r="6.5"/><circle cx="10" cy="12" r="2.4"/><path d="M16.5 12H21"/>',taco:'<path d="M3 17a9 9 0 0118 0z"/><path d="M7 14l1-2M11 13l1-3M15 14l1-2"/>',box:'<path d="M4 8l8-4 8 4v9l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v9"/>',panini:'<path d="M4 15a8 5 0 0116 0v2H4z"/><path d="M6 12h12"/>',kids:'<circle cx="12" cy="8" r="3"/><path d="M6 20c0-3.5 2.5-6 6-6s6 2.5 6 6z"/>',salades:'<path d="M4 12h16a8 8 0 01-16 0z"/><path d="M8 12c0-3 2-5 4-5s4 2 4 5"/>',snacks:'<path d="M7 20L5 8h14l-2 12z"/><path d="M9 8V4M12 8V3M15 8V4"/>',extras:'<path d="M12 5v14M5 12h14"/>',dranken:'<path d="M7 4h10l-1 16H8z"/><path d="M7 9h10"/>',toetjes:'<path d="M6 12h12l-1.5 8h-9z"/><circle cx="12" cy="8" r="4"/>'};
 Object.keys(TICON).forEach(function(k){CICON[k]=TICON[k]});
+var sortMode='std';
+var PHOTO={};   /* geen eetfoto's in het menu: alle kaarten zien er gelijk uit */
 function renderMenu(){
   if(!$('#menu'))return;
-  var h='',c='';
-  MENU.forEach(function(cat){
+  var h='',c='',total=0;
+  MENU.forEach(function(cat,ci){
     var items=cat.i.filter(function(x){return !q||(x[0]+' '+nm(x[0])+' '+cat.n+' '+nm(cat.n)).toLowerCase().indexOf(q)>-1});
     if(!items.length)return;
+    if(sortMode==='lo')items=items.slice().sort(function(a,b){return a[1]-b[1]});
+    else if(sortMode==='hi')items=items.slice().sort(function(a,b){return b[1]-a[1]});
+    else if(sortMode==='az')items=items.slice().sort(function(a,b){return nm(a[0]).localeCompare(nm(b[0]),lang)});
+    total+=items.length;
     c+='<a href="#c-'+cat.id+'" data-c="'+cat.id+'">'+nm(cat.n)+'</a>';
     var sub=(cat.s||cat.m)?'<p class="sub">'+(cat.s?nm(cat.s)+(cat.m?' · ':''):'')+(cat.m?t('menu_hint'):'')+'</p>':'';
-    h+='<section class="cat" id="c-'+cat.id+'"><div class="chead"><span class="cicon"><svg viewBox="0 0 24 24" aria-hidden="true">'+(CICON[cat.id]||CICON.extras)+'</svg></span><div class="ctxt"><h3>'+nm(cat.n)+'</h3>'+sub+'</div><span class="ccount">'+items.length+'</span></div><div class="items">';
+    var icon='<svg viewBox="0 0 24 24" aria-hidden="true">'+(CICON[cat.id]||CICON.extras)+'</svg>';
+    h+='<section class="cat" id="c-'+cat.id+'"><div class="chead"><span class="cicon">'+icon+'</span><div class="ctxt"><h3>'+nm(cat.n)+'</h3>'+sub+'</div><span class="ccount">'+items.length+'</span></div><div class="pgrid">';
     items.forEach(function(x){
-      var id=cat.id+'|'+x[0];
-      h+='<div class="item" data-item="'+id+'"><div class="iname"><h4>'+nm(x[0])+'</h4><span class="qb" aria-hidden="true"></span></div><div class="acts">';
-      if(x[2]){
-        h+='<button class="add" data-id="'+id+'" data-v="0"><small>'+t('loose')+'</small>'+eur(x[1])+'</button><button class="add pop" data-id="'+id+'" data-v="1"><small>'+t('menu')+'</small>'+eur(x[2])+'</button>';
-      }else{
-        h+='<button class="add one" data-id="'+id+'" data-v="0" aria-label="'+t('add')+' '+nm(x[0])+'"><span>'+eur(x[1])+'</span><b>+</b></button>';
-      }
-      h+='</div></div>';
+      var id=cat.id+'|'+x[0],ph=PHOTO[id],two=!!x[2];
+      var media=ph?'<img src="images/gerechten/gerecht-'+ph+'.png" alt="" loading="lazy">':'<span class="ico">'+icon+'</span>';
+      h+='<article class="pcard" data-item="'+id+'"><div class="pmedia tone'+(ci%3)+(ph?' hasimg':'')+'">'+media+'<span class="qb" aria-hidden="true"></span></div><div class="pinfo"><small class="pcat">'+nm(cat.n)+'</small><h4>'+nm(x[0])+'</h4>';
+      if(two)h+='<div class="pvar" role="group" aria-label="'+t('loose')+' / '+t('menu')+'"><button type="button" class="vp on" data-v="0" data-p="'+eur(x[1])+'" aria-pressed="true"><span>'+t('loose')+'</span><b>'+eur(x[1])+'</b></button><button type="button" class="vp" data-v="1" data-p="'+eur(x[2])+'" aria-pressed="false"><span>'+t('menu')+'</span><b>'+eur(x[2])+'</b></button></div>';
+      h+='<div class="pbuy"><span class="pprice">'+eur(x[1])+'</span><button class="add" data-id="'+id+'" data-v="0">'+t('add')+'</button></div></div></article>';
     });
     h+='</div></section>';
   });
   $('#menu').innerHTML=h||'<p class="empty">'+t('none')+'</p>';
   $('#chips').innerHTML=c;
+  if($('#pcount'))$('#pcount').textContent=t('count_n',{n:total});
   observe();markCart();
-}
-function markCart(){
+}function markCart(){
   var n={};((typeof cart!=='undefined'&&cart)||[]).forEach(function(l){n[l.id]=(n[l.id]||0)+l.q});
-  document.querySelectorAll('.item[data-item]').forEach(function(e){var k=n[e.dataset.item]||0;e.classList.toggle('in',k>0);e.querySelector('.qb').textContent=k||''});
+  document.querySelectorAll('.item[data-item],.pcard[data-item]').forEach(function(e){var k=n[e.dataset.item]||0;e.classList.toggle('in',k>0);var qb=e.querySelector('.qb');if(qb)qb.textContent=k||''});
 }function find(id){var p=id.split('|');var cat=MENU.filter(function(c){return c.id===p[0]})[0];var it=cat.i.filter(function(x){return x[0]===p[1]})[0];return{cat:cat,it:it}}
 var io;
 function observe(){
@@ -155,8 +159,9 @@ function observe(){
   io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){document.querySelectorAll('#chips a').forEach(function(a){a.classList.toggle('on','#c-'+a.dataset.c===('#'+e.target.id))});var on=document.querySelector('#chips a.on');if(on){var box=$('#chips');var l=on.offsetLeft-box.clientWidth/2+on.clientWidth/2;box.scrollTo({left:l,behavior:'smooth'})}}})},{rootMargin:'-140px 0px -70% 0px'});
   document.querySelectorAll('.cat').forEach(function(s){io.observe(s)});
 }
+if($('#sort'))$('#sort').addEventListener('change',function(e){sortMode=e.target.value;renderMenu()});
 if($('#q'))$('#q').addEventListener('input',function(e){q=e.target.value.trim().toLowerCase();renderMenu()});
-if($('#menu'))$('#menu').addEventListener('click',function(e){var b=e.target.closest('.add');if(!b)return;addItem(b.dataset.id,+b.dataset.v);b.classList.remove('flash');void b.offsetWidth;b.classList.add('flash')});
+if($('#menu'))$('#menu').addEventListener('click',function(e){var vp=e.target.closest('.vp');if(vp){var card=vp.closest('.pcard');card.querySelectorAll('.vp').forEach(function(x){var on=x===vp;x.classList.toggle('on',on);x.setAttribute('aria-pressed',on)});var ab=card.querySelector('.add');ab.dataset.v=vp.dataset.v;card.querySelector('.pprice').textContent=vp.dataset.p;return}var b=e.target.closest('.add');if(!b)return;addItem(b.dataset.id,+b.dataset.v);b.classList.remove('flash');void b.offsetWidth;b.classList.add('flash')});
 
 /* ===== winkelmand ===== */
 var cart=[];

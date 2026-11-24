@@ -249,6 +249,85 @@ nav.main a{letter-spacing:.01em}
   .hero h1{font-size:clamp(34px,9vw,44px)}
   .hero p.lead{font-size:16px;margin-bottom:24px}
 }
+/* ===== voorpagina: secties ===== */
+:root{--pat2:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64' fill='none' stroke='%23e9c9a8' stroke-width='.8'%3E%3Crect x='14' y='14' width='36' height='36'/%3E%3Crect x='14' y='14' width='36' height='36' transform='rotate(45 32 32)'/%3E%3Ccircle cx='32' cy='32' r='6'/%3E%3C/svg%3E")}
+.hshow::before{background:var(--brown);opacity:1}
+.hshow::after{content:"";position:absolute;left:3%;right:3%;top:0;bottom:-16px;border-radius:999px 999px 28px 28px;background:var(--pat2) center/80px;opacity:.28;pointer-events:none}
+.sech{display:flex;align-items:center;gap:20px;justify-content:center;text-align:center;font-size:clamp(24px,3vw,34px);margin-bottom:28px}
+.sech::before,.sech::after{content:"";flex:1;height:1px;background:var(--line)}
+.sech span{flex:none;max-width:80%}
+.usp{padding:0}
+.usp .wrap{display:grid;grid-template-columns:repeat(3,1fr);background:var(--surface);border:1px solid var(--line);border-radius:20px;margin-top:-28px;position:relative;z-index:2;box-shadow:0 8px 24px rgba(45,37,35,.06);padding:0}
+.usp .wrap>div{display:flex;align-items:center;justify-content:center;gap:12px;padding:20px 12px;font-weight:500;font-size:15px}
+.usp .wrap>div+div{border-left:1px solid var(--line)}
+.usp svg{width:26px;height:26px;fill:none;stroke:var(--brown);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.cats{padding:64px 0 24px}
+.tiles{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.tile{display:flex;flex-direction:column;align-items:center;gap:6px;padding:24px 12px 20px;background:var(--surface);border:1px solid var(--line);border-radius:16px;text-decoration:none;text-align:center;transition:border-color .16s,box-shadow .16s,transform .16s}
+.tile:hover{border-color:var(--tan);box-shadow:0 8px 24px rgba(45,37,35,.07);transform:translateY(-2px)}
+.tile svg{width:44px;height:44px;fill:none;stroke:var(--brown);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;margin-bottom:8px}
+.tile b{font-family:'Fredoka','Poppins',sans-serif;font-weight:600;font-size:18px;line-height:1.2}
+.tile span{font-size:13px;color:var(--muted)}
+.kitchen{padding:48px 0 24px}
+.pcards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.pc{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 1px 2px rgba(45,37,35,.04)}
+.pimg{aspect-ratio:4/3;background:var(--sand);display:grid;place-items:center;position:relative;overflow:hidden}
+.pimg::before{content:"";position:absolute;inset:0;background:var(--pat) center/80px;opacity:.07}
+.pimg img{position:absolute;left:6%;top:6%;width:88%;height:88%;object-fit:contain}
+.pbody{padding:16px 20px 20px;display:flex;flex-direction:column;gap:2px}
+.pbody small{font-size:13px;color:var(--muted)}
+.pbody h3{font-size:20px}
+.pf{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
+.pf span{font-weight:600;color:var(--brown);font-size:17px}
+.padd{width:44px;height:44px;border-radius:50%;background:var(--brown);color:#fff;font-size:24px;line-height:1;display:grid;place-items:center;transition:background-color .16s}
+.padd:hover{background:var(--brown-d)}
+.more{text-align:center;margin-top:28px}
+.steps{padding:56px 0 48px}
+.stp{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;counter-reset:s}
+.stp li{display:flex;align-items:center;gap:16px;padding:20px 24px;background:var(--surface);border:1px solid var(--line);border-radius:16px;font-weight:500;position:relative}
+.stp b{width:40px;height:40px;border-radius:50%;background:var(--brown);color:#fff;display:grid;place-items:center;font-family:'Fredoka',sans-serif;font-size:18px;flex:none}
+.visit .wrap{grid-template-columns:1fr 1.1fr;gap:48px;align-items:center}
+.vphoto{border-radius:24px;overflow:hidden;aspect-ratio:4/3;box-shadow:0 8px 24px rgba(45,37,35,.1)}
+.vphoto img{width:100%;height:100%;object-fit:cover;display:block}
+.vbrand{background:var(--brown);position:relative;display:grid;place-items:center}
+.vbrand::before{content:"";position:absolute;inset:0;background:var(--pat2) center/80px;opacity:.28}
+.vphoto.vbrand img{position:relative;width:78%;height:78%;object-fit:contain}
+.vh{font-size:clamp(26px,3.2vw,36px);margin-bottom:24px}
+.vrow{display:flex;gap:16px;margin-bottom:20px}
+.vrow>svg{width:28px;height:28px;fill:none;stroke:var(--brown);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none;margin-top:2px}
+.vrow h3{font-size:18px;margin-bottom:2px}
+.vrow p{color:var(--muted);font-size:15px}
+.vrow a{color:var(--brown);font-weight:500}
+.vbtns{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+footer{padding:56px 0 calc(24px + env(safe-area-inset-bottom))}
+.fgrid{display:grid!important;grid-template-columns:1.4fr 1fr 1fr;gap:32px!important;align-items:start!important;justify-content:stretch!important}
+.fbrand b{display:block;font-family:'Fredoka',sans-serif;font-size:26px;letter-spacing:.06em;color:#fff;line-height:1}
+.fbrand small{display:block;font-family:'Fredoka',sans-serif;font-size:11px;letter-spacing:.34em;margin-top:4px;color:#e9c9a8}
+.fbrand p{margin-top:16px;max-width:280px;color:#f5e7da}
+footer h4{font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;color:#fff;margin-bottom:12px}
+.flinks{display:flex;flex-direction:column;gap:8px}
+.flinks h4{margin-bottom:4px}
+footer a{text-decoration:none}footer a:hover{text-decoration:underline}
+.fcontact p{line-height:1.8}
+.fbase{display:flex!important;justify-content:space-between;margin-top:40px;padding-top:20px!important;border-top:1px solid rgba(245,231,218,.2);font-size:13px;color:#e9c9a8}
+@media(max-width:900px){
+  .tiles{grid-template-columns:repeat(3,1fr)}
+  .pcards{grid-template-columns:1fr}
+  .pc{flex-direction:row}.pimg{aspect-ratio:auto;width:42%;min-height:132px;flex:none}.pbody{justify-content:center;flex:1;min-width:0}
+  .stp{grid-template-columns:1fr}
+  .visit .wrap{grid-template-columns:1fr;gap:24px}
+  .fgrid{grid-template-columns:1fr 1fr}.fbrand{grid-column:1/-1}
+}
+@media(max-width:640px){
+  .usp .wrap{grid-template-columns:1fr;margin-top:-16px}
+  .usp .wrap>div{justify-content:flex-start;padding:14px 20px}
+  .usp .wrap>div+div{border-left:0;border-top:1px solid var(--line)}
+  .cats{padding-top:40px}.kitchen{padding-top:32px}.steps{padding:40px 0 32px}
+  .tiles{grid-template-columns:repeat(2,1fr);gap:12px}
+  .sech{gap:12px}
+  .fgrid{grid-template-columns:1fr}
+  .fbase{flex-direction:column;gap:8px}
+}
 </style>
 </head>
 <body>
@@ -270,11 +349,36 @@ nav.main a{letter-spacing:.01em}
     <p class="lead" data-t="lead">Broodjes, wraps, schotels, kapsalons en meer. Bereid met verse ingrediënten en de warmte van de Oosterse keuken.</p>
     <div class="btns"><a class="btn" href="#shop" data-t="order_now">Bestel nu</a><a class="btn ghost" href="#info" data-t="hours">Openingstijden</a></div>
     <div class="status" id="st" aria-live="polite"><i></i><span></span></div>
-    <div class="feats"><span data-t="f1">Dagvers bereid</span><span data-t="f2">Afhalen of bezorgen</span><span data-t="f3">Veilig online betalen</span></div>
+    
   </div>
   <div class="hshow"><div class="stage" id="track" aria-hidden="true"></div></div>
 </div></section>
 
+<section class="usp" aria-label="Waarom Bassma"><div class="wrap">
+  <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14z"/><path d="M5 19l8-8"/></svg><span data-t="f1">Dagvers bereid</span></div>
+  <div><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M9 17h6l-3-8h-3M13 6h3l2 6"/></svg><span data-t="f2">Afhalen of bezorgen</span></div>
+  <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg><span data-t="f3">Veilig online betalen</span></div>
+</div></section>
+
+<section class="cats"><div class="wrap">
+  <h2 class="sech"><span data-t="h_trek">Waar heb je trek in?</span></h2>
+  <div class="tiles" id="tiles"></div>
+</div></section>
+
+<section class="kitchen"><div class="wrap">
+  <h2 class="sech"><span data-t="h_pop">Uit de keuken</span></h2>
+  <div class="pcards" id="popular"></div>
+  <p class="more"><a class="btn ghost" href="#shop" data-t="all_menu">Bekijk de volledige kaart</a></p>
+</div></section>
+
+<section class="steps"><div class="wrap">
+  <h2 class="sech"><span data-t="h_steps">Zo werkt bestellen</span></h2>
+  <ol class="stp">
+    <li><b>1</b><span data-t="s1">Kies je gerechten</span></li>
+    <li><b>2</b><span data-t="s2">Kies afhalen of bezorgen</span></li>
+    <li><b>3</b><span data-t="s3">Betaal en volg je bestelling</span></li>
+  </ol>
+</div></section>
 <section class="shop" id="shop"><div class="wrap">
   <div class="shophead"><h2 data-t="shop_h">Bestel online</h2>
     <div class="search"><label class="sr" for="q" data-t="search_l">Zoek in het menu</label><input id="q" type="search" data-ip="search_ph" placeholder="Zoek een gerecht" autocomplete="off"></div></div>
@@ -283,14 +387,26 @@ nav.main a{letter-spacing:.01em}
   <div id="menu"></div>
 </div></section>
 
-<section class="info" id="info"><div class="wrap">
-  <div><h3 data-t="i_h1">Openingstijden</h3><p id="hoursTxt"></p></div>
-  <div id="contact"><h3 data-t="i_h2">Adres</h3><p>Koningin Wilhelminalaan 34<br>4205 EX Gorinchem<br><a href="tel:0183785769">0183 785 769</a></p><p style="margin-top:8px"><a href="https://www.google.com/maps/place/Broodjezaak+Bassma/@51.8404095,4.9680431,14z" target="_blank" rel="noopener" data-t="route">Route in Google Maps</a></p></div>
-  <div><h3 data-t="i_h3">Bestellen</h3><p data-t="i_p3">Bestel hier direct online, of kies bezorging via Thuisbezorgd.</p><p id="infoDel" style="margin-top:8px"></p><p style="margin-top:8px"><a href="https://www.thuisbezorgd.nl/menu/broodjeszaak-bassma" target="_blank" rel="noopener">Thuisbezorgd</a></p></div>
+<section class="info visit" id="info"><div class="wrap">
+  <div class="vphoto vbrand"><img src="images/gerechten/gerecht-2.png" alt="" loading="lazy"></div>
+  <div class="vtext">
+    <h2 class="vh" data-t="visit_h">Kom langs of bestel online</h2>
+    <div class="vrow" id="contact"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6 7-11a7 7 0 10-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><div><h3 data-t="i_h2">Adres</h3><p>Koningin Wilhelminalaan 34<br>4205 EX Gorinchem</p></div></div>
+    <div class="vrow"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><h3 data-t="i_h1">Openingstijden</h3><p id="hoursTxt"></p></div></div>
+    <div class="vrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l1 13H5z"/><path d="M9 7a3 3 0 016 0"/></svg><div><h3 data-t="i_h3">Bestellen</h3><p data-t="i_p3">Bestel hier direct online, of kies bezorging via Thuisbezorgd.</p><p id="infoDel"></p><p><a href="https://www.thuisbezorgd.nl/menu/broodjeszaak-bassma" target="_blank" rel="noopener">Thuisbezorgd</a></p></div></div>
+    <div class="vbtns"><a class="btn" href="tel:0183785769" data-t="call">Bel Bassma</a><a class="btn ghost" href="https://www.google.com/maps/place/Broodjezaak+Bassma/@51.8404095,4.9680431,14z" target="_blank" rel="noopener" data-t="route2">Route bekijken</a></div>
+  </div>
 </div></section>
 </main>
 
-<footer><div class="wrap"><span>© 2026 Bassma Lunchroom · Gorinchem · <a href="/privacy" data-t="privacy_l">Privacy</a> · <a href="https://muldex.nl" target="_blank" rel="noopener">Website door Muldex</a></span><span data-t="f_pay">Afhalen en bezorgen in Gorinchem en omgeving</span></div></footer>
+<footer>
+  <div class="wrap fgrid">
+    <div class="fbrand"><b>BASSMA</b><small>LUNCHROOM</small><p data-t="f_pay">Afhalen en bezorgen in Gorinchem en omgeving</p></div>
+    <nav class="flinks" aria-label="Snel naar"><h4 data-t="foot_nav">Snel naar</h4><a href="#shop" data-t="n_menu">Menu</a><a href="#info" data-t="n_info">Openingstijden</a><a href="#contact" data-t="n_contact">Contact</a><a href="/privacy" data-t="privacy_l">Privacy</a></nav>
+    <div class="fcontact"><h4 data-t="i_h2">Adres</h4><p>Koningin Wilhelminalaan 34<br>4205 EX Gorinchem<br><a href="tel:0183785769">0183 785 769</a></p></div>
+  </div>
+  <div class="wrap fbase"><span>© 2026 Bassma Lunchroom · Gorinchem</span><a href="https://muldex.nl" target="_blank" rel="noopener">Website door Muldex</a></div>
+</footer>
 
 <button class="mbar" id="mbar" aria-label="Bekijk bestelling"><span><span class="n" id="mcnt">0</span><span data-t="view_order">Bekijk bestelling</span></span><span id="mtot"></span></button>
 <div class="ov" id="ov"></div>
@@ -343,6 +459,27 @@ tr:{n_menu:'Menü',n_info:'Çalışma saatleri',n_contact:'İletişim',cart_btn:
 ar:{n_menu:'القائمة',n_info:'ساعات العمل',n_contact:'اتصل بنا',cart_btn:'الطلب',eyebrow:'لانشروم · خورينخم',h1a:'طازج دائماً،',h1b:'يصلك إلى البيت أو تستلمه بنفسك.',lead:'ساندويتشات ولفائف وأطباق وكابسالون والمزيد. يُحضَّر من مكونات طازجة وبدفء المطبخ الشرقي.',order_now:'اطلب الآن',hours:'ساعات العمل',f1:'طازج كل يوم',f2:'استلام أو توصيل',f3:'دفع آمن عبر الإنترنت',shop_h:'اطلب عبر الإنترنت',search_l:'ابحث في القائمة',search_ph:'ابحث عن طبق',i_h1:'ساعات العمل',i_h2:'العنوان',i_h3:'الطلب',i_p3:'اطلب مباشرة من هنا أو اختر التوصيل عبر Thuisbezorgd.',route:'المسار في خرائط Google',f_pay:'استلام وتوصيل في خورينخم وما حولها',view_order:'عرض الطلب',open:'مفتوح الآن · حتى {t}',closed1:'مغلق · يفتح اليوم الساعة {t}',closed2:'مغلق · يفتح غداً الساعة {t}',hours_txt:'كل يوم من {a} إلى {b}',menu_hint:'الوجبة = مع بطاطس ومشروب',loose:'منفرد',menu:'وجبة',add:'أضف',added:'تمت الإضافة',none:'لا نتائج',your:'طلبك',empty:'طلبك فارغ.',sub:'المجموع الفرعي',total:'الإجمالي',checkout:'إتمام الطلب',back:'رجوع',pickup:'استلام',delivery:'توصيل',name:'الاسم',phone:'الهاتف',email:'البريد الإلكتروني',street:'الشارع والرقم',postcode:'الرمز البريدي',city:'المدينة',time:'الوقت',asap:'في أقرب وقت',note:'ملاحظة (اختياري)',paywith:'الدفع عبر',pay:'ادفع',cash:'نقداً عند الاستلام',remove:'إزالة',req:'يرجى ملء هذا الحقل',min:'الحد الأدنى للطلب {m}',thanks:'شكراً لطلبك!',order:'رقم الطلب',show_e:'مميز',show_h:'أطباقنا المفضلة',soon:'الصورة قريباً',eta_pick:'جاهز للاستلام خلال حوالي {a}–{b} دقيقة',eta_del:'التوصيل المتوقع خلال حوالي {a}–{b} دقيقة',fee_city:'رسوم التوصيل',fee_out:'رسوم التوصيل ({km} كم)',fee_free:'توصيل مجاني',calc:'جارٍ حساب رسوم التوصيل…',fill_addr:'أدخل عنوانك لرؤية رسوم التوصيل.',q_noaddr:'لم يتم العثور على العنوان. تحقق من الشارع والرمز البريدي والمدينة.',q_far:'هذا العنوان خارج منطقة التوصيل (بحد أقصى {m} كم).',q_net:'تعذر حساب رسوم التوصيل. حاول مرة أخرى.',freehint:'تبقى {x} للحصول على توصيل مجاني',mail_sent:'سنرسل تأكيداً إلى {e}.',info_del:'التوصيل: 2 يورو (حتى 17,5 كم)، مجاني من 60 يورو.',track:'تابع طلبك واعرف متى يصل',privacy_l:'الخصوصية',date:'التاريخ',today:'اليوم',tomorrow:'غداً',closed_day:'مغلق',full:'ممتلئ',slot_none:'لا توجد أوقات متاحة في هذا اليوم. اختر يوماً آخر.',slot_chosen:'الوقت المختار: {s}',privacy:'نستخدم بياناتك لهذا الطلب فقط.',pay_off:'الدفع عبر الإنترنت غير متاح بعد.',delivery_off:'التوصيل غير متاح حالياً.',info_del2:'التوصيل: {fee} يورو (حتى {km} كم)، مجاني من {free} يورو.',hw:'من الاثنين إلى السبت',hs:'الأحد',noslot:'مغلق الآن. يرجى الطلب خلال ساعات العمل.',demo:'هذا موقع تجريبي: لم يتم أي دفع حقيقي ولم يُرسل الطلب بعد.',close:'إغلاق',fee:'رسوم التوصيل',redir:'جارٍ تحويلك إلى صفحة الدفع…',fail:'تعذر بدء الدفع. حاول مرة أخرى.',dnote:'التوصيل: الدفع عبر الإنترنت.'}
 };
 var lang='nl';
+var T2={
+nl:{h_trek:'Waar heb je trek in?',h_pop:'Uit de keuken',all_menu:'Bekijk de volledige kaart',h_steps:'Zo werkt bestellen',s1:'Kies je gerechten',s2:'Kies afhalen of bezorgen',s3:'Betaal en volg je bestelling',tile_count:'{n} gerechten',call:'Bel Bassma',route2:'Route bekijken',foot_nav:'Snel naar',visit_h:'Kom langs of bestel online'},
+en:{h_trek:'What are you in the mood for?',h_pop:'From the kitchen',all_menu:'See the full menu',h_steps:'How ordering works',s1:'Choose your dishes',s2:'Choose pick-up or delivery',s3:'Pay and follow your order',tile_count:'{n} dishes',call:'Call Bassma',route2:'Get directions',foot_nav:'Quick links',visit_h:'Visit us or order online'},
+tr:{h_trek:'Canın ne çekiyor?',h_pop:'Mutfağımızdan',all_menu:'Tüm menüyü gör',h_steps:'Sipariş nasıl verilir',s1:'Yemeklerini seç',s2:'Gel-al veya eve teslim seç',s3:'Öde ve siparişini takip et',tile_count:'{n} yemek',call:'Bassma’yı ara',route2:'Yol tarifi',foot_nav:'Hızlı bağlantılar',visit_h:'Uğra veya online sipariş ver'},
+ar:{h_trek:'ماذا تشتهي؟',h_pop:'من مطبخنا',all_menu:'عرض القائمة كاملة',h_steps:'كيف تطلب',s1:'اختر أطباقك',s2:'اختر استلام أو توصيل',s3:'ادفع وتابع طلبك',tile_count:'{n} أطباق',call:'اتصل بـ Bassma',route2:'احصل على الاتجاهات',foot_nav:'روابط سريعة',visit_h:'زرنا أو اطلب عبر الإنترنت'}
+};
+Object.keys(T2).forEach(function(l){Object.assign(T[l],T2[l])});
+var TILES=['broodjes','wraps','schotels','kapsalon','pizza','burgers'];
+var TICON={broodjes:'<path d="M4 10c0-3 3.5-5 8-5s8 2 8 5z"/><path d="M3 13h18"/><path d="M5 16h14"/><path d="M5 16c0 2 1.5 3 3 3h8c1.5 0 3-1 3-3"/>',wraps:'<path d="M5 18L16 6a3 3 0 014 4L9 21z"/><path d="M13 9l5 5"/>',schotels:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/>',kapsalon:'<path d="M6 10l1.5 10h9L18 10z"/><path d="M8 10V4M11 10V3M14 10V4M16.5 10V5"/>',pizza:'<path d="M12 21L4 7a14 14 0 0116 0z"/><circle cx="10" cy="10" r="1"/><circle cx="14" cy="12" r="1"/><circle cx="12" cy="16" r="1"/>',burgers:'<path d="M4 11a8 6 0 0116 0z"/><path d="M3 14h18"/><path d="M4 17h16v1a2 2 0 01-2 2H6a2 2 0 01-2-2z"/>'};
+var POP=[['omelet','Omelet met sucuk',1],['wraps','Shoarma',2],['kapsalon','Crispy chicken',3]];
+function catOf(id){return MENU.filter(function(c){return c.id===id})[0]}
+function renderHome(){
+  var h='';
+  TILES.forEach(function(id){var c=catOf(id);if(!c)return;h+='<a class="tile" href="#c-'+id+'"><svg viewBox="0 0 24 24" aria-hidden="true">'+TICON[id]+'</svg><b>'+nm(c.n)+'</b><span>'+t('tile_count',{n:c.i.length})+'</span></a>'});
+  $('#tiles').innerHTML=h;
+  var p='';
+  POP.forEach(function(x){var c=catOf(x[0]);if(!c)return;var it=c.i.filter(function(y){return y[0]===x[1]})[0];if(!it)return;
+    p+='<article class="pc"><div class="pimg"><img src="images/gerechten/gerecht-'+x[2]+'.png" alt="" loading="lazy"></div><div class="pbody"><small>'+nm(c.n)+'</small><h3>'+nm(it[0])+'</h3><div class="pf"><span>'+eur(it[1])+'</span><button class="padd" data-id="'+c.id+'|'+it[0]+'" data-v="0" aria-label="'+t('add')+'">+</button></div></div></article>'});
+  $('#popular').innerHTML=p;
+}
+document.getElementById('popular').addEventListener('click',function(e){var b=e.target.closest('.padd');if(b)addItem(b.dataset.id,+b.dataset.v)});
 function t(k,v){var s=(T[lang]&&T[lang][k])||T.nl[k]||k;if(v)for(var x in v)s=s.replace('{'+x+'}',v[x]);return s}
 function eur(n){return new Intl.NumberFormat('nl-NL',{style:'currency',currency:'EUR'}).format(n)}
 function fmtT(a){return String(a[0]).padStart(2,'0')+':'+String(a[1]).padStart(2,'0')}
@@ -681,7 +818,7 @@ function setLang(l){
   document.querySelectorAll('[data-ip]').forEach(function(e){e.placeholder=t(e.dataset.ip)});
   document.querySelectorAll('.langs button,.mlang button,.lpm button').forEach(function(b){b.classList.toggle('on',b.dataset.l===l)});lpb.innerHTML=FL[l];
   var hw=hrs(1),hs=hrs(0);$('#infoDel').textContent=infoDelText();$('#hoursTxt').innerHTML=t('hw')+': '+hw.os+' – '+hw.cs+'<br>'+t('hs')+': '+hs.os+' – '+hs.cs;
-  status();renderMenu();renderShow();upd();
+  status();renderMenu();renderHome();renderShow();upd();
   if($('#cart').classList.contains('on')){if(view==='list')showList();else if(view==='form')showForm()}
 }
 setLang((/[?&]lang=(en|tr|ar)/.exec(location.search)||[0,'nl'])[1]);
